@@ -4,8 +4,8 @@ SQLConfig = {}
 SQLConfig.host = "localhost"
 SQLConfig.port = 2000
 SQLConfig.apipath = "/external/api"
-SQLConfig.secret = "isrp_dev_pass!"
-SQLConfig.community = "ISRP"
+SQLConfig.secret = ""
+SQLConfig.community = ""
 
 -- Further Configurations
 SQLConfig.CreateTokenOnStart = true
