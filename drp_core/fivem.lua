@@ -5,7 +5,6 @@ local firstSpawn = true
 AddEventHandler('playerSpawned', function()
     if firstSpawn then
     Citizen.Wait(555)
-        -- TriggerServerEvent("ISRP_Characters:RequestOpenMenu")
         print("yeet")
         firstSpawn = false
     end
