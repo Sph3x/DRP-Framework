@@ -8,7 +8,7 @@ AddEventHandler("playerConnecting", function(playerName, kickReason, deferrals)
 	deferrals.update("Checking Your Information, please wait...")
 	SetTimeout(2500, function()
 		exports["externalsql"]:DBAsyncQuery({
-			string = "SELECT * FROM `players` WHERE `identifier` = :identifier",
+			string = "SELECT * FROM `users` WHERE `identifier` = :identifier",
 			data = {
 				identifier = PlayerIdentifier("license", src)
 			}
@@ -33,7 +33,7 @@ AddEventHandler("playerConnecting", function(playerName, kickReason, deferrals)
 					local banString = ""
                     if math.floor(timeLeft / 60) <= 0 then -- REMOVE BAN
 						exports["externalsql"]:DBAsyncQuery({
-                            string = "UPDATE players SET `ban_data` = :bandata WHERE `identifier` = :identifier",
+                            string = "UPDATE users SET `ban_data` = :bandata WHERE `identifier` = :identifier",
                             data = {
                                 bandata = json.encode({banned = false, reason = "", by = "", time = 0, perm = false}),
                                 identifier = PlayerIdentifier("license", src)
@@ -51,7 +51,7 @@ AddEventHandler("playerConnecting", function(playerName, kickReason, deferrals)
 				deferrals.done()
 			else
 				exports["externalsql"]:DBAsyncQuery({
-					string = "INSERT INTO `players` SET `identifier` = :identifier, `name` = :name, `rank` = :rank, `ban_data` = :bandata, `whitelisted` = :whitelisted",
+					string = "INSERT INTO `users` SET `identifier` = :identifier, `name` = :name, `rank` = :rank, `ban_data` = :bandata, `whitelisted` = :whitelisted",
 					data = {
 						identifier = PlayerIdentifier("license", src),
 						name = GetPlayerName(src),
@@ -85,7 +85,7 @@ RegisterServerEvent("DRP_Core:AddPlayerToTable")
 AddEventHandler("DRP_Core:AddPlayerToTable", function()
     local src = source
     exports["externalsql"]:DBAsyncQuery({
-        string = "SELECT * FROM `players` WHERE `identifier` = :identifier",
+        string = "SELECT * FROM `users` WHERE `identifier` = :identifier",
         data = {
             identifier = PlayerIdentifier("license", src)
         }
