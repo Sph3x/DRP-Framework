@@ -8,6 +8,10 @@ AddEventHandler("onClientMapStart", function()
     end
 end)
 
+Citizen.CreateThread(function()
+    SetNuiFocus(false, false)
+    TriggerServerEvent("DRP_Core:AddPlayerToTable")
+end)
 
 Citizen.CreateThread(function()
     while true do
