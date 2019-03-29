@@ -5,7 +5,7 @@ local firstSpawn = true
 AddEventHandler('playerSpawned', function()
     if firstSpawn then
         Citizen.Wait(250)
-        TriggerServerEvent("DRP_Core:Start")
+        TriggerServerEvent("DRP_ID:OpenMenu")
         firstSpawn = false
     end
 end)

@@ -108,8 +108,6 @@ RegisterCommand("adminrevive", function(source, args, raw)
     end
 end, false)
 
-
-
 RegisterNetEvent("DRP_Core:Revive")
 AddEventHandler("DRP_Core:Revive", function()
     local ped = GetPlayerPed(PlayerId())
