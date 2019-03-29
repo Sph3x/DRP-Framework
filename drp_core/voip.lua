@@ -5,26 +5,25 @@ AddEventHandler("onClientMapStart", function()
     NetworkSetTalkerProximity(voice.normal)
 end)
 
-  function drawLevel(r, g, b, a)
-    SetTextFont(4)
-    SetTextProportional(1)
-    SetTextScale(0.4, 0.4)
-    SetTextColour(r, g, b, a)
-    SetTextDropShadow(0, 0, 0, 0, 255)
-    SetTextEdge(1, 0, 0, 0, 255)
-    SetTextDropShadow()
-    SetTextOutline()
-    SetTextEntry("STRING")
-    AddTextComponentString("Range: "..voice.level)
-    local playerPed = GetPlayerPed(PlayerId())
-    local playerVeh = GetVehiclePedIsIn(playerPed, false)
-    if IsPedInAnyVehicle(playerPed,true) then
-      DrawText(0.175, 0.90)
-    else 
-      DrawText(0.025, 0.94)
-    end
-    
+function drawLevel(r, g, b, a)
+  SetTextFont(4)
+  SetTextProportional(1)
+  SetTextScale(0.4, 0.4)
+  SetTextColour(r, g, b, a)
+  SetTextDropShadow(0, 0, 0, 0, 255)
+  SetTextEdge(1, 0, 0, 0, 255)
+  SetTextDropShadow()
+  SetTextOutline()
+  SetTextEntry("STRING")
+  AddTextComponentString("Range: "..voice.level)
+  local playerPed = GetPlayerPed(PlayerId())
+  local playerVeh = GetVehiclePedIsIn(playerPed, false)
+  if IsPedInAnyVehicle(playerPed,true) then
+    DrawText(0.175, 0.90)
+  else 
+    DrawText(0.025, 0.94)
   end
+end
       
 Citizen.CreateThread(function()
     while true do

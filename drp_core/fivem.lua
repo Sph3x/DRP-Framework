@@ -4,8 +4,8 @@ local firstSpawn = true
 ---------------------------------------------------------------------------
 AddEventHandler('playerSpawned', function()
     if firstSpawn then
-    Citizen.Wait(555)
-        print("yeet")
+        Citizen.Wait(250)
+        TriggerServerEvent("DRP_Core:Start")
         firstSpawn = false
     end
 end)

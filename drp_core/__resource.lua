@@ -13,3 +13,9 @@ dependencies {
 client_script "fivem.lua"
 client_script "client.lua"
 client_script "voip.lua"
+
+--Death
+client_script "death/client.lua"
+client_script "death/config.lua"
+server_script "death/config.lua"
+server_script "death/server.lua"
