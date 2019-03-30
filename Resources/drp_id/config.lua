@@ -27,4 +27,4 @@ DRPCharacters.PedComponents = {
 
 DRPCharacters.StarterBank = 750
 DRPCharacters.StarterCash = 75
-DRPCharacters.MaxCharacters = 5
+DRPCharacters.MaxCharacters = 4

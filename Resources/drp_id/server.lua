@@ -23,7 +23,6 @@ AddEventHandler("DRP_ID:UpdateCharactersInUI", function(player)
 			data = {playerid = results.playerid}
 		}, function(characters)
 			local characters = characters["data"]
-			print(characters)
 			TriggerClientEvent("DRP_ID:UpdateMenuCharacters", player, characters)
 		end)
 	end)

@@ -22,7 +22,7 @@
 							@click="showCharacterCreator = !showCharacterCreator">
 							<v-icon>person_add</v-icon>
 						</v-btn>
-						Character Selector
+						[DRP]Characters
 					</div>
 					<div id="DRP_Character_Body">
 						<v-container fluid grid-list-xs>
@@ -38,9 +38,17 @@
 											<b>{{ character.name }}<br></b>
 										</v-card-title>
 										<v-card-text>
-											Age: {{ character.age }}<br>
-											Gender: {{ character.gender }}<br>
-											Bank: ${{ character.bank }}<br>
+											<b>Age:</b> {{ character.age }}<br>
+											<hr>
+											<br>
+											<b>Gender:</b> {{ character.gender }}<br>
+											<hr>
+											<br>
+											<b>Bank:</b> ${{ character.bank }}<br>
+											<hr>
+											<br>
+											<b>Cash:</b> ${{ character.cash }}<br>
+											<hr>
 										</v-card-text>
 										<v-card-actions>
 											<v-btn color="green" block dark @click="SelectCharacter(characterIndex)">
