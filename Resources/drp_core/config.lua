@@ -1,7 +1,7 @@
 DRPCoreConfig = {}
 DRPCoreConfig.StaffRanks = {}
 
-DRPCoreConfig.Whitelisted = false -- true or false
+DRPCoreConfig.Whitelisted = true -- true or false
 DRPCoreConfig.CommunityName = "DRP Framework"
 
 DRPCoreConfig.StaffRanks.ranks = {"User", "Moderator", "Administrator", "Developer", "Owner"}
