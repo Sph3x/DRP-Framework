@@ -12,8 +12,8 @@ local cameraRotations = {
     }
 }
 
-RegisterNetEvent("DRP:StartSkyCamera")
-AddEventHandler("DRP:StartSkyCamera", function()
+RegisterNetEvent("DRP_ID:StartSkyCamera")
+AddEventHandler("DRP_ID:StartSkyCamera", function()
     local randomIndex = math.random(1, #cameraRotations)
     selectedCameraRot = randomIndex
     spawnedCamera = CreateCam("DEFAULT_SCRIPTED_CAMERA", 1)
@@ -22,8 +22,8 @@ AddEventHandler("DRP:StartSkyCamera", function()
     startCameraRotations = true
 end)
 
-RegisterNetEvent("DRP:StopSkyCamera")
-AddEventHandler("DRP:StopSkyCamera", function()
+RegisterNetEvent("DRP_ID:StopSkyCamera")
+AddEventHandler("DRP_ID:StopSkyCamera", function()
     if startCameraRotations then
         startCameraRotations = false
         RenderScriptCams(0, 1, 1500, 1, 1)
@@ -53,8 +53,8 @@ end)
 ---------------------------------------------------------------------------
 local camera = nil
 
-RegisterNetEvent("DRP:StartCreatorCamera")
-AddEventHandler("DRP:StartCreatorCamera", function()
+RegisterNetEvent("DRP_ID:StartCreatorCamera")
+AddEventHandler("DRP_ID:StartCreatorCamera", function()
     local ped = GetPlayerPed(PlayerId())
     SetEntityCoords(ped, 402.75, -996.77, -99.0, 0.0, 0.0, 0.0, 0)
     SetEntityHeading(ped, 178.72)
@@ -66,8 +66,8 @@ AddEventHandler("DRP:StartCreatorCamera", function()
     RenderScriptCams(1, 0, 0, 1, 1)
 end)
 
-RegisterNetEvent("DRP:StopCreatorCamera")
-AddEventHandler("DRP:StopCreatorCamera", function()
+RegisterNetEvent("DRP_ID:StopCreatorCamera")
+AddEventHandler("DRP_ID:StopCreatorCamera", function()
     if camera ~= nil then
         RenderScriptCams(0, 0, 0, 1, 1)
         DestroyCam(camera, 0)

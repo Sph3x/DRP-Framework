@@ -4,7 +4,7 @@
 RegisterNetEvent("DRP_ID:OpenMenu")
 AddEventHandler("DRP_ID:OpenMenu", function(characters)
 	SetNuiFocus(true, true)
-	TriggerEvent("ISRP_CharactersMenu:StartSkyCamera")
+	TriggerEvent("DRP_ID:StartSkyCamera")
 	Citizen.Wait(2200)
 	SendNUIMessage({
 		type = "open_character_menu",
@@ -14,6 +14,7 @@ end)
 
 RegisterNetEvent("DRP_ID:UpdateMenuCharacters")
 AddEventHandler("DRP_ID:UpdateMenuCharacters", function(characters)
+	Citizen.Trace("doing magic stuff")
 	SendNUIMessage({
 		type = "update_character_menu",
 		characters = characters
@@ -30,12 +31,12 @@ end)
 
 RegisterNUICallback("SelectYourCharacter", function(data, callback)
 	SetNuiFocus(false, false)
-	TriggerServerEvent("ISRP_Characters:SelectCharacter", data.character_selected)
+	TriggerServerEvent("DRP_ID:SelectCharacter", data.character_selected)
 	callback("ok")
 end)
 
 RegisterNUICallback("CreateCharacter", function(data, callback)
-	TriggerServerEvent("ISRP_Characters:CreateCharacter", {name = data.name, age = data.age, gender = data.gender})
+	TriggerServerEvent("DRP_ID:CreateCharacter", {name = data.name, age = data.age, gender = data.gender})
 	callback("ok")
 end)
 
@@ -57,9 +58,7 @@ AddEventHandler("DRP_ID:LoadSelectedCharacter", function(ped, clothData, spawn)
 	Citizen.Wait(1000)
 	local ped = GetPlayerPed(PlayerId())
 	local clothing = json.decode(clothData)
-	
 	SetPedDefaultComponentVariation(ped)
-
     SetPlayerInvisibleLocally(PlayerId(), false)
     SetEntityVisible(ped, true)
 	SetPlayerInvincible(PlayerId(), false)
