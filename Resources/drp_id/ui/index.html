@@ -9,12 +9,12 @@
 
 <body>
 
-	<v-app id="drp_characters">
+	<v-app id="DRP_Characters">
 		<v-content>
 
-			<div id="ISRP_Characters_SelectCharacter" v-show="showCharacterSelector">
-				<div id="ISRP_Characters_SelectCharacter_Base">
-					<div id="ISRP_Characters_SelectCharacter_Header">
+			<div id="DRP_SelectCharacter" v-show="showCharacterSelector">
+				<div id="DRP_Character_Base">
+					<div id="DRP_Character_Header">
 						<v-btn color="red" absolute right top small fab dark @click="">
 							<v-icon>close</v-icon>
 						</v-btn>
@@ -24,7 +24,7 @@
 						</v-btn>
 						Character Selector
 					</div>
-					<div id="ISRP_Characters_SelectCharacter_Body">
+					<div id="DRP_Character_Body">
 						<v-container fluid grid-list-xs>
 
 							<v-alert type="error" :value="characters.length <= 0">
@@ -41,7 +41,6 @@
 											Age: {{ character.age }}<br>
 											Gender: {{ character.gender }}<br>
 											Bank: ${{ character.bank }}<br>
-											Model: {{ character.model }}<br>
 										</v-card-text>
 										<v-card-actions>
 											<v-btn color="green" block dark @click="SelectCharacter(characterIndex)">
@@ -61,26 +60,6 @@
 								</v-flex>
 							</v-layout>
 						</v-container>
-
-
-
-
-						<div id="ISRP_Characters_ChangeLog">
-							<div id="ISRP_Characters_ChangeLog_Header">
-								Server Change Log
-							</div>
-							<div id="ISRP_Characters_ChangeLog_Body">
-								<v-container grid-list-md>
-									<div id="ChangeLogTitle">
-										00-00-00 #TheLaunch
-									</div>
-									<div id="ChangeLogData">
-										Base framework complete and mostly polished.
-									</div>
-								</v-container>
-							</div>
-						</div>
-
 
 						<v-dialog v-model="showCharacterDelete" scrollable persistent :overlay="false" max-width="370px"
 							transition="dialog-transition">
@@ -139,7 +118,6 @@
 									</v-form>
 								</v-card-text>
 
-								<!--CREATE BUTTONS-->
 								<v-card-actions>
 									<v-layout row>
 										<v-btn color="green" dark block @click="CreateCharacter()">
@@ -153,8 +131,11 @@
 								</v-card-actions>
 							</v-card>
 						</v-dialog>
+
+
 					</div>
 				</div>
+			</div>
 		</v-content>
 	</v-app>
 

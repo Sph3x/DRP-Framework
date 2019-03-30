@@ -1,5 +1,5 @@
-const drp_characters = new Vue({
-    el: "#drp_characters",
+const DRP_Characters = new Vue({
+    el: "#DRP_Characters",
 
     data: {
 
@@ -38,7 +38,7 @@ const drp_characters = new Vue({
         },
 
         UpdateCharacters(characters) {
-            console.log(characters)
+            console.log(characters);
             this.characters = characters;
             if (this.showCharacterCreator == false) {
                 this.FormReset();
@@ -90,16 +90,6 @@ const drp_characters = new Vue({
             }
         },
 
-        RotateCharacter(value) {
-            axios.post(`http://${this.ResourceName}/rotatecharacter`, {
-                amount: value
-            }).then((response) => {
-                console.log(response);
-            }).catch((error) => {
-                console.log(error);
-            })
-        },
-
         FormReset() {
             this.$refs.DRPCreatorForm.reset();
             this.selectedAge = 0
@@ -131,12 +121,12 @@ document.onreadystatechange = () => {
 
             if (event.data.type == "open_character_menu") {
 
-                drp_characters.OpenCharactersMenu(event.data.characters);
+                DRP_Characters.OpenCharactersMenu(event.data.characters);
 
             } else if (event.data.type == "update_character_menu") {
 
-                drp_characters.UpdateCharacters(event.data.characters);
-                console.log("THIS IS TRIGGERING!");
+                DRP_Characters.UpdateCharacters(event.data.characters);
+
             }
         });
     }

@@ -14,7 +14,6 @@ end)
 
 RegisterNetEvent("DRP_ID:UpdateMenuCharacters")
 AddEventHandler("DRP_ID:UpdateMenuCharacters", function(characters)
-	Citizen.Trace("doing magic stuff")
 	SendNUIMessage({
 		type = "update_character_menu",
 		characters = characters

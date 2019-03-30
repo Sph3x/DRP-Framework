@@ -17,13 +17,13 @@ AddEventHandler("DRP_ID:RequestOpenMenu", function()
 end)
 
 AddEventHandler("DRP_ID:UpdateCharactersInUI", function(player)
-	TriggerEvent("DPR_Core:GetPlayerData", player, function(results)
-		print("updating ui")
+	TriggerEvent("DRP_Core:GetPlayerData", player, function(results)
 		exports["externalsql"]:DBAsyncQuery({
 			string = "SELECT * FROM `characters` WHERE `playerid` = :playerid",
 			data = {playerid = results.playerid}
 		}, function(characters)
 			local characters = characters["data"]
+			print(characters)
 			TriggerClientEvent("DRP_ID:UpdateMenuCharacters", player, characters)
 		end)
 	end)
