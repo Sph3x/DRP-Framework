@@ -12,8 +12,8 @@ local cameraRotations = {
     }
 }
 
-RegisterNetEvent("ISRP_CharactersMenu:StartSkyCamera")
-AddEventHandler("ISRP_CharactersMenu:StartSkyCamera", function()
+RegisterNetEvent("DRP:StartSkyCamera")
+AddEventHandler("DRP:StartSkyCamera", function()
     local randomIndex = math.random(1, #cameraRotations)
     selectedCameraRot = randomIndex
     spawnedCamera = CreateCam("DEFAULT_SCRIPTED_CAMERA", 1)
@@ -22,8 +22,8 @@ AddEventHandler("ISRP_CharactersMenu:StartSkyCamera", function()
     startCameraRotations = true
 end)
 
-RegisterNetEvent("ISRP_CharactersMenu:StopSkyCamera")
-AddEventHandler("ISRP_CharactersMenu:StopSkyCamera", function()
+RegisterNetEvent("DRP:StopSkyCamera")
+AddEventHandler("DRP:StopSkyCamera", function()
     if startCameraRotations then
         startCameraRotations = false
         RenderScriptCams(0, 1, 1500, 1, 1)
@@ -53,8 +53,8 @@ end)
 ---------------------------------------------------------------------------
 local camera = nil
 
-RegisterNetEvent("ISRP_CharactersMenu:StartCreatorCamera")
-AddEventHandler("ISRP_CharactersMenu:StartCreatorCamera", function()
+RegisterNetEvent("DRP:StartCreatorCamera")
+AddEventHandler("DRP:StartCreatorCamera", function()
     local ped = GetPlayerPed(PlayerId())
     SetEntityCoords(ped, 402.75, -996.77, -99.0, 0.0, 0.0, 0.0, 0)
     SetEntityHeading(ped, 178.72)
@@ -66,38 +66,11 @@ AddEventHandler("ISRP_CharactersMenu:StartCreatorCamera", function()
     RenderScriptCams(1, 0, 0, 1, 1)
 end)
 
-RegisterNetEvent("ISRP_CharactersMenu:StopCreatorCamera")
-AddEventHandler("ISRP_CharactersMenu:StopCreatorCamera", function()
+RegisterNetEvent("DRP:StopCreatorCamera")
+AddEventHandler("DRP:StopCreatorCamera", function()
     if camera ~= nil then
         RenderScriptCams(0, 0, 0, 1, 1)
         DestroyCam(camera, 0)
         camera = nil
-    end
-end)
-
----------------------------------------------------------------------------
--- Clothing Store Camera
----------------------------------------------------------------------------
-local camera2 = nil
-
-RegisterNetEvent("ISRP_CharactersMenu:StartClothingStoreCamera")
-AddEventHandler("ISRP_CharactersMenu:StartClothingStoreCamera", function()
-    local ped = GetPlayerPed(PlayerId())
-    local plyPos = GetEntityCoords(ped, false)
-    SetEntityCoords(ped, plyPos.x, plyPos.y, plyPos.z - 1.0)
-    local pedOffset = GetOffsetFromEntityInWorldCoords(ped, 0.0, 2.0, -0.5)
-    local pedRot = GetEntityRotation(ped, 1)
-    camera2 = CreateCam("DEFAULT_SCRIPTED_CAMERA", 1)
-    SetCamCoord(camera2, pedOffset.x, pedOffset.y, pedOffset.z)
-    SetCamRot(camera2, pedRot.x - 5.0, pedRot.y, pedRot.z - 180.0, 1)
-    RenderScriptCams(1, 0, 0, 1, 1)
-end)
-
-RegisterNetEvent("ISRP_CharactersMenu:StopClothingStoreCamera")
-AddEventHandler("ISRP_CharactersMenu:StopClothingStoreCamera", function()
-    if camera2 ~= nil then
-        RenderScriptCams(0, 0, 0, 1, 1)
-        DestroyCam(camera, 0)
-        camera2 = nil
     end
 end)
