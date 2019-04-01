@@ -49,14 +49,13 @@ end)
 -- LOAD CHARACTER FROM SELECTER
 ---------------------------------------------------------------------------
 RegisterNetEvent("DRP_ID:LoadSelectedCharacter")
-AddEventHandler("DRP_ID:LoadSelectedCharacter", function(ped, clothData, spawn)
+AddEventHandler("DRP_ID:LoadSelectedCharacter", function(ped, spawn)
 	exports["spawnmanager"]:spawnPlayer({x = spawn.x, y = spawn.y, z = spawn.z, heading = spawn.h, model = ped})
 	Citizen.Wait(4000)
 	TriggerEvent("DRP_ID:StopSkyCamera")
 	TriggerEvent("DRP_ID:StopCreatorCamera")
-	Citizen.Wait(1000)
+	-- Add Your Spawn In Stuff Here
 	local ped = GetPlayerPed(PlayerId())
-	local clothing = json.decode(clothData)
 	SetPedDefaultComponentVariation(ped)
     SetPlayerInvisibleLocally(PlayerId(), false)
     SetEntityVisible(ped, true)

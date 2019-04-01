@@ -46,7 +46,7 @@ AddEventHandler("DRP_ID:CreateCharacter", function(newCharacterData)
 				exports["externalsql"]:DBAsyncQuery({
 					string = [[
 						INSERT INTO characters
-						(`name`, `age`, `gender`, `model`, `clothing`, `tattoos`, `cash`, `bank`, `licenses`, `playerid`)
+						(`name`, `age`, `gender`, `model`, `tattoos`, `cash`, `bank`, `licenses`, `playerid`)
 						VALUES
 						(:name, :age, :gender, :model, :clothing, :tattoos, :cash, :bank, :licenses, :playerid)
 					]],
@@ -55,7 +55,6 @@ AddEventHandler("DRP_ID:CreateCharacter", function(newCharacterData)
 						age = newCharacterData.age,
 						gender = newCharacterData.gender,
 						model = "",
-						clothing = json.encode({}),
 						tattoos = json.encode({}),
 						cash = DRPCharacters.StarterCash,
 						bank = DRPCharacters.StarterBank,
@@ -91,7 +90,7 @@ AddEventHandler("DRP_ID:SelectCharacter", function(character_id)
 		if model > 0 then
 			math.randomseed(os.time())
 			local spawn = DRPCharacters.SpawnLocations[math.random(1, #DRPCharacters.SpawnLocations)]
-			TriggerClientEvent("DRP_ID:LoadSelectedCharacter", src, characterInfo.data[1].model, characterInfo.data[1].clothing, spawn)
+			TriggerClientEvent("DRP_ID:LoadSelectedCharacter", src, characterInfo.data[1].model, spawn)
 		else
 			local playerGender = characterInfo["data"][1].gender
 			if playerGender == "Male" then
