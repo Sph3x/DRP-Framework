@@ -1,7 +1,7 @@
 # DRP-Framework
 FiveM Public Framework by: OfficalDarkzy
 
-# To Install
+# Installation Guide
 
 ## Step 1
 Have a standard working FXServer
