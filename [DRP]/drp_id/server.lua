@@ -48,7 +48,7 @@ AddEventHandler("DRP_ID:CreateCharacter", function(newCharacterData)
 						INSERT INTO characters
 						(`name`, `age`, `gender`, `model`, `tattoos`, `cash`, `bank`, `licenses`, `playerid`)
 						VALUES
-						(:name, :age, :gender, :model, :clothing, :tattoos, :cash, :bank, :licenses, :playerid)
+						(:name, :age, :gender, :model, :tattoos, :cash, :bank, :licenses, :playerid)
 					]],
 					data = {
 						name = newCharacterData.name,
