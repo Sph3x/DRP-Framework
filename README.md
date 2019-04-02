@@ -1,7 +1,14 @@
 # DRP-Framework
 FiveM Public Framework by: OfficalDarkzy
 
-# To Install
+Backend Built Using Xander1998's DatabaseAPI Resource
+
+# Discord Server
+Please join my Discord server for live updates when I make changes and join the FiveM Dev Labs :D
+
+https://discord.gg/hc78sSK
+
+# Installation Guide
 
 ## Step 1
 Have a standard working FXServer
