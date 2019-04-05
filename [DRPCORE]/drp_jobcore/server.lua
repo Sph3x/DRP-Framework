@@ -56,7 +56,7 @@ AddEventHandler("DRP_Jobs:FinishWork", function()
     local job = "CITIZEN"
     local jobLabel = JobsCoreConfig.StaticJobLabels[job]
     SetPlayerJob(src, job, jobLabel)
-    TriggerClientEvent("DRP_Core:Info", src, "Job Manager", tostring("You are now a "..GetPlayerJob(src).jobLabel), 2500, false, "leftCenter")
+    TriggerClientEvent("DRP_Core:Info", src, "Job Manager", tostring("You are now "..GetPlayerJob(src).jobLabel), 2500, false, "leftCenter")
     -- TRIGGER TO GET THE PREVIOUS CLOTHES BACK! (FUTURE UPDATES)
 end)
 

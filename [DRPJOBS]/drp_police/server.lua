@@ -22,9 +22,17 @@ AddEventHandler("DRP_PoliceJobs:SignOnDuty", function(jobTitle)
                         rank = jobResults.data[1].rank,
                         division = jobResults.data[1].division
                     })
-                    TriggerClientEvent("DRP_Core:Info", src, "Job Manager", tostring("You are now a "..exports["drp_jobcore"]:GetPlayerJob(src).jobLabel), 2500, false, "leftCenter")
+                    local policeJobTitle = ""
+                    if jobResults.data[1].division == "Police" then
+                        policeJobTitle = "Police Officer"
+                    elseif jobResults.data[1].division == "Sheriff" then 
+                        policeJobTitle = "Sheriff Deputy"
+                    elseif jobResults.data[1].division == "State" then
+                        policeJobTitle = "State Trooper"
+                    end
+                    TriggerClientEvent("DRP_Core:Info", src, "Job Manager", tostring("Welcome "..policeJobTitle.." "..characterInfo.name..""), 2500, false, "leftCenter")
                 else
-                    TriggerClientEvent("DRP_Core:Error", src, "Job Manager", "You are not registered for this Job!", 2500, false, "leftCenter")
+                    TriggerClientEvent("DRP_Core:Error", src, "Job Manager", "You are not registered for this Job!", 5500, false, "leftCenter")
                 end
             end)
         else
