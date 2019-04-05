@@ -65,7 +65,6 @@ AddEventHandler("DRP_ID:CreateCharacter", function(newCharacterData)
 					TriggerEvent("DRP_ID:UpdateCharactersInUI", src)
 				end)
 			else
-				-- TriggerClientEvent("ISRP_Notification:Error", src, "ISRP Characters", "You have reached the maximum amount of characters allowed", 7500, false, "rightCenter")
 				print("no more space")
 			end
 		end)

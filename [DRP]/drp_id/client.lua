@@ -54,6 +54,7 @@ AddEventHandler("DRP_ID:LoadSelectedCharacter", function(ped, spawn)
 	Citizen.Wait(4000)
 	TriggerEvent("DRP_ID:StopSkyCamera")
 	TriggerEvent("DRP_ID:StopCreatorCamera")
+	-- TriggerServerEvent("clothing_shop:SpawnPlayer_server")
 	-- Add Your Spawn In Stuff Here
 	local ped = GetPlayerPed(PlayerId())
 	SetPedDefaultComponentVariation(ped)
