@@ -22,6 +22,7 @@ RegisterCommand("job", function(source, args, raw)
     local src = source
     local myJob = GetPlayerJob(src)
     TriggerClientEvent("DRP_Core:Info", src, "Job Manager", tostring("Your job is "..myJob.jobLabel..""), 2500, false, "leftCenter")
+    print(json.encode(GetPlayerJob(src)))
 end, false)
 
 ---------------------------------------------------------------------------
@@ -40,7 +41,7 @@ AddEventHandler("DRP_Jobs:StartWork", function(jobTitle)
     else
     if DoesJobExist(job) then
         if jobRequirement ~= false then
-            SetPlayerJob(src, job, jobLabel)
+            SetPlayerJob(src, job, jobLabel, false)
             end
         end
     end
@@ -55,7 +56,7 @@ AddEventHandler("DRP_Jobs:FinishWork", function()
     local player = exports["drp_core"]:GetPlayerData(src)
     local job = "CITIZEN"
     local jobLabel = JobsCoreConfig.StaticJobLabels[job]
-    SetPlayerJob(src, job, jobLabel)
+    SetPlayerJob(src, job, jobLabel, false)
     TriggerClientEvent("DRP_Core:Info", src, "Job Manager", tostring("You are now "..GetPlayerJob(src).jobLabel), 2500, false, "leftCenter")
     -- TRIGGER TO GET THE PREVIOUS CLOTHES BACK! (FUTURE UPDATES)
 end)
@@ -81,11 +82,12 @@ function DoesJobExist(job)
     return false
 end
 
-function SetPlayerJob(player, job, label)
+function SetPlayerJob(player, job, label, otherData)
     for a = 1, #playersJob do
         if playersJob[a].source == player then
             playersJob[a].job = job
             playersJob[a].jobLabel = label
+            playersJob[a].otherJobData = otherData
             break
         end
     end

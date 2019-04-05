@@ -22,6 +22,7 @@ AddEventHandler("DRP_PoliceJobs:SignOnDuty", function(jobTitle)
                         rank = jobResults.data[1].rank,
                         division = jobResults.data[1].division
                     })
+                    -- Time For Some Discusting Code!
                     local policeJobTitle = ""
                     if jobResults.data[1].division == "Police" then
                         policeJobTitle = "Police Officer"
@@ -36,7 +37,7 @@ AddEventHandler("DRP_PoliceJobs:SignOnDuty", function(jobTitle)
                 end
             end)
         else
-            exports["drp_jobcore"]:SetPlayerJob(src, job, jobLabel)
+            exports["drp_jobcore"]:SetPlayerJob(src, job, jobLabel, false)
             end
         end
     end
