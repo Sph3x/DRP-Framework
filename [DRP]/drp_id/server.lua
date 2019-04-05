@@ -85,8 +85,8 @@ AddEventHandler("DRP_ID:SelectCharacter", function(character_id)
 	}, function(characterInfo)
 
 		table.insert(character, {id = src, charid = character_id, playerid = characterInfo.data[1].playerid, gender = characterInfo.data[1].gender, name = characterInfo.data[1].name, age = characterInfo.data[1].age})
-		local model = #characterInfo["data"][1].model
-		if model > 0 then
+		local charModelChecker = #characterInfo["data"][1].model
+		if charModelChecker > 0 then
 			math.randomseed(os.time())
 			local spawn = DRPCharacters.SpawnLocations[math.random(1, #DRPCharacters.SpawnLocations)]
 			TriggerClientEvent("DRP_ID:LoadSelectedCharacter", src, characterInfo.data[1].model, spawn)
@@ -105,6 +105,8 @@ AddEventHandler("DRP_ID:SelectCharacter", function(character_id)
 						char_id = characterId.charid
 					}
 				}, function(updatedModel)
+					local spawn = DRPCharacters.SpawnLocations[math.random(1, #DRPCharacters.SpawnLocations)]
+					TriggerClientEvent("DRP_ID:LoadSelectedCharacter", src, characterInfo.data[1].model, spawn)
 				end)
 			end)
 		end
