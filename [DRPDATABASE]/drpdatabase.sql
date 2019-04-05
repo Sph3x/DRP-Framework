@@ -16,6 +16,26 @@
 CREATE DATABASE IF NOT EXISTS `drp` /*!40100 DEFAULT CHARACTER SET utf8 COLLATE utf8_bin */;
 USE `drp`;
 
+-- Dumping structure for table drp.characters
+CREATE TABLE IF NOT EXISTS `characters` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `name` varchar(255) NOT NULL,
+  `age` int(255) NOT NULL,
+  `gender` varchar(255) NOT NULL,
+  `model` varchar(255) NOT NULL,
+  `tattoos` text NOT NULL,
+  `cash` bigint(20) NOT NULL,
+  `bank` bigint(20) NOT NULL,
+  `paycheck` bigint(11) NOT NULL,
+  `licenses` text NOT NULL,
+  `phonenumber` mediumint(11) NOT NULL,
+  `playerid` int(11) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `player_id` (`playerid`) USING BTREE,
+  CONSTRAINT `characters_ibfk_1` FOREIGN KEY (`playerid`) REFERENCES `users` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
+
+-- Data exporting was unselected.
 -- Dumping structure for table drp.users
 CREATE TABLE IF NOT EXISTS `users` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
@@ -25,7 +45,7 @@ CREATE TABLE IF NOT EXISTS `users` (
   `ban_data` varchar(255) COLLATE utf8_bin DEFAULT NULL,
   `whitelisted` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
 -- Data exporting was unselected.
 /*!40101 SET SQL_MODE=IFNULL(@OLD_SQL_MODE, '') */;
