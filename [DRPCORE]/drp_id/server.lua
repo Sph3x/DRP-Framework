@@ -65,7 +65,7 @@ AddEventHandler("DRP_ID:CreateCharacter", function(newCharacterData)
 					TriggerEvent("DRP_ID:UpdateCharactersInUI", src)
 				end)
 			else
-				print("no more space")
+				TriggerClientEvent("DRP_Core:Error", src, "Characters", "You have ran out of Character spaces, the max is "..DRPCharacters.MaxCharacters.."", 2500, false, "leftCenter")
 			end
 		end)
 	end)

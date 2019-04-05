@@ -29,3 +29,6 @@ client_script "client.lua"
 
 client_script "cameras/cameras.lua"
 client_script "modifier/character_modifier.lua"
+
+
+server_export "GetCharacterData"
