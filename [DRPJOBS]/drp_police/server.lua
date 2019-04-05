@@ -1,3 +1,6 @@
+---------------------------------------------------------------------------
+-- Sign On Duty Police Job
+---------------------------------------------------------------------------
 RegisterServerEvent("DRP_PoliceJobs:SignOnDuty")
 AddEventHandler("DRP_PoliceJobs:SignOnDuty", function(jobTitle)
     local src = source
@@ -43,7 +46,9 @@ AddEventHandler("DRP_PoliceJobs:SignOnDuty", function(jobTitle)
         end
     end
 end)
-
+---------------------------------------------------------------------------
+-- Sign Off Duty Police Job
+---------------------------------------------------------------------------
 RegisterServerEvent("DRP_PoliceJobs:SignOffDuty")
 AddEventHandler("DRP_PoliceJobs:SignOffDuty", function()
     local src = source
@@ -54,7 +59,31 @@ AddEventHandler("DRP_PoliceJobs:SignOffDuty", function()
     TriggerClientEvent("DRP_Core:Info", src, "Job Manager", tostring("You are now a "..exports["drp_jobcore"]:GetPlayerJob(src).jobLabel), 2500, false, "leftCenter")
 end)
 
+---------------------------------------------------------------------------
+-- Locker Room
+---------------------------------------------------------------------------
+RegisterServerEvent("DRP_PoliceJob:GetJobLoadouts")
+AddEventHandler("DRP_PoliceJob:GetJobLoadouts", function()
+    local src = source
+    local rankedLoadouts = {}
+    local job = exports["drp_jobcore"]:GetPlayerJob(src)
+    local rank = job.otherJobData.rank
+    for k,lockerroom in ipairs(DRPPoliceJob.LockerRooms[job.jobLabel].Loadouts) do
+        if lockerroom.minrank <= rank then
+            table.insert(rankedLoadouts, {
+                name = lockerroom.label,
+                model = lockeroom.model,
+                clothing = lockerroom.clothing
+            })
+        end
+    end
+    print(json.encode(rankedLoadouts))
+    -- TriggerClientEvent("ISRP_Jobs:OpenJobLoadout", src, job.jobLabel, loadouts)
+end)
 
+---------------------------------------------------------------------------
+-- Police Job Functions
+---------------------------------------------------------------------------
 function PoliceAbilities(player, label)
     local jobLoadouts = DRPPoliceJob.LockerRooms[label]
      if jobLoadouts ~= nil then

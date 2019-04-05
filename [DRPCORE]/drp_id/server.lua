@@ -32,6 +32,7 @@ end)
 ---------------------------------------------------------------------------
 RegisterServerEvent("DRP_ID:CreateCharacter")
 AddEventHandler("DRP_ID:CreateCharacter", function(newCharacterData)
+	print(json.encode(newCharacterData))
 	local src = source
 	TriggerEvent("DRP_Core:GetPlayerData", src, function(playerData)
 		exports["externalsql"]:DBAsyncQuery({
@@ -40,7 +41,7 @@ AddEventHandler("DRP_ID:CreateCharacter", function(newCharacterData)
 				playerid = playerData.playerid
 			}
 		}, function(characters)
-			
+			Wait(500)
 			local characterCount = #characters["data"]
 			if characterCount < DRPCharacters.MaxCharacters then
 				exports["externalsql"]:DBAsyncQuery({
@@ -90,6 +91,7 @@ AddEventHandler("DRP_ID:SelectCharacter", function(character_id)
 			math.randomseed(os.time())
 			local spawn = DRPCharacters.SpawnLocations[math.random(1, #DRPCharacters.SpawnLocations)]
 			TriggerClientEvent("DRP_ID:LoadSelectedCharacter", src, characterInfo.data[1].model, spawn)
+			print("found data, now spawning!")
 		else
 			local playerGender = characterInfo["data"][1].gender
 			if playerGender == "Male" then
@@ -97,6 +99,7 @@ AddEventHandler("DRP_ID:SelectCharacter", function(character_id)
 			elseif playerGender == "Female" then
 				playerModelIfNil = "mp_f_freemode_01"
 			end
+			print("need to add a model of"..playerModelIfNil)
 			TriggerEvent("DRP_ID:GetCharacterData", src, function(characterId)
 				exports["externalsql"]:DBAsyncQuery({
 					string = "UPDATE characters SET `model` = :model WHERE `id` = :char_id",
@@ -105,6 +108,8 @@ AddEventHandler("DRP_ID:SelectCharacter", function(character_id)
 						char_id = characterId.charid
 					}
 				}, function(updatedModel)
+					Wait(200)
+					math.randomseed(os.time())
 					local spawn = DRPCharacters.SpawnLocations[math.random(1, #DRPCharacters.SpawnLocations)]
 					TriggerClientEvent("DRP_ID:LoadSelectedCharacter", src, characterInfo.data[1].model, spawn)
 				end)

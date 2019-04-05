@@ -1,3 +1,6 @@
+---------------------------------------------------------------------------
+-- Blip Code
+---------------------------------------------------------------------------
 local jobMarkerBlips = {
     markerData = {},
     blipData = {},
@@ -27,7 +30,9 @@ AddEventHandler("DRP_PoliceJob:SetLoadoutMarkerBlips", function(markerD, blipD, 
     end
 end)
 
-
+---------------------------------------------------------------------------
+-- Main Thread
+---------------------------------------------------------------------------
 Citizen.CreateThread(function()
     while true do
         Citizen.Wait(1)
@@ -46,5 +51,50 @@ Citizen.CreateThread(function()
                 end
             end
         end
+    end
+end)
+
+Citizen.CreateThread(function()
+    while true do
+        for a = 1, #jobMarkerBlips.locations do
+            local playercoords = GetEntityCoords(GetPlayerPed(PlayerId()), false)
+            local distance = Vdist(playercoords.x, playercoords.y, playercoords.z, jobMarkerBlips.locations[a].x, jobMarkerBlips.locations[a].y, jobMarkerBlips.locations[a].z)
+            if distance <= 50.0 then
+                DrawMarker(
+                    jobMarkerBlips.markerData.markerType,
+                    jobMarkerBlips.locations[a].x,
+                    jobMarkerBlips.locations[a].y,
+                    jobMarkerBlips.locations[a].z - 1.0,
+                    0.0,
+                    0.0,
+                    0.0,
+                    0.0,
+                    0.0,
+                    0.0,
+                    jobMarkerBlips.markerData.scale,
+                    jobMarkerBlips.markerData.scale,
+                    jobMarkerBlips.markerData.scale,
+                    jobMarkerBlips.markerData.color[1],
+                    jobMarkerBlips.markerData.color[2],
+                    jobMarkerBlips.markerData.color[3],
+                    1.0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0
+                )
+                if distance <= 1.0 then
+                    exports['drp_core']:DrawText3Ds(jobMarkerBlips.locations[a].x, jobMarkerBlips.locations[a].y, jobMarkerBlips.locations[a].z, jobMarkerBlips.markerData.label)
+                    if IsControlJustPressed(1, 38) then
+                        -- SetNuiFocus(true, true)
+                        TriggerServerEvent("DRP_PoliceJob:GetJobLoadouts")
+                    end
+                end
+            end
+        end
+        Citizen.Wait(0)
     end
 end)
