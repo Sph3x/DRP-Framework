@@ -31,3 +31,4 @@ server_script "config.lua"
 server_script "server.lua"
 
 export "DrawText3Ds"
+server_export "GetPlayerData"

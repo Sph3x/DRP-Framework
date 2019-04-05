@@ -74,7 +74,6 @@ end)
 AddEventHandler("chatMessage", function(source, color, message)
 	local src = source
 	local playerData = GetPlayerData(src)
-	print(json.encode(playerData))
     args = stringsplit(message, " ")
     CancelEvent()
     if string.find(args[1], "/") then
