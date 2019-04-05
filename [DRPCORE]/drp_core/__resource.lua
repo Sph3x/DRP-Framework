@@ -22,10 +22,10 @@ files {
 }
 
 client_script "fivem.lua"
-client_script "notifications.lua"
+client_script "notifications/notifications.lua"
 client_script "client.lua"
-client_script "voip.lua"
-client_script "managers.lua"
+client_script "managers/voip.lua"
+client_script "managers/managers.lua"
 
 server_script "config.lua"
 server_script "server.lua"

@@ -1,3 +1,33 @@
+local jobMarkerBlips = {
+    markerData = {},
+    blipData = {},
+    locations = {}
+}
+local drawBlips = {}
+
+RegisterNetEvent("DRP_PoliceJob:SetLoadoutMarkerBlips")
+AddEventHandler("DRP_PoliceJob:SetLoadoutMarkerBlips", function(markerD, blipD, locations)
+    jobMarkerBlips.markerData = markerD
+    jobMarkerBlips.locations = locations
+    jobMarkerBlips.blipData = blipD
+    for a = 1, #drawBlips do
+        RemoveBlip(drawBlips[a])
+    end
+    drawBlips = {}
+    for b = 1, #jobMarkerBlips.locations do
+        local blip = AddBlipForCoord(jobMarkerBlips.locations[b].x, jobMarkerBlips.locations[b].y, jobMarkerBlips.locations[b].z)
+        SetBlipSprite(blip, jobMarkerBlips.blipData.sprite)
+        SetBlipColour(blip, jobMarkerBlips.blipData.color)
+        SetBlipAsShortRange(blip, true)
+        SetBlipScale(blip, jobMarkerBlips.blipData.scale)
+        BeginTextCommandSetBlipName("STRING")
+        AddTextComponentString(jobMarkerBlips.blipData.label)
+        EndTextCommandSetBlipName(blip)
+        table.insert(drawBlips, blip)
+    end
+end)
+
+
 Citizen.CreateThread(function()
     while true do
         Citizen.Wait(1)

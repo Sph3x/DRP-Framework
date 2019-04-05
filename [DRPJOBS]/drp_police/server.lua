@@ -32,6 +32,7 @@ AddEventHandler("DRP_PoliceJobs:SignOnDuty", function(jobTitle)
                         policeJobTitle = "State Trooper"
                     end
                     TriggerClientEvent("DRP_Core:Info", src, "Job Manager", tostring("Welcome "..policeJobTitle.." "..characterInfo.name..""), 2500, false, "leftCenter")
+                    PoliceAbilities(src, jobLabel)
                 else
                     TriggerClientEvent("DRP_Core:Error", src, "Job Manager", "You are not registered for this Job!", 5500, false, "leftCenter")
                 end
@@ -52,3 +53,13 @@ AddEventHandler("DRP_PoliceJobs:SignOffDuty", function()
     exports["drp_jobcore"]:SetPlayerJob(src, job, jobLabel)
     TriggerClientEvent("DRP_Core:Info", src, "Job Manager", tostring("You are now a "..exports["drp_jobcore"]:GetPlayerJob(src).jobLabel), 2500, false, "leftCenter")
 end)
+
+
+function PoliceAbilities(player, label)
+    local jobLoadouts = DRPPoliceJob.LockerRooms[label]
+     if jobLoadouts ~= nil then
+        TriggerClientEvent("DRP_PoliceJob:SetLoadoutMarkerBlips", player, jobLoadouts.MarkerData, jobLoadouts.BlipData, jobLoadouts.Locations)
+    else
+        TriggerClientEvent("DRP_PoliceJob:SetLoadoutMarkerBlips", player, {}, {}, {})
+    end
+end
