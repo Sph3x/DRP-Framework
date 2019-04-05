@@ -18,15 +18,21 @@ AddEventHandler("playerDropped", function()
     end
 end)
 
+RegisterCommand("job", function(source, args, raw)
+    local src = source
+    local myJob = GetPlayerJob(src)
+    TriggerClientEvent("DRP_Core:Info", src, "Job Manager", tostring("Your job is "..myJob.jobLabel..""), 2500, false, "leftCenter")
+end, false)
+
 ---------------------------------------------------------------------------
--- Main Server Event To Change And Add People To Jobs
+-- Main Server Event To Change And Add People To Jobs  ONLY FOR BUILTIN JOBS
 ---------------------------------------------------------------------------
 RegisterServerEvent("DRP_Jobs:StartWork")
 AddEventHandler("DRP_Jobs:StartWork", function(jobTitle)
     local src = source
     local characterInfo = exports["drp_id"]:GetCharacterData(src)
     local job = jobTitle
-    local jobLabel = JobsCoreConfig.PoliceJobLabels[job] -- Gets The Job Label To Display In The Notifications
+    local jobLabel = JobsCoreConfig.JobLabels[job] -- Gets The Job Label To Display In The Notifications
     local jobRequirement = JobsCoreConfig.Requirements[job] -- Gets If You Are Enabled To Do This Job
     local currentPlayerJob = GetPlayerJob(src)
     if currentPlayerJob.job == job then
@@ -34,27 +40,24 @@ AddEventHandler("DRP_Jobs:StartWork", function(jobTitle)
     else
     if DoesJobExist(job) then
         if jobRequirement ~= false then
-            exports["externalsql"]:DBAsyncQuery({
-                string = "SELECT * FROM `" .. jobRequirement .. "` WHERE `char_id` = :charid",
-                data = {
-                    charid = characterInfo.charid
-                }
-            }, function(jobResults)
-                if jobResults.data[1] ~= nil then
-                    SetPlayerJob(src, job, jobLabel, {
-                        rank = jobResults.data[1].rank,
-                        callsign = jobResults.data[1].division
-                    })
-                    TriggerClientEvent("DRP_Core:Info", src, "Job Manager", tostring("You are now a "..GetPlayerJob(src).jobLabel), 2500, false, "leftCenter")
-                else
-                    TriggerClientEvent("DRP_Core:Info", src, "Job Manager", "You are not registered for this Job!", 2500, false, "leftCenter")
-                end
-            end)
-        else
             SetPlayerJob(src, job, jobLabel)
             end
         end
     end
+end)
+
+---------------------------------------------------------------------------
+-- Main Server Event To Change And REMOVE People FROM Jobs  ONLY FOR BUILTIN JOBS
+---------------------------------------------------------------------------
+RegisterServerEvent("DRP_Jobs:FinishWork")
+AddEventHandler("DRP_Jobs:FinishWork", function()
+    local src = source
+    local player = exports["drp_core"]:GetPlayerData(src)
+    local job = "CITIZEN"
+    local jobLabel = JobsCoreConfig.StaticJobLabels[job]
+    SetPlayerJob(src, job, jobLabel)
+    TriggerClientEvent("DRP_Core:Info", src, "Job Manager", tostring("You are now a "..GetPlayerJob(src).jobLabel), 2500, false, "leftCenter")
+    -- TRIGGER TO GET THE PREVIOUS CLOTHES BACK! (FUTURE UPDATES)
 end)
 
 ---------------------------------------------------------------------------

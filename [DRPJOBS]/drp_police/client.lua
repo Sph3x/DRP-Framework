@@ -9,12 +9,11 @@ Citizen.CreateThread(function()
                 exports['drp_core']:DrawText3Ds(DRPPoliceJob.SignOnAndOff[a].x, DRPPoliceJob.SignOnAndOff[a].y, DRPPoliceJob.SignOnAndOff[a].z, tostring("~b~[E]~w~ to sign on duty or ~r~[H]~w~ to sign off duty"))
                 if IsControlJustPressed(1, 86) then
                     local jobName = "POLICE"
-                    TriggerServerEvent("DRP_Jobs:StartWork", jobName)
+                    TriggerServerEvent("DRP_PoliceJobs:SignOnDuty", jobName)
                 end
-                -- if IsControlJustPressed(1, 74) then
-                --     TriggerServerEvent("ISRP_Jobs:GoOffDuty")
-                --     disableCopBlips()
-                -- end
+                if IsControlJustPressed(1, 74) then
+                    TriggerServerEvent("DRP_PoliceJobs:SignOffDuty")
+                end
             end
         end
     end
