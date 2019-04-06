@@ -32,8 +32,13 @@ end)
 ---------------------------------------------------------------------------
 RegisterServerEvent("DRP_ID:CreateCharacter")
 AddEventHandler("DRP_ID:CreateCharacter", function(newCharacterData)
-	print(json.encode(newCharacterData))
 	local src = source
+	local modelToAdd = nil
+	if newCharacterData.gender == "Male" then
+		modelToAdd = "mp_m_freemode_01"
+	elseif newCharacterData.gender == "Female" then
+		modelToAdd = "mp_f_freemode_01"
+	end
 	TriggerEvent("DRP_Core:GetPlayerData", src, function(playerData)
 		exports["externalsql"]:DBAsyncQuery({
 			string = "SELECT * FROM `characters` WHERE `playerid` = :playerid",
@@ -55,7 +60,7 @@ AddEventHandler("DRP_ID:CreateCharacter", function(newCharacterData)
 						name = newCharacterData.name,
 						age = newCharacterData.age,
 						gender = newCharacterData.gender,
-						model = "",
+						model = modelToAdd,
 						tattoos = json.encode({}),
 						cash = DRPCharacters.StarterCash,
 						bank = DRPCharacters.StarterBank,
@@ -77,43 +82,19 @@ end)
 RegisterServerEvent("DRP_ID:SelectCharacter")
 AddEventHandler("DRP_ID:SelectCharacter", function(character_id)
 	local src = source
-	local playerModelIfNil = ""
 	exports["externalsql"]:DBAsyncQuery({
 		string = "SELECT * FROM `characters` WHERE `id` = :character_id",
 		data = {
 			character_id = character_id
 		}
 	}, function(characterInfo)
-
 		table.insert(character, {id = src, charid = character_id, playerid = characterInfo.data[1].playerid, gender = characterInfo.data[1].gender, name = characterInfo.data[1].name, age = characterInfo.data[1].age})
+		
 		local charModelChecker = #characterInfo["data"][1].model
 		if charModelChecker > 0 then
 			math.randomseed(os.time())
 			local spawn = DRPCharacters.SpawnLocations[math.random(1, #DRPCharacters.SpawnLocations)]
 			TriggerClientEvent("DRP_ID:LoadSelectedCharacter", src, characterInfo.data[1].model, spawn)
-			print("found data, now spawning!")
-		else
-			local playerGender = characterInfo["data"][1].gender
-			if playerGender == "Male" then
-				playerModelIfNil = "mp_m_freemode_01"
-			elseif playerGender == "Female" then
-				playerModelIfNil = "mp_f_freemode_01"
-			end
-			print("need to add a model of"..playerModelIfNil)
-			TriggerEvent("DRP_ID:GetCharacterData", src, function(characterId)
-				exports["externalsql"]:DBAsyncQuery({
-					string = "UPDATE characters SET `model` = :model WHERE `id` = :char_id",
-					data = {
-						model = playerModelIfNil,
-						char_id = characterId.charid
-					}
-				}, function(updatedModel)
-					Wait(200)
-					math.randomseed(os.time())
-					local spawn = DRPCharacters.SpawnLocations[math.random(1, #DRPCharacters.SpawnLocations)]
-					TriggerClientEvent("DRP_ID:LoadSelectedCharacter", src, characterInfo.data[1].model, spawn)
-				end)
-			end)
 		end
 	end)
 end)
@@ -151,7 +132,7 @@ AddEventHandler("DRP_ID:SaveCharacter", function(characterData)
 			}
 		}, function(results)
 			local spawn = DRPCharacters.SpawnLocations[math.random(1, #DRPCharacters.SpawnLocations)]
-			TriggerClientEvent("DRP_ID:LoadSelectedCharacter", src, characterData.model, json.encode(characterData.clothing), spawn)
+			TriggerClientEvent("DRP_ID:LoadSelectedCharacter", src, characterData.model, spawn)
 		end)
 	end)
 end)
