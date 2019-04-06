@@ -64,6 +64,26 @@ DRPPoliceJob.LockerRooms["Police Officer"] = {
                 {model = "weapon_nightstick", ammo = -1, attachments = {}}
             },
         },
+        {
+            minrank = 7,
+            label = "Standard Yeeting [Male]",
+            model = "s_m_y_cop_01",
+            clothing = {
+                {component = 3, drawable = 14, texture = 0}, -- Shirt
+                {component = 8, drawable = 58, texture = 0}, -- Night stick shit
+                {component = 4, drawable = 34, texture = 0},  -- Pants
+                {component = 6, drawable = 29, texture = 0} -- Shoes
+            },
+            props = {
+                {component = 1, drawable = 11, texture = 3}
+            },
+            weapons = {
+                {model = "weapon_pistol_mk2", ammo = 120, attachments = {"COMPONENT_AT_PI_FLSH_02"}},
+                {model = "weapon_flashlight", ammo = -1, attachments = {}},
+                {model = "weapon_stungun", ammo = -1, attachments = {}},
+                {model = "weapon_nightstick", ammo = -1, attachments = {}}
+            },
+        },
     },
     Locations = {
         {x = 458.60, y = -992.55, z = 30.68}

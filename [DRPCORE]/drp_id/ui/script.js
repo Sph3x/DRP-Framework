@@ -38,7 +38,6 @@ const DRP_Characters = new Vue({
         },
 
         UpdateCharacters(characters) {
-            console.log(characters);
             this.characters = characters;
             if (this.showCharacterCreator == false) {
                 this.FormReset();
@@ -77,6 +76,11 @@ const DRP_Characters = new Vue({
             }).then((response) => { }).catch((error) => { });
         },
 
+        FormReset() {
+            this.$refs.DRPCreatorForm.reset();
+            this.selectedAge = 0
+        },
+
         FinishCharacter() {
             if (this.model != "") {
                 this.showCharacterModifier = false;
@@ -88,11 +92,6 @@ const DRP_Characters = new Vue({
                     console.log(error);
                 })
             }
-        },
-
-        FormReset() {
-            this.$refs.DRPCreatorForm.reset();
-            this.selectedAge = 0
         },
     },
 });

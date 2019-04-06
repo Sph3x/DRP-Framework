@@ -27,11 +27,11 @@ AddEventHandler("DRP_PoliceJobs:SignOnDuty", function(jobTitle)
                     })
                     -- Time For Some Discusting Code!
                     local policeJobTitle = ""
-                    if jobResults.data[1].division == "Police" then
+                    if jobResults.data[1].division == "police" then
                         policeJobTitle = "Police Officer"
-                    elseif jobResults.data[1].division == "Sheriff" then 
+                    elseif jobResults.data[1].division == "sheriff" then 
                         policeJobTitle = "Sheriff Deputy"
-                    elseif jobResults.data[1].division == "State" then
+                    elseif jobResults.data[1].division == "state" then
                         policeJobTitle = "State Trooper"
                     end
                     TriggerClientEvent("DRP_Core:Info", src, "Job Manager", tostring("Welcome "..policeJobTitle.." "..characterInfo.name..""), 2500, false, "leftCenter")
@@ -71,9 +71,7 @@ AddEventHandler("DRP_PoliceJob:GetJobLoadouts", function()
     for k,lockerroom in ipairs(DRPPoliceJob.LockerRooms[job.jobLabel].Loadouts) do
         if lockerroom.minrank <= rank then
             table.insert(rankedLoadouts, {
-                name = lockerroom.label,
-                model = lockeroom.model,
-                clothing = lockerroom.clothing
+                name = lockerroom.label
             })
         end
     end
