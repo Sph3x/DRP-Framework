@@ -18,11 +18,13 @@ AddEventHandler("playerDropped", function()
     end
 end)
 
+---------------------------------------------------------------------------
+-- Job Command
+---------------------------------------------------------------------------
 RegisterCommand("job", function(source, args, raw)
     local src = source
     local myJob = GetPlayerJob(src)
     TriggerClientEvent("DRP_Core:Info", src, "Job Manager", tostring("Your job is "..myJob.jobLabel..""), 2500, false, "leftCenter")
-    print(json.encode(GetPlayerJob(src)))
 end, false)
 
 ---------------------------------------------------------------------------
@@ -36,12 +38,12 @@ AddEventHandler("DRP_Jobs:StartWork", function(jobTitle)
     local jobLabel = JobsCoreConfig.JobLabels[job] -- Gets The Job Label To Display In The Notifications
     local jobRequirement = JobsCoreConfig.Requirements[job] -- Gets If You Are Enabled To Do This Job
     local currentPlayerJob = GetPlayerJob(src)
-    if currentPlayerJob.job == job then
-        TriggerClientEvent("DRP_Core:Error", src, "Job Manager", tostring("You are already on duty"), 2500, false, "leftCenter")
-    else
-    if DoesJobExist(job) then
-        if jobRequirement ~= false then
-            SetPlayerJob(src, job, jobLabel, false)
+        if currentPlayerJob.job == job then
+            TriggerClientEvent("DRP_Core:Error", src, "Job Manager", tostring("You are already on duty"), 2500, false, "leftCenter")
+        else
+        if DoesJobExist(job) then
+            if jobRequirement ~= false then
+                SetPlayerJob(src, job, jobLabel, false)
             end
         end
     end
@@ -62,7 +64,7 @@ AddEventHandler("DRP_Jobs:FinishWork", function()
 end)
 
 ---------------------------------------------------------------------------
--- Main Functions
+-- Core Functions
 ---------------------------------------------------------------------------
 function GetPlayerJob(player)
     for a = 1, #playersJob do

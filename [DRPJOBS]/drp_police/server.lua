@@ -57,6 +57,7 @@ AddEventHandler("DRP_PoliceJobs:SignOffDuty", function()
     local jobLabel = "Unemployed"
     exports["drp_jobcore"]:SetPlayerJob(src, job, jobLabel)
     TriggerClientEvent("DRP_Core:Info", src, "Job Manager", tostring("You are now a "..exports["drp_jobcore"]:GetPlayerJob(src).jobLabel), 2500, false, "leftCenter")
+    PoliceAbilities(src, jobLabel)
 end)
 
 ---------------------------------------------------------------------------

@@ -18,6 +18,8 @@ Go into the DatabaseAPI resource and edit the config.js file to connect to your 
 Then go into the externalsql resource and edit the config.lua file to connect your details from the DatabaseAPI config to the externalsql resource
 
 ## Step 2
+Remove start FiveM from your server.cfg because we don't need any of the code from that anymore as we are overiding this in the drp_core 
+
 Go into your Fivem-Map-Skater resource and go into the __resource.lua file
 
 You will see something like this in there
@@ -31,9 +33,15 @@ Drag the two Folders named [DRP] and [DRPDATABASE] into your resource folder in 
 
 start DatabaseAPI
 start externalsql
+
 start drp_core
 start drp_death
 start drp_id
+start drp_jobcore
+
+start drp_doors
+start drp_police
+start drp_medical
 
 ## Step 4 
 Export the Database dump into your Database Tool of choice to load all the tables required
