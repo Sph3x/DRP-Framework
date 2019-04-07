@@ -1,5 +1,5 @@
 local allDoors = {}
-local jobDoors = {}
+local doorAccess = false
 ---------------------------------------------------------------------------
 -- Sync Start
 ---------------------------------------------------------------------------
@@ -14,7 +14,11 @@ AddEventHandler("DRP_Doors:DoorSync", function(doors)
     allDoors = doors
 end)
 
--- ADD JOB DOORS
+RegisterNetEvent("DRP_Doors:AllowJobDoorAccess")
+AddEventHandler("DRP_Doors:AllowJobDoorAccess", function()
+    doorAccess = true
+end)
+
 ---------------------------------------------------------------------------
 -- Threads
 ---------------------------------------------------------------------------
@@ -25,7 +29,7 @@ Citizen.CreateThread(function()
             for a = 1, #allDoors do
                 local distance = Vdist(pedPos.x, pedPos.y, pedPos.z, allDoors[a].x,allDoors[a].y,allDoors[a].z)
                 local lockedDoor = allDoors[a].isLocked
-                if distance <= 2.5 then
+                if distance <= 5.0 then
                     if lockedDoor then
                         exports['drp_core']:DrawText3Ds(allDoors[a].x, allDoors[a].y, allDoors[a].z + 0.3, tostring("~b~[E] - ~r~[LOCKED]"))
                     else
@@ -36,11 +40,14 @@ Citizen.CreateThread(function()
                         FreezeEntityPosition(door, true)
                     else
                         FreezeEntityPosition(door, false)
-                    end
-                    if IsControlJustPressed(1, 86) and distance <= 1.0 then
-                        allDoors[a].isLocked = not lockedDoor
-                        TriggerServerEvent("DRP_Doors:UpdateDoorStatus", allDoors)
-                        -- doorAnimation()
+                    end 
+                    if IsControlJustPressed(1, 86) and distance <= 2.0 then
+                        print(CheckIfJobDoor(allDoors[a].jobDoor))
+                        if CheckIfJobDoor(allDoors[a].jobDoor) then
+                            allDoors[a].isLocked = not lockedDoor
+                            TriggerServerEvent("DRP_Doors:UpdateDoorStatus", allDoors)
+                            doorAccess = false
+                        end
                     end
                 end
             end
@@ -50,3 +57,10 @@ end)
 ---------------------------------------------------------------------------
 -- Door Functions
 ---------------------------------------------------------------------------
+function CheckIfJobDoor(requestedDoor)
+    if requestedDoor then
+        TriggerServerEvent("DRP_Doors:CheckJob")
+    else
+        return true
+    end
+end

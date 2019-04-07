@@ -63,6 +63,15 @@ AddEventHandler("DRP_Jobs:FinishWork", function()
     -- TRIGGER TO GET THE PREVIOUS CLOTHES BACK! (FUTURE UPDATES)
 end)
 
+RegisterServerEvent("DRP_Doors:CheckJob")
+AddEventHandler("DRP_Doors:CheckJob", function()
+    local src = source
+    local playerJob = GetPlayerJob(src)
+    if playerJob.job == "POLICE" or playerJob.job == "SHERIFF" or playerJob.job == "STATE" then
+        TriggerClientEvent("DRP_Doors:AllowJobDoorAccess", src)
+    end
+end)
+
 ---------------------------------------------------------------------------
 -- Core Functions
 ---------------------------------------------------------------------------

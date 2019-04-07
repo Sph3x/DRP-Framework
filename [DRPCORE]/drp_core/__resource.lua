@@ -24,6 +24,8 @@ files {
 client_script "fivem.lua"
 client_script "notifications/notifications.lua"
 client_script "client.lua"
+client_script "config.lua"
+client_script "weaponsonback.lua"
 client_script "managers/voip.lua"
 client_script "managers/managers.lua"
 
@@ -31,4 +33,5 @@ server_script "config.lua"
 server_script "server.lua"
 
 export "DrawText3Ds"
+export "getRealWeapons"
 server_export "GetPlayerData"

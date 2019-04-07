@@ -85,7 +85,7 @@ end)
 ---------------------------------------------------------------------------
 function PoliceAbilities(player, label)
     local jobLoadouts = DRPPoliceJob.LockerRooms[label]
-     if jobLoadouts ~= nil then
+    if jobLoadouts ~= nil then
         TriggerClientEvent("DRP_PoliceJob:SetLoadoutMarkerBlips", player, jobLoadouts.MarkerData, jobLoadouts.BlipData, jobLoadouts.Locations)
     else
         TriggerClientEvent("DRP_PoliceJob:SetLoadoutMarkerBlips", player, {}, {}, {})
