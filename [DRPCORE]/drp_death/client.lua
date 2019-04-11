@@ -100,7 +100,7 @@ AddEventHandler("DRP_Core:InitDeath", function(time)
     end
 end)
 
-RegisterCommand("adminrevive", function(source, args, raw)
+"adminrevive", function(source, args, raw)
     if playerDied then
         TriggerEvent("DRP_Core:Revive")
     else
