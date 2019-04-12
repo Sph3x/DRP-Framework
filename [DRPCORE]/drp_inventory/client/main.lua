@@ -42,8 +42,6 @@ function inventoryLoader(inventory)
         end
     end
 
-    print(json.encode(item))
-
     SendNUIMessage({
         items = item
     })

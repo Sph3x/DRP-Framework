@@ -51,9 +51,6 @@ AddEventHandler("DRP_Inventory:CheckForItemOwnershipByName", function(source, it
     end)
 end)
 
----------------------------------------------------------------------------
--- Manager Functions
----------------------------------------------------------------------------
 function CheckForItemOwnershipByName(source, itemname)
     local src = source
     local characterInfo = exports["drp_id"]:GetCharacterData(src)
@@ -68,44 +65,56 @@ function CheckForItemOwnershipByName(source, itemname)
     end)
 end
 
-function AddItem(source, itemname, amount)
-    local src = source
-    local itemname = string.lower(itemname)
-    local character = exports["drp_id"]:GetCharacterData(src)
-    TriggerEvent("DRP_Inventory:GetInventorySize", src, function(AmountOfSpace)
-        if AmountOfSpace >= DRPInventory.MaxInventorySlots then
-            print("no invent space left retard")
-        else
-            print("Adding item "..itemname.."")
-                TriggerEvent("DRP_Inventory:CheckForItemOwnershipByName", src, itemname, function(Ownership)
-                if json.encode(Ownership == "[]") then
-                    local newItemData = pullItemData(itemname)
-                    exports["externalsql"]:DBAsyncQuery({
-                        string = "INSERT INTO `character_inventory` SET `name` = :itemname, `quantity` = :amount, `itemid` = :itemid, `charid` = :charid",
-                        data = {
-                            itemname = itemname,
-                            amount = amount,
-                            itemid = newItemData[1].id,
-                            charid = character.charid
-                        }
-                    }, function(createdPlayer)
-                    end)
-                else
-                    print("Adding More Of This"..itemname)
-                end
-            end)
-        end
-    end)
-end
-
-function pullItemData(itemname)
+AddEventHandler("DRP_Inventory:PullItemData", function(itemname, callback)
     exports["externalsql"]:DBAsyncQuery({
         string = "SELECT * FROM `inventory_items` WHERE `itemname` = :itemname",
         data = {
             itemname = itemname
         }
     }, function(allDataInfo)
-        return allDataInfo.data
+        callback(allDataInfo["data"][1].id)
     end)
-    return false
+end)
+
+---------------------------------------------------------------------------
+-- Manager Functions
+---------------------------------------------------------------------------
+function AddItem(source, itemname, amount)
+    local src = source
+    local itemname = string.lower(itemname)
+    local character = exports["drp_id"]:GetCharacterData(src)
+    TriggerEvent("DRP_Inventory:GetInventorySize", src, function(AmountOfSpace)
+        if AmountOfSpace >= DRPInventory.MaxInventorySlots then
+            TriggerClientEvent("DRP_Core:Error", src, "Inventory", "You have no Inventory space left", 2500, false, "leftCenter")
+        else
+            TriggerEvent("DRP_Inventory:CheckForItemOwnershipByName", src, itemname, function(Ownership)
+                if json.encode(Ownership) == "[]" then
+                    TriggerEvent("DRP_Inventory:PullItemData", itemname, function(itemInfoId)
+                        print("adding whole new item")
+                        exports["externalsql"]:DBAsyncQuery({
+                            string = "INSERT INTO `character_inventory` SET `name` = :itemname, `quantity` = :amount, `itemid` = :itemid, `charid` = :charid",
+                            data = {
+                                itemname = itemname,
+                                amount = amount,
+                                itemid = itemInfoId,
+                                charid = character.charid
+                            }
+                        }, function(createdPlayer)
+                        end)
+                    end)
+                    else
+                        print("need more of this")
+                        exports["externalsql"]:DBAsyncQuery({
+                            string = "UPDATE character_inventory SET `quantity` = :amount WHERE `charid` = :charid and `name` = :itemname",
+                            data = {
+                                amount = amount,
+                                charid = character.charid,
+                                itemname = itemname
+                            }
+                        }, function(updatedQuantity)
+                    end)
+                end
+            end)
+        end
+    end)
 end

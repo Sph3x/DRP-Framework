@@ -24,17 +24,37 @@ RegisterServerEvent("DRP_Inventory:AddItem")
 AddEventHandler("DRP_Inventory:AddItem", function(itemname)
     local src = source
     local itemname = string.lower(itemname)
+    local character = exports["drp_id"]:GetCharacterData(src)
     TriggerEvent("DRP_Inventory:GetInventorySize", src, function(AmountOfSpace)
         if AmountOfSpace >= DRPInventory.MaxInventorySlots then
-            print("no invent space left retard")
+            TriggerClientEvent("DRP_Core:Error", src, "Inventory", "You have no Inventory space left", 2500, false, "leftCenter")
         else
-            print("Adding item "..itemname.."")
             TriggerEvent("DRP_Inventory:CheckForItemOwnershipByName", src, itemname, function(Ownership)
-                print(json.encode(Ownership))
-                if json.encode(Ownership == "[]") then
-                    print("yeet")
-                else
-                    print("You Do Not Have This"..itemname)
+                if json.encode(Ownership) == "[]" then
+                    TriggerEvent("DRP_Inventory:PullItemData", itemname, function(itemInfoId)
+                        print("adding whole new item")
+                        exports["externalsql"]:DBAsyncQuery({
+                            string = "INSERT INTO `character_inventory` SET `name` = :itemname, `quantity` = :amount, `itemid` = :itemid, `charid` = :charid",
+                            data = {
+                                itemname = itemname,
+                                amount = amount,
+                                itemid = itemInfoId,
+                                charid = character.charid
+                            }
+                        }, function(createdPlayer)
+                        end)
+                    end)
+                    else
+                        print("need more of this")
+                        exports["externalsql"]:DBAsyncQuery({
+                            string = "UPDATE character_inventory SET `quantity` = :amount WHERE `id` = :charid and `name` = :itemname",
+                            data = {
+                                amount = amount,
+                                charid = character.charid,
+                                itemname = itemname
+                            }
+                        }, function(updatedQuantity)
+                    end)
                 end
             end)
         end
