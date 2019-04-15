@@ -13,8 +13,9 @@ Citizen.CreateThread(function()
         NetworkSetFriendlyFireOption(true)
 
         -- Remove Audio
-        -- DisablePoliceReports()
+        DisablePoliceReports()
 
+        -- Hiding Hud Components
         HideHudComponentThisFrame(1) -- Wanted Stars
         HideHudComponentThisFrame(2) -- Weapon icon
         HideHudComponentThisFrame(3) -- Cash

@@ -8,22 +8,9 @@ local deathCause = 0
 local isDead = false
 local health = 0
 local deadData = {health = nil, cause = nil, source = nil, time = nil}
-
-function drawText(text,font,centre,x,y,scale,r,g,b,a)
-    SetTextFont(font)
-	SetTextProportional(0)
-	SetTextScale(scale, scale)
-	SetTextColour(r, g, b, a)
-	SetTextDropShadow(0, 0, 0, 0,255)
-	SetTextEdge(1, 0, 0, 0, 255)
-	SetTextDropShadow()
-	SetTextOutline()
-	SetTextCentre(centre)
-	SetTextEntry("STRING")
-	AddTextComponentString(text)
-    DrawText(x , y)
-end
-
+---------------------------------------------------------------------------
+-- Main Thread Listener
+---------------------------------------------------------------------------
 Citizen.CreateThread(function()
     while true do
             local ped = GetPlayerPed(PlayerId())
@@ -76,7 +63,9 @@ Citizen.CreateThread(function()
         Citizen.Wait(0)
     end
 end)
-
+---------------------------------------------------------------------------
+-- Events 
+---------------------------------------------------------------------------
 RegisterNetEvent("DRP_Core:InitDeath")
 AddEventHandler("DRP_Core:InitDeath", function(time)
     local ped = GetPlayerPed(PlayerId())
@@ -100,15 +89,7 @@ AddEventHandler("DRP_Core:InitDeath", function(time)
         end
     end
 end)
-
-RegisterCommand("adminrevive", function(source, args, raw)
-    if playerDied then
-        TriggerEvent("DRP_Core:Revive")
-    else
-        print("not dead!")
-    end
-end, false)
-
+---------------------------------------------------------------------------
 RegisterNetEvent("DRP_Death:IsDeadStatus")
 AddEventHandler("DRP_Death:IsDeadStatus", function(data)
     local ped = GetPlayerPed(PlayerId())
@@ -119,7 +100,7 @@ AddEventHandler("DRP_Death:IsDeadStatus", function(data)
         print("This person is not dead")
     end
 end)
-
+---------------------------------------------------------------------------
 RegisterNetEvent("DRP_Core:Revive")
 AddEventHandler("DRP_Core:Revive", function()
     local ped = GetPlayerPed(PlayerId())
@@ -133,3 +114,39 @@ AddEventHandler("DRP_Core:Revive", function()
     SetEntityCoords(GetPlayerPed(PlayerId()), pedPos.x, pedPos.y, pedPos.z + 0.3, 0.0, 0.0, 0.0, 0)
     TriggerServerEvent("DRP_Death:Revived", false)
 end)
+---------------------------------------------------------------------------
+-- Commands
+---------------------------------------------------------------------------
+RegisterCommand("adminrevive", function(source, args, raw)
+    if playerDied then
+        TriggerEvent("DRP_Core:Revive")
+    else
+        print("not dead!")
+    end
+end, false)
+---------------------------------------------------------------------------
+RegisterCommand("respawn", function(source, args, raw)
+    if playerDied then
+        if canRespawn then
+            local ped = GetPlayerPed(PlayerId())
+            startAnimation = false
+            canRespawn = false
+            playerDied = false
+            timeLeft = -1
+            math.randomseed(os.time())
+            local hosSpawns = DRP_Core.HospitalLocations[math.random(1, #DRP_Core.HospitalLocations)]
+            exports["spawnmanager"]:spawnPlayer({x = hosSpawns.x, y = hosSpawns.y, z = hosSpawns.z, heading = hosSpawns.h})
+            TriggerEvent("DRP_Core:Info", "Life", tostring("You have woken up at the Hospital and forgotten everything in the past!"), 7000, false, "leftCenter")
+            -- Drop All Your Inventory And Guns
+            TriggerServerEvent("DRP_Inventory:RespawnWipe")
+            TriggerServerEvent("DRP_Gunstore:RespawnWipe")
+            Wait(1000)
+            ClearPedTasks(ped)
+            ClearPedBloodDamage(ped)
+        else
+            TriggerEvent("DRP_Core:Error", "Death", tostring("You can respawn in " .. timeLeft .. " seconds"), 5000, false, "leftCenter")
+        end
+    else
+        TriggerEvent("DRP_Core:Error", "Death", tostring("You are not dead!"), 5000, false, "leftCenter")
+    end
+end, false)
