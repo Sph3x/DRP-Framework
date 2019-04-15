@@ -53,11 +53,16 @@ RegisterServerEvent("DRP_PoliceJobs:SignOffDuty")
 AddEventHandler("DRP_PoliceJobs:SignOffDuty", function()
     local src = source
     local player = exports["drp_core"]:GetPlayerData(src)
+    local currentPlayerJob = exports["drp_jobcore"]:GetPlayerJob(src)
     local job = "UNEMPLOYED"
     local jobLabel = "Unemployed"
-    exports["drp_jobcore"]:SetPlayerJob(src, job, jobLabel)
-    TriggerClientEvent("DRP_Core:Info", src, "Job Manager", tostring("You are now a "..exports["drp_jobcore"]:GetPlayerJob(src).jobLabel), 2500, false, "leftCenter")
-    PoliceAbilities(src, jobLabel)
+    if currentPlayerJob.jobLabel == jobLabel then
+        TriggerClientEvent("DRP_Core:Error", src, "Job Manager", "You are already Unemployed", 5500, false, "leftCenter")
+    else
+        exports["drp_jobcore"]:SetPlayerJob(src, job, jobLabel)
+        TriggerClientEvent("DRP_Core:Info", src, "Job Manager", tostring("You are now a "..exports["drp_jobcore"]:GetPlayerJob(src).jobLabel), 2500, false, "leftCenter")
+        PoliceAbilities(src, jobLabel)
+    end
 end)
 ---------------------------------------------------------------------------
 -- Locker Room

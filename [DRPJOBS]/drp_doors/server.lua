@@ -3,7 +3,9 @@ local doors = DRPDoorsConfig.Doors
 RegisterServerEvent("DRP_Doors:StartSync")
 AddEventHandler("DRP_Doors:StartSync", function()
     local src = source
+    local job = exports["drp_jobcore"]:GetPlayerJob(src)
     TriggerClientEvent("DRP_Doors:DoorSync", src, doors)
+    TriggerClientEvent("DRP_Doors:RankSync", src, job)
 end)
 
 RegisterServerEvent("DRP_Doors:UpdateDoorStatus")

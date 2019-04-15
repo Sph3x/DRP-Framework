@@ -13,7 +13,6 @@ AddEventHandler("DRP_Core:CustomURLIcon", function(title, body, time, url, showB
         pos = pos
     })
 end)
-
 ---------------------------------------------------------------------------
 -- Notification compatible with icons shown from local images
 ---------------------------------------------------------------------------
@@ -29,7 +28,6 @@ AddEventHandler("DRP_Core:CustomIcon", function(title, body, time, iconFile, sho
         pos = pos
     })
 end)
-
 ---------------------------------------------------------------------------
 -- Success Notification
 ---------------------------------------------------------------------------
@@ -44,7 +42,6 @@ AddEventHandler("DRP_Core:Success", function(title, body, time, showBar, pos)
         pos = pos
     })
 end)
-
 ---------------------------------------------------------------------------
 -- Error Notification
 ---------------------------------------------------------------------------
@@ -59,7 +56,6 @@ AddEventHandler("DRP_Core:Error", function(title, body, time, showBar, pos)
         pos = pos
     })
 end)
-
 ---------------------------------------------------------------------------
 -- Warning Notification
 ---------------------------------------------------------------------------
@@ -74,7 +70,6 @@ AddEventHandler("DRP_Core:Warning", function(title, body, time, showBar, pos)
         pos = pos
     })
 end)
-
 ---------------------------------------------------------------------------
 -- Info Notification
 ---------------------------------------------------------------------------

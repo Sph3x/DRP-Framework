@@ -1,4 +1,5 @@
 local allDoors = {}
+local myJobRank = nil
 local doorAccess = false
 ---------------------------------------------------------------------------
 -- Sync Start
@@ -14,11 +15,16 @@ AddEventHandler("DRP_Doors:DoorSync", function(doors)
     allDoors = doors
 end)
 
+RegisterNetEvent("DRP_Doors:RankSync")
+AddEventHandler("DRP_Doors:RankSync", function(job)
+    myJobRank = job.otherJobData.rank
+end)
+
 RegisterNetEvent("DRP_Doors:AllowJobDoorAccess")
 AddEventHandler("DRP_Doors:AllowJobDoorAccess", function()
     doorAccess = true
 end)
-
+---------------------------------------------------------------------------
 ---------------------------------------------------------------------------
 -- Threads
 ---------------------------------------------------------------------------
@@ -42,8 +48,8 @@ Citizen.CreateThread(function()
                         FreezeEntityPosition(door, false)
                     end 
                     if IsControlJustPressed(1, 86) and distance <= 2.0 then
-                        print(CheckIfJobDoor(allDoors[a].jobDoor))
-                        if CheckIfJobDoor(allDoors[a].jobDoor) then
+                        print(CheckIfJobDoor(allDoors[a].doorRank))
+                        if CheckIfJobDoor(allDoors[a].doorRank) then
                             allDoors[a].isLocked = not lockedDoor
                             TriggerServerEvent("DRP_Doors:UpdateDoorStatus", allDoors)
                             doorAccess = false
@@ -58,9 +64,11 @@ end)
 -- Door Functions
 ---------------------------------------------------------------------------
 function CheckIfJobDoor(requestedDoor)
-    if requestedDoor then
-        TriggerServerEvent("DRP_Doors:CheckJob")
-    else
+    print(requestedDoor)
+    if myJobRank >= requestedDoor then
         return true
+    else
+        return false
     end
+    return false
 end
