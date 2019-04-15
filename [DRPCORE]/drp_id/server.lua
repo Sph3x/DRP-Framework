@@ -15,7 +15,7 @@ AddEventHandler("DRP_ID:RequestOpenMenu", function()
 		end)
 	end)
 end)
-
+---------------------------------------------------------------------------
 AddEventHandler("DRP_ID:UpdateCharactersInUI", function(player)
 	TriggerEvent("DRP_Core:GetPlayerData", player, function(results)
 		exports["externalsql"]:DBAsyncQuery({
@@ -97,7 +97,6 @@ AddEventHandler("DRP_ID:SelectCharacter", function(character_id)
 		end
 	end)
 end)
-
 ---------------------------------------------------------------------------
 -- DELETE CHARACTER EVENT
 ---------------------------------------------------------------------------
@@ -113,7 +112,6 @@ AddEventHandler("DRP_ID:DeleteCharacter", function(character_id)
 		TriggerEvent("DRP_ID:UpdateCharactersInUI", src)
 	end)
 end)
-
 ---------------------------------------------------------------------------
 -- CHARACTER CREATOR SAVE EVENTS
 ---------------------------------------------------------------------------
@@ -135,7 +133,7 @@ AddEventHandler("DRP_ID:SaveCharacter", function(characterData)
 		end)
 	end)
 end)
-
+---------------------------------------------------------------------------
 function GetCharacterData(id)
 	for a = 1, #character do
 		if character[a].id == id then
@@ -144,7 +142,7 @@ function GetCharacterData(id)
 	end
 	return false
 end
-
+---------------------------------------------------------------------------
 function GetCharacterName(id)
 	for a = 1, #character do
 		if character[a].id == id then
@@ -153,7 +151,7 @@ function GetCharacterName(id)
 	end
 	return false
 end
-
+---------------------------------------------------------------------------
 AddEventHandler("DRP_ID:GetCharacterData", function(id, callback)
 		for a = 1, #character do
 			if character[a].id == id then
@@ -163,7 +161,7 @@ AddEventHandler("DRP_ID:GetCharacterData", function(id, callback)
 		end
 	callback(false)
 end)
-
+---------------------------------------------------------------------------
 AddEventHandler("playerDropped", function()
     for a = 1, #character do
         if character[a].id == id then

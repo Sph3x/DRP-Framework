@@ -7,7 +7,7 @@ AddEventHandler("DRP_JobCore:StartUp", function()
     local src = source
     table.insert(playersJob, {source = src, job = "UNEMPLOYED", jobLabel = "Unemployed"})
 end)
-
+---------------------------------------------------------------------------
 AddEventHandler("playerDropped", function()
     local src = source
     for a = 1, #playersJob do
@@ -17,7 +17,6 @@ AddEventHandler("playerDropped", function()
         end
     end
 end)
-
 ---------------------------------------------------------------------------
 -- Job Command
 ---------------------------------------------------------------------------
@@ -26,7 +25,6 @@ RegisterCommand("job", function(source, args, raw)
     local myJob = GetPlayerJob(src)
     TriggerClientEvent("DRP_Core:Info", src, "Job Manager", tostring("Your job is "..myJob.jobLabel..""), 2500, false, "leftCenter")
 end, false)
-
 ---------------------------------------------------------------------------
 -- Main Server Event To Change And Add People To Jobs  ONLY FOR BUILTIN JOBS
 ---------------------------------------------------------------------------
@@ -48,7 +46,6 @@ AddEventHandler("DRP_Jobs:StartWork", function(jobTitle)
         end
     end
 end)
-
 ---------------------------------------------------------------------------
 -- Main Server Event To Change And REMOVE People FROM Jobs  ONLY FOR BUILTIN JOBS
 ---------------------------------------------------------------------------
@@ -62,7 +59,7 @@ AddEventHandler("DRP_Jobs:FinishWork", function()
     TriggerClientEvent("DRP_Core:Info", src, "Job Manager", tostring("You are now "..GetPlayerJob(src).jobLabel), 2500, false, "leftCenter")
     -- TRIGGER TO GET THE PREVIOUS CLOTHES BACK! (FUTURE UPDATES)
 end)
-
+---------------------------------------------------------------------------
 RegisterServerEvent("DRP_Doors:CheckJob")
 AddEventHandler("DRP_Doors:CheckJob", function()
     local src = source
@@ -83,7 +80,7 @@ function GetPlayerJob(player)
     end
     return false
 end
-
+---------------------------------------------------------------------------
 function DoesJobExist(job)
     for a = 1, #JobsCoreConfig.Jobs do
         if JobsCoreConfig.Jobs[a] == job then
@@ -92,7 +89,7 @@ function DoesJobExist(job)
     end
     return false
 end
-
+---------------------------------------------------------------------------
 function SetPlayerJob(player, job, label, otherData)
     for a = 1, #playersJob do
         if playersJob[a].source == player then

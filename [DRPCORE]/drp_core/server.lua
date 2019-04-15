@@ -71,7 +71,7 @@ AddEventHandler("playerConnecting", function(playerName, kickReason, deferrals)
 		end)
 	end)
 end)
-
+---------------------------------------------------------------------------
 AddEventHandler("chatMessage", function(source, color, message)
 	local src = source
 	local playerData = GetPlayerData(src)
@@ -82,7 +82,7 @@ AddEventHandler("chatMessage", function(source, color, message)
         table.remove(args, 1)
     end
 end)
-
+---------------------------------------------------------------------------
 RegisterServerEvent("DRP_Core:AddPlayerToTable")
 AddEventHandler("DRP_Core:AddPlayerToTable", function()
     local src = source
@@ -96,7 +96,6 @@ AddEventHandler("DRP_Core:AddPlayerToTable", function()
 		table.insert(players, {id = src, rank = playerResults.data[1].rank, playerid = playerResults.data[1].id})
     end)
 end)
-
 ---------------------------------------------------------------------------
 -- Functions
 ---------------------------------------------------------------------------
@@ -115,7 +114,7 @@ function PlayerIdentifier(type, id)
     end
     return false
 end
-
+---------------------------------------------------------------------------
 function GetPlayerData(id) -- Prob Wont Use This Much
     for a = 1, #players do
         if players[a].id == id then
@@ -124,7 +123,7 @@ function GetPlayerData(id) -- Prob Wont Use This Much
     end
     return false
 end
-
+---------------------------------------------------------------------------
 AddEventHandler("DRP_Core:GetPlayerData", function(id, callback)
 	for a = 1, #players do
         if players[a].id == id then
@@ -134,7 +133,7 @@ AddEventHandler("DRP_Core:GetPlayerData", function(id, callback)
     end
     callback(false)
 end)
-
+---------------------------------------------------------------------------
 function DoesRankHavePerms(rank, perm)
     local playerPerms = DRPCoreConfig.StaffRanks.perms[rank]
     for a = 1, #playerPerms do
@@ -144,7 +143,7 @@ function DoesRankHavePerms(rank, perm)
     end
     return false
 end
-
+---------------------------------------------------------------------------
 function stringsplit(inputstr, sep)
 	if sep == nil then
 		sep = "%s"

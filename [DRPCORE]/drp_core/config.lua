@@ -49,7 +49,7 @@ DRPCoreConfig.RealWeapons = {
 	{name = 'WEAPON_PETROLCAN', hash = "", 		bone = 24818, x = 65536.0, y = 65536.0, z = 65536.0, xRot = 0.0, yRot = 0.0, zRot = 0.0, category = 'thrown', 	model = 'w_am_jerrycan'},
 	{name = 'WEAPON_HANDCUFFS', hash = "", 		bone = 24818, x = 65536.0, y = 65536.0, z = 65536.0, xRot = 0.0, yRot = 0.0, zRot = 0.0, category = 'others', 	model = ''}
 }
-
+---------------------------------------------------------------------------
 function getRealWeapons()
 	local weapons = {}
 	for i=1, #DRPCoreConfig.RealWeapons do
@@ -57,7 +57,7 @@ function getRealWeapons()
 	end
 	return weapons
 end
-
+---------------------------------------------------------------------------
 Citizen.CreateThread(function()
 	for i=1, #DRPCoreConfig.RealWeapons do
 		DRPCoreConfig.RealWeapons[i].hash = GetHashKey(DRPCoreConfig.RealWeapons[i].name)

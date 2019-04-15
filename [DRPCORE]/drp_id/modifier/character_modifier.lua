@@ -26,7 +26,7 @@ AddEventHandler("DRP:OpenCreator", function(models, gender)
         end
     end
 end)
-
+---------------------------------------------------------------------------
 Citizen.CreateThread(function()
     while true do
         if creatorActive then

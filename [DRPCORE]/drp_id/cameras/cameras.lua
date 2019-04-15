@@ -4,14 +4,14 @@ local spawnedCamera = nil
 local angle = 0.0
 local angleInc = 0.001
 local radius = 200.0
-
+---------------------------------------------------------------------------
 local cameraRotations = {
     [1] = {
         ["centerPoint"] = {x = -505.09, y = -1224.11, z = 232.2},
         ["centerRadius"] = 300
     }
 }
-
+---------------------------------------------------------------------------
 RegisterNetEvent("DRP_ID:StartSkyCamera")
 AddEventHandler("DRP_ID:StartSkyCamera", function()
     local randomIndex = math.random(1, #cameraRotations)
@@ -21,7 +21,7 @@ AddEventHandler("DRP_ID:StartSkyCamera", function()
     RenderScriptCams(1, 1, 1500, 1, 1)
     startCameraRotations = true
 end)
-
+---------------------------------------------------------------------------
 RegisterNetEvent("DRP_ID:StopSkyCamera")
 AddEventHandler("DRP_ID:StopSkyCamera", function()
     if startCameraRotations then
@@ -32,7 +32,7 @@ AddEventHandler("DRP_ID:StopSkyCamera", function()
         selectedCameraRot = nil
     end
 end)
-
+---------------------------------------------------------------------------
 Citizen.CreateThread(function()
     while true do
         if startCameraRotations then
@@ -47,7 +47,6 @@ Citizen.CreateThread(function()
         Citizen.Wait(0)
     end
 end)
-
 ---------------------------------------------------------------------------
 -- CHARACTER EDITOR DATA!
 ---------------------------------------------------------------------------
@@ -65,7 +64,7 @@ AddEventHandler("DRP_ID:StartCreatorCamera", function()
     SetCamRot(camera, pedRot.x - 5.0, pedRot.y, pedRot.z - 180.0, 1)
     RenderScriptCams(1, 0, 0, 1, 1)
 end)
-
+---------------------------------------------------------------------------
 RegisterNetEvent("DRP_ID:StopCreatorCamera")
 AddEventHandler("DRP_ID:StopCreatorCamera", function()
     if camera ~= nil then

@@ -11,7 +11,7 @@ AddEventHandler("DRP_ID:OpenMenu", function(characters)
 		characters = characters
 	})
 end)
-
+---------------------------------------------------------------------------
 RegisterNetEvent("DRP_ID:UpdateMenuCharacters")
 AddEventHandler("DRP_ID:UpdateMenuCharacters", function(characters)
 	SendNUIMessage({
@@ -19,7 +19,6 @@ AddEventHandler("DRP_ID:UpdateMenuCharacters", function(characters)
 		characters = characters
 	})
 end)
-
 ---------------------------------------------------------------------------
 -- NUI CALLBACKS
 ---------------------------------------------------------------------------
@@ -27,24 +26,23 @@ RegisterNUICallback("CloseMenu", function(data, callback)
 	SetNuiFocus(false, false)
 	callback("ok")
 end)
-
+---------------------------------------------------------------------------
 RegisterNUICallback("SelectYourCharacter", function(data, callback)
 	SetNuiFocus(false, false)
 	TriggerServerEvent("DRP_ID:SelectCharacter", data.character_selected)
 	callback("ok")
 end)
-
+---------------------------------------------------------------------------
 RegisterNUICallback("CreateCharacter", function(data, callback)
 	TriggerServerEvent("DRP_ID:CreateCharacter", {name = data.name, age = data.age, gender = data.gender})
 	callback("ok")
 end)
-
+---------------------------------------------------------------------------
 RegisterNUICallback("DeleteCharacter", function(data, callback)
 	print(tostring("You Just Deleted Character ID: "..data.character_id))
 	TriggerServerEvent("DRP_ID:DeleteCharacter", data.character_id)
 	callback("ok")
 end)
-
 ---------------------------------------------------------------------------
 -- LOAD CHARACTER FROM SELECTER
 ---------------------------------------------------------------------------

@@ -7,7 +7,7 @@ local jobMarkerBlips = {
     locations = {}
 }
 local drawBlips = {}
-
+---------------------------------------------------------------------------
 RegisterNetEvent("DRP_PoliceJob:SetLoadoutMarkerBlips")
 AddEventHandler("DRP_PoliceJob:SetLoadoutMarkerBlips", function(markerD, blipD, locations)
     jobMarkerBlips.markerData = markerD
@@ -53,7 +53,7 @@ Citizen.CreateThread(function()
         end
     end
 end)
-
+---------------------------------------------------------------------------
 Citizen.CreateThread(function()
     while true do
         for a = 1, #jobMarkerBlips.locations do

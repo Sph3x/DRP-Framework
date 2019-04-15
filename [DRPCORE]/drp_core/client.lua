@@ -2,7 +2,7 @@ Citizen.CreateThread(function()
     SetNuiFocus(false, false)
     TriggerServerEvent("DRP_Core:AddPlayerToTable")
 end)
-
+---------------------------------------------------------------------------
 Citizen.CreateThread(function()
     while true do
         -- Disable Health Regeneration
@@ -162,11 +162,11 @@ Citizen.CreateThread(function()
         Citizen.Wait(1)
     end
 end)
-
+---------------------------------------------------------------------------
 function AddTextEntry(key, value)
 	Citizen.InvokeNative(GetHashKey("ADD_TEXT_ENTRY"), key, value)
 end
-
+---------------------------------------------------------------------------
 Citizen.CreateThread(function()
   AddTextEntry('FE_THDR_GTAO', '~b~[DRP]Framework')
 end)

@@ -14,7 +14,7 @@ Citizen.CreateThread(function()
         collectgarbage()
 	end
 end)
-
+---------------------------------------------------------------------------
 Citizen.CreateThread(function()
 	while true do
 		for i=1, #DRPCoreConfig.RealWeapons do
@@ -96,12 +96,12 @@ function SpawnObject(model, coords, cb)
         end
     end)
 end
-
+---------------------------------------------------------------------------
 function DeleteWeapon(object)
   SetEntityAsMissionEntity(object,  false,  true)
   DeleteObject(object)
 end
-
+---------------------------------------------------------------------------
 -- Add one weapon on the ped
 function SetGear(weapon)
     if (#Weapons > 4) then

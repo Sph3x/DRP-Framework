@@ -59,7 +59,6 @@ AddEventHandler("DRP_PoliceJobs:SignOffDuty", function()
     TriggerClientEvent("DRP_Core:Info", src, "Job Manager", tostring("You are now a "..exports["drp_jobcore"]:GetPlayerJob(src).jobLabel), 2500, false, "leftCenter")
     PoliceAbilities(src, jobLabel)
 end)
-
 ---------------------------------------------------------------------------
 -- Locker Room
 ---------------------------------------------------------------------------
@@ -79,7 +78,6 @@ AddEventHandler("DRP_PoliceJob:GetJobLoadouts", function()
     print(json.encode(rankedLoadouts))
     -- TriggerClientEvent("ISRP_Jobs:OpenJobLoadout", src, job.jobLabel, loadouts)
 end)
-
 ---------------------------------------------------------------------------
 -- Police Job Functions
 ---------------------------------------------------------------------------
