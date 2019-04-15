@@ -52,16 +52,15 @@ AddEventHandler("DRP_ID:CreateCharacter", function(newCharacterData)
 				exports["externalsql"]:DBAsyncQuery({
 					string = [[
 						INSERT INTO characters
-						(`name`, `age`, `gender`, `model`, `tattoos`, `cash`, `bank`, `licenses`, `playerid`)
+						(`name`, `age`, `gender`, `model`, `cash`, `bank`, `licenses`, `playerid`)
 						VALUES
-						(:name, :age, :gender, :model, :tattoos, :cash, :bank, :licenses, :playerid)
+						(:name, :age, :gender, :model, :cash, :bank, :licenses, :playerid)
 					]],
 					data = {
 						name = newCharacterData.name,
 						age = newCharacterData.age,
 						gender = newCharacterData.gender,
 						model = modelToAdd,
-						tattoos = json.encode({}),
 						cash = DRPCharacters.StarterCash,
 						bank = DRPCharacters.StarterBank,
 						licenses = json.encode({}),

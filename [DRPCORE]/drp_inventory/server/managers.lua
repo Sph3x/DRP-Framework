@@ -49,20 +49,6 @@ AddEventHandler("DRP_Inventory:CheckForItemOwnershipByName", function(source, it
     end)
 end)
 
-function CheckForItemOwnershipByName(source, itemname)
-    local src = source
-    local characterInfo = exports["drp_id"]:GetCharacterData(src)
-    exports["externalsql"]:DBAsyncQuery({
-        string = "SELECT * FROM `character_inventory` WHERE `charid` = :char_id and `name` = :itemname",
-        data = {
-            char_id = characterInfo.charid,
-            itemname = itemname
-        }
-    }, function(CheckForItemOwnership)
-        return CheckForItemOwnership.data
-    end)
-end
-
 AddEventHandler("DRP_Inventory:PullItemData", function(itemname, callback)
     exports["externalsql"]:DBAsyncQuery({
         string = "SELECT * FROM `inventory_items` WHERE `itemname` = :itemname",
@@ -114,5 +100,19 @@ function AddItem(source, itemname, amount)
                 end
             end)
         end
+    end)
+end
+
+function CheckForItemOwnershipByName(source, itemname)
+    local src = source
+    local characterInfo = exports["drp_id"]:GetCharacterData(src)
+    exports["externalsql"]:DBAsyncQuery({
+        string = "SELECT * FROM `character_inventory` WHERE `charid` = :char_id and `name` = :itemname",
+        data = {
+            char_id = characterInfo.charid,
+            itemname = itemname
+        }
+    }, function(CheckForItemOwnership)
+        return CheckForItemOwnership.data
     end)
 end
