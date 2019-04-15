@@ -9,7 +9,9 @@ local Keys = {
     ["LEFT"] = 174, ["RIGHT"] = 175, ["TOP"] = 27, ["DOWN"] = 173,
     ["NENTER"] = 201, ["N4"] = 108, ["N5"] = 60, ["N6"] = 107, ["N+"] = 96, ["N-"] = 97, ["N7"] = 117, ["N8"] = 61, ["N9"] = 118
 }
-
+---------------------------------------------------------------------------
+-- Listener
+---------------------------------------------------------------------------
 Citizen.CreateThread(function()
     while true do
         Citizen.Wait(1)
@@ -18,7 +20,9 @@ Citizen.CreateThread(function()
         end
     end
 end)
-
+---------------------------------------------------------------------------
+-- Open NUI
+---------------------------------------------------------------------------
 RegisterNetEvent("DRP_Inventory:OpenInventory")
 AddEventHandler("DRP_Inventory:OpenInventory", function(inventory)
     inventoryLoader(inventory)
@@ -28,7 +32,9 @@ AddEventHandler("DRP_Inventory:OpenInventory", function(inventory)
     })
     SetNuiFocus(true, true)
 end)
-
+---------------------------------------------------------------------------
+-- Get Inventory Function
+---------------------------------------------------------------------------
 function inventoryLoader(inventory)
     local item = {
         ["name"] = "test", ["quantity"] = 2
@@ -46,6 +52,9 @@ function inventoryLoader(inventory)
     local item = {}
 end
 
+---------------------------------------------------------------------------
+-- NUI Callbacks
+---------------------------------------------------------------------------
 RegisterNUICallback('NUIFocusOff', function()
     SetNuiFocus(false, false)
 end)

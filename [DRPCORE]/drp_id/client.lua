@@ -55,6 +55,7 @@ AddEventHandler("DRP_ID:LoadSelectedCharacter", function(ped, spawn)
 	print("loading characters")
 	TriggerEvent("DRP_ID:StopSkyCamera")
 	TriggerEvent("DRP_ID:StopCreatorCamera")
+	TriggerServerEvent("DRP_Death:GetDeathStatus")
 	-- TriggerServerEvent("clothing_shop:SpawnPlayer_server")
 	-- Add Your Spawn In Stuff Here
 	local ped = GetPlayerPed(PlayerId())

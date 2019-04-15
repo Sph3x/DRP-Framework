@@ -17,8 +17,6 @@ AddEventHandler("DRP_Inventory:GetInventorySize", function(source, callback)
         for a = 1, #results do
             quantityAmount = quantityAmount + results[a].quantity
         end
-
-        print("Quantity Amount: " .. quantityAmount)
         callback(quantityAmount)
     end)
 end)

@@ -60,6 +60,7 @@ AddEventHandler("playerConnecting", function(playerName, kickReason, deferrals)
 						whitelisted = false
 					}
 				}, function(createdPlayer)
+				------------------------------------------------------------------------------------
 					if DRPCoreConfig.Whitelisted then
 						deferrals.done("Please reconnect.. Your information has been saved and now ready to be whitelisted")
 					else
@@ -90,7 +91,8 @@ AddEventHandler("DRP_Core:AddPlayerToTable", function()
         data = {
             identifier = PlayerIdentifier("license", src)
         }
-    }, function(playerResults)
+	}, function(playerResults)
+	------------------------------------------------------------------------------------
 		table.insert(players, {id = src, rank = playerResults.data[1].rank, playerid = playerResults.data[1].id})
     end)
 end)

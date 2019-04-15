@@ -47,6 +47,7 @@ Citizen.CreateThread(function()
             if isDead then
                 if not playerDied then
                     TriggerServerEvent("DRP_Core:TriggerDeathStart")
+                    TriggerServerEvent("DRP_Death:Revived", true)
                     diedPos = GetEntityCoords(GetPlayerPed(PlayerId()), false)
                     playerDied = true
                     ResetPedMovementClipset(ped, 0.0)
@@ -94,19 +95,30 @@ AddEventHandler("DRP_Core:InitDeath", function(time)
         if timeLeft == 0 then
             canRespawn = true
             if canRespawn then
-                print("you can respawn")
+                TriggerEvent("DRP_Core:Error", "Medical", "You can now respawn!", 2500, false, "leftCenter")
             end
         end
     end
 end)
 
-"adminrevive", function(source, args, raw)
+RegisterCommand("adminrevive", function(source, args, raw)
     if playerDied then
         TriggerEvent("DRP_Core:Revive")
     else
         print("not dead!")
     end
 end, false)
+
+RegisterNetEvent("DRP_Death:IsDeadStatus")
+AddEventHandler("DRP_Death:IsDeadStatus", function(data)
+    local ped = GetPlayerPed(PlayerId())
+    if data[1].isDead == 1 then
+        print("This Person Is Dead")
+        SetEntityHealth(ped, 0) -- This will set them to die
+    else
+        print("This person is not dead")
+    end
+end)
 
 RegisterNetEvent("DRP_Core:Revive")
 AddEventHandler("DRP_Core:Revive", function()
@@ -119,4 +131,5 @@ AddEventHandler("DRP_Core:Revive", function()
     ClearPedTasksImmediately(GetPlayerPed(PlayerId()))
     local pedPos = GetEntityCoords(GetPlayerPed(PlayerId()), false)
     SetEntityCoords(GetPlayerPed(PlayerId()), pedPos.x, pedPos.y, pedPos.z + 0.3, 0.0, 0.0, 0.0, 0)
+    TriggerServerEvent("DRP_Death:Revived", false)
 end)

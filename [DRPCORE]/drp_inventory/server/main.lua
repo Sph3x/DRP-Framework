@@ -2,6 +2,9 @@ DRP = {}
 DRP.PickupId = 0
 DRP.Pickups = {}
 --------------------------------------------------------------
+---------------------------------------------------------------------------
+-- Get All Inventory Information
+---------------------------------------------------------------------------
 RegisterServerEvent("DRP_Inventory:GetInventory")
 AddEventHandler("DRP_Inventory:GetInventory", function()
     local src = source
@@ -18,7 +21,7 @@ AddEventHandler("DRP_Inventory:GetInventory", function()
 end)
 
 ---------------------------------------------------------------------------
--- Server Events For Tasks
+-- Add Item Event
 ---------------------------------------------------------------------------
 RegisterServerEvent("DRP_Inventory:AddItem")
 AddEventHandler("DRP_Inventory:AddItem", function(itemname)
@@ -59,7 +62,9 @@ AddEventHandler("DRP_Inventory:AddItem", function(itemname)
         end
     end)
 end)
-
+---------------------------------------------------------------------------
+-- Remove Item
+---------------------------------------------------------------------------
 RegisterServerEvent("DRP_Inventory:RemoveItem")
 AddEventHandler("DRP_Inventory:RemoveItem", function(itemname, count)
     local src = source
@@ -94,7 +99,9 @@ AddEventHandler("DRP_Inventory:RemoveItem", function(itemname, count)
         CreatePickup(itemname, count, pickupLabel, src)
     end)
 end)
-
+---------------------------------------------------------------------------
+-- Pickup Event
+---------------------------------------------------------------------------
 RegisterServerEvent('DRP_Inventory:Pickup')
 AddEventHandler('DRP_Inventory:Pickup', function(id)
 	local src = source
