@@ -32,7 +32,6 @@ AddEventHandler("DRP_Inventory:AddItem", function(itemname)
             TriggerEvent("DRP_Inventory:CheckForItemOwnershipByName", src, itemname, function(Ownership)
                 if json.encode(Ownership) == "[]" then
                     TriggerEvent("DRP_Inventory:PullItemData", itemname, function(itemInfoId)
-                        print("adding whole new item")
                         exports["externalsql"]:DBAsyncQuery({
                             string = "INSERT INTO `character_inventory` SET `name` = :itemname, `quantity` = :amount, `itemid` = :itemid, `charid` = :charid",
                             data = {
@@ -45,7 +44,6 @@ AddEventHandler("DRP_Inventory:AddItem", function(itemname)
                         end)
                     end)
                     else
-                        print("need more of this")
                         exports["externalsql"]:DBAsyncQuery({
                             string = "UPDATE character_inventory SET `quantity` = :amount WHERE `id` = :charid and `name` = :itemname",
                             data = {
@@ -54,6 +52,7 @@ AddEventHandler("DRP_Inventory:AddItem", function(itemname)
                                 itemname = itemname
                             }
                         }, function(updatedQuantity)
+                        ------------------------------------------------------------------------------------
                     end)
                 end
             end)
@@ -67,6 +66,7 @@ AddEventHandler("DRP_Inventory:RemoveItem", function(itemname, count)
     local itemname = itemname
     local character = exports["drp_id"]:GetCharacterData(src)
     TriggerEvent("DRP_Inventory:CheckForItemOwnershipByName", src, itemname, function(Ownership)
+    ------------------------------------------------------------------------------------
         local quantity = Ownership[1].quantity
         local newquantity = quantity - count
         if newquantity ~= 0 then
@@ -89,6 +89,7 @@ AddEventHandler("DRP_Inventory:RemoveItem", function(itemname, count)
             }, function(yeeting)
             end)
         end
+        ------------------------------------------------------------------------------------
         local pickupLabel = ('~b~%s~s~ [~b~%s~s~]'):format(itemname, count)
         CreatePickup(itemname, count, pickupLabel, src)
     end)
@@ -104,13 +105,13 @@ AddEventHandler('DRP_Inventory:Pickup', function(id)
 		local canTake   = (DRPInventory.MaxInventorySlots - AmountOfSpace)
 		local total     = pickup.count < canTake and pickup.count or canTake
 		local remaining = pickup.count - total
-
+        ------------------------------------------------------------------------------------
 		TriggerClientEvent('DRP_Inventory:removePickup', -1, id)
         if remaining > 0 then
             local pickupLabel = ('~b~%s~s~ [~b~%s~s~]'):format(itemname, count)
             CreatePickup(itemname, count, pickupLabel, src)
         end
-
+        ------------------------------------------------------------------------------------
 		if total > 0 then
             AddItem(src, pickup.name, total)
 		end
@@ -125,7 +126,8 @@ function CreatePickup(name, count, label, player)
 	DRP.Pickups[pickupId] = {
 		name  = name,
 		count = count
-	}
+    }
+    ------------------------------------------------------------------------------------
     TriggerClientEvent('DRP_Inventory:CreatePickup', -1, pickupId, label, player)
 	DRP.PickupId = pickupId
 end
