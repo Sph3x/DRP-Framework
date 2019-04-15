@@ -44,6 +44,11 @@ RegisterNUICallback("DeleteCharacter", function(data, callback)
 	callback("ok")
 end)
 ---------------------------------------------------------------------------
+RegisterNUICallback("DisconnectMe", function(callback)
+	TriggerServerEvent("DRP_ID:Disconnect")
+	callback("ok")
+end)
+---------------------------------------------------------------------------
 -- LOAD CHARACTER FROM SELECTER
 ---------------------------------------------------------------------------
 RegisterNetEvent("DRP_ID:LoadSelectedCharacter")

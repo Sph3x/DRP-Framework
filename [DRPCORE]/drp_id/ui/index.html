@@ -15,7 +15,8 @@
 			<div id="DRP_SelectCharacter" v-show="showCharacterSelector">
 				<div id="DRP_Character_Base">
 					<div id="DRP_Character_Header">
-						<v-btn color="red" absolute right top small fab dark @click="">
+						<v-btn color="red" absolute right top small fab dark
+							@click="showDisconnectQuestion = !showDisconnectQuestion">
 							<v-icon>close</v-icon>
 						</v-btn>
 						<v-btn color="green" absolute left top small fab dark
@@ -72,7 +73,7 @@
 						<v-dialog v-model="showCharacterDelete" scrollable persistent :overlay="false" max-width="370px"
 							transition="dialog-transition">
 							<v-card>
-								<v-card-title primary-title>
+								<v-card-title class="align-text: center;" primary-title>
 									Are you sure you want to delete this character?
 								</v-card-title>
 								<v-card-text>
@@ -92,32 +93,59 @@
 							</v-card>
 						</v-dialog>
 
+						<v-dialog v-model="showDisconnectQuestion" scrollable persistent :overlay="false"
+							max-width="370px" transition="dialog-transition">
+							<v-card>
+								<v-card-title class="align-text: center;" primary-title>
+									Do you want to Disconnect
+								</v-card-title>
+								<v-card-text>
+									<v-container grid-list-xs>
+										<v-layout row>
+											<v-flex xs6>
+												<v-btn color="red" dark block @click="showDisconnectQuestion = false">
+													Cancel</v-btn>
+											</v-flex>
+											<v-flex xs6>
+												<v-btn color="green" dark block @click="DisconectMe()">Yes
+													Disconnect!
+												</v-btn>
+											</v-flex>
+										</v-layout>
+									</v-container>
+								</v-card-text>
+							</v-card>
+						</v-dialog>
+
 						<v-dialog v-model="showCharacterCreator" scrollable persistent :overlay="false"
 							max-width="900px" transition="dialog-transition">
-							<v-card>
-								<v-card-title primary-title>
+							<v-card style="background-color: grey;">
+								<v-card-title light style="font-size: 25px; justify-content: center;">
 									Character Registration Form
 								</v-card-title>
+								<hr>
 								<v-card-text>
 									<v-form ref="DRPCreatorForm">
 										<v-container grid-list-xs>
 											<v-layout row>
-												<v-text-field label="First Name" v-model="selectedFirstname">
+												<v-text-field dark color="white" label="First Name"
+													v-model="selectedFirstname">
 												</v-text-field>
-												<v-text-field label="Last Name" v-model="selectedLastname">
+												<v-text-field dark color="white" label="Last Name"
+													v-model="selectedLastname">
 												</v-text-field>
 											</v-layout>
 											<v-layout row>
-												<v-select :items="genders" v-model="selectedGender" label="Gender">
+												<v-select dark :items="genders" v-model="selectedGender" label="Gender">
 												</v-select>
 											</v-layout>
 											<v-layout row>
-												<v-btn color="white" @click="selectedAge = selectedAge - 1">
+												<v-btn dark color="blue" @click="selectedAge = selectedAge - 1">
 													<v-icon>arrow_left</v-icon>
 												</v-btn>
-												<v-slider ref="formSlider" v-model="selectedAge" step="1" min="18"
-													max="100"></v-slider>
-												<v-btn color="white" @click="selectedAge = selectedAge + 1">
+												<v-slider dark color="blue" ref="formSlider" v-model="selectedAge"
+													step="1" min="18" max="100"></v-slider>
+												<v-btn dark color="blue" @click="selectedAge = selectedAge + 1">
 													<v-icon>arrow_right</v-icon>
 												</v-btn>
 												<v-text-field disabled v-model="selectedAge"></v-text-field>

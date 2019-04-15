@@ -8,6 +8,8 @@ const DRP_Characters = new Vue({
         showCharacterSelector: false,
         showCharacterCreator: false,
         showCharacterDelete: false,
+        showDisconnectQuestion: false,
+        maxCharacters: 5,
 
         // Character Selector
         characters: [],
@@ -63,9 +65,9 @@ const DRP_Characters = new Vue({
             }).then((response) => { }).catch((error) => { });
         },
 
-        RequestDeleteCharacter(index) {
-            this.selectedDeleteCharacter = index;
-            this.showCharacterDelete = true;
+        DisconectMe() {
+            this.showDisconnectQuestion = false;
+            axios.post(`http://${this.ResourceName}/DisconnectMe`, {}).then((response) => { }).catch((error) => { });
         },
 
         DeleteCharacter() {
@@ -74,6 +76,11 @@ const DRP_Characters = new Vue({
             axios.post(`http://${this.ResourceName}/DeleteCharacter`, {
                 character_id: chosen_character
             }).then((response) => { }).catch((error) => { });
+        },
+
+        RequestDeleteCharacter(index) {
+            this.selectedDeleteCharacter = index;
+            this.showCharacterDelete = true;
         },
 
         FormReset() {

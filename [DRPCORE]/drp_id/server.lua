@@ -134,6 +134,14 @@ AddEventHandler("DRP_ID:SaveCharacter", function(characterData)
 	end)
 end)
 ---------------------------------------------------------------------------
+-- Drop Player Function
+---------------------------------------------------------------------------
+RegisterServerEvent("DRP_ID:Disconnect")
+AddEventHandler("DRP_ID:Disconnect", function()
+	local src = source
+	DropPlayer(src, "Disconnected From Server!")
+end)
+---------------------------------------------------------------------------
 function GetCharacterData(id)
 	for a = 1, #character do
 		if character[a].id == id then
