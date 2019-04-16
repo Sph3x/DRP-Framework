@@ -19,5 +19,4 @@ AddEventHandler("DRP_Doors:UpdatePlayerJob", function(source)
     local src = source
     local job = exports["drp_jobcore"]:GetPlayerJob(src)
     TriggerClientEvent("DRP_Doors:RankSync", src, job)
-    print("THIS IS WEREADAWJDAWJDJ")
 end)

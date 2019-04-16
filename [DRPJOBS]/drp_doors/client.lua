@@ -18,7 +18,6 @@ end)
 
 RegisterNetEvent("DRP_Doors:RankSync")
 AddEventHandler("DRP_Doors:RankSync", function(job)
-    print("This is Triggered")
     if job.job == "POLICE" or job.job == "SHERIFF" or job.job == "STATE" then
         myJobRank = job.otherJobData.rank
     else
