@@ -29,11 +29,12 @@ CREATE TABLE IF NOT EXISTS `characters` (
   `paycheck` bigint(11) NOT NULL,
   `licenses` text NOT NULL,
   `phonenumber` mediumint(11) NOT NULL,
+  `isDead` int(11) NOT NULL DEFAULT '0',
   `playerid` int(11) NOT NULL,
   PRIMARY KEY (`id`),
   KEY `player_id` (`playerid`) USING BTREE,
   CONSTRAINT `characters_ibfk_1` FOREIGN KEY (`playerid`) REFERENCES `users` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
 
 -- Dumping data for table drp.characters: ~0 rows (approximately)
 /*!40000 ALTER TABLE `characters` DISABLE KEYS */;
@@ -93,7 +94,7 @@ CREATE TABLE IF NOT EXISTS `character_inventory` (
   CONSTRAINT `itemid_fk1` FOREIGN KEY (`itemid`) REFERENCES `inventory_items` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
--- Dumping data for table drp.character_inventory: ~0 rows (approximately)
+-- Dumping data for table drp.character_inventory: ~1 rows (approximately)
 /*!40000 ALTER TABLE `character_inventory` DISABLE KEYS */;
 /*!40000 ALTER TABLE `character_inventory` ENABLE KEYS */;
 
@@ -112,21 +113,6 @@ INSERT INTO `inventory_items` (`id`, `itemname`) VALUES
 	(3, 'dildo');
 /*!40000 ALTER TABLE `inventory_items` ENABLE KEYS */;
 
--- Dumping structure for table drp.police
-CREATE TABLE IF NOT EXISTS `police` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `rank` int(11) DEFAULT NULL,
-  `division` varchar(50) COLLATE utf8_bin DEFAULT 'police',
-  `char_id` int(11) DEFAULT NULL,
-  PRIMARY KEY (`id`),
-  KEY `police_fk1` (`char_id`),
-  CONSTRAINT `police_fk1` FOREIGN KEY (`char_id`) REFERENCES `characters` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
-
--- Dumping data for table drp.police: ~0 rows (approximately)
-/*!40000 ALTER TABLE `police` DISABLE KEYS */;
-/*!40000 ALTER TABLE `police` ENABLE KEYS */;
-
 -- Dumping structure for table drp.users
 CREATE TABLE IF NOT EXISTS `users` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
@@ -136,7 +122,7 @@ CREATE TABLE IF NOT EXISTS `users` (
   `ban_data` varchar(255) COLLATE utf8_bin DEFAULT NULL,
   `whitelisted` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
 -- Dumping data for table drp.users: ~0 rows (approximately)
 /*!40000 ALTER TABLE `users` DISABLE KEYS */;
