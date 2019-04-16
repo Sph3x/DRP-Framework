@@ -1,5 +1,6 @@
 local allDoors = {}
 local myJobRank = nil
+local myJobName = nil
 local doorAccess = false
 ---------------------------------------------------------------------------
 -- Sync Start
@@ -17,7 +18,13 @@ end)
 
 RegisterNetEvent("DRP_Doors:RankSync")
 AddEventHandler("DRP_Doors:RankSync", function(job)
-    myJobRank = job.otherJobData.rank
+    print("This is Triggered")
+    if job.job == "POLICE" or job.job == "SHERIFF" or job.job == "STATE" then
+        myJobRank = job.otherJobData.rank
+    else
+        myJobName = nil
+    end
+    myJobName = job.job
 end)
 
 RegisterNetEvent("DRP_Doors:AllowJobDoorAccess")
@@ -66,11 +73,14 @@ end)
 -- Door Functions
 ---------------------------------------------------------------------------
 function CheckIfJobDoor(requestedDoor)
-    print(requestedDoor)
-    if myJobRank >= requestedDoor then
-        return true
-    else
-        return false
+    if myJobName == "POLICE" or myJobName == "SHERIFF" or myJobName == "STATE" then
+        if myJobRank ~= nil then
+            if myJobRank >= requestedDoor then
+                return true
+            else
+                return false
+            end
+        end
     end
     return false
 end

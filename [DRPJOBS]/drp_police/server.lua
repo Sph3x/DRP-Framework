@@ -36,6 +36,7 @@ AddEventHandler("DRP_PoliceJobs:SignOnDuty", function(jobTitle)
                     end
                     TriggerClientEvent("DRP_Core:Info", src, "Job Manager", tostring("Welcome "..policeJobTitle.." "..characterInfo.name..""), 2500, false, "leftCenter")
                     PoliceAbilities(src, jobLabel)
+                    TriggerEvent("DRP_Doors:UpdatePlayerJob", src)
                 else
                     TriggerClientEvent("DRP_Core:Error", src, "Job Manager", "You are not registered for this Job!", 5500, false, "leftCenter")
                 end
@@ -62,6 +63,8 @@ AddEventHandler("DRP_PoliceJobs:SignOffDuty", function()
         exports["drp_jobcore"]:SetPlayerJob(src, job, jobLabel)
         TriggerClientEvent("DRP_Core:Info", src, "Job Manager", tostring("You are now a "..exports["drp_jobcore"]:GetPlayerJob(src).jobLabel), 2500, false, "leftCenter")
         PoliceAbilities(src, jobLabel)
+        TriggerEvent("DRP_Doors:UpdatePlayerJob", src)
+        print("go fucking off duty")
     end
 end)
 ---------------------------------------------------------------------------
