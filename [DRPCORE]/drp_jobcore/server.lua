@@ -53,22 +53,13 @@ RegisterServerEvent("DRP_Jobs:FinishWork")
 AddEventHandler("DRP_Jobs:FinishWork", function()
     local src = source
     local player = exports["drp_core"]:GetPlayerData(src)
-    local job = "CITIZEN"
+    local job = "UNEMPLOYED"
     local jobLabel = JobsCoreConfig.StaticJobLabels[job]
     SetPlayerJob(src, job, jobLabel, false)
     TriggerClientEvent("DRP_Core:Info", src, "Job Manager", tostring("You are now "..GetPlayerJob(src).jobLabel), 2500, false, "leftCenter")
+    TriggerEvent("DRP_Doors:UpdatePlayerJob", src)
     -- TRIGGER TO GET THE PREVIOUS CLOTHES BACK! (FUTURE UPDATES)
 end)
----------------------------------------------------------------------------
-RegisterServerEvent("DRP_Doors:CheckJob")
-AddEventHandler("DRP_Doors:CheckJob", function()
-    local src = source
-    local playerJob = GetPlayerJob(src)
-    if playerJob.job == "POLICE" or playerJob.job == "SHERIFF" or playerJob.job == "STATE" then
-        TriggerClientEvent("DRP_Doors:AllowJobDoorAccess", src)
-    end
-end)
-
 ---------------------------------------------------------------------------
 -- Core Functions
 ---------------------------------------------------------------------------
