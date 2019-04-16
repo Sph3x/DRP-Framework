@@ -35,7 +35,7 @@ AddEventHandler("DRP_ID:CreateCharacter", function(newCharacterData)
 	local src = source
 	local modelToAdd = nil
 	if newCharacterData.gender == "Male" then
-		modelToAdd = "mp_m_freemode_01"
+	modelToAdd = "mp_m_freemode_01"
 	elseif newCharacterData.gender == "Female" then
 		modelToAdd = "mp_f_freemode_01"
 	end

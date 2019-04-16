@@ -4,6 +4,16 @@ Citizen.CreateThread(function()
 end)
 ---------------------------------------------------------------------------
 Citizen.CreateThread(function()
+    for _, item in pairs(DRPCoreConfig.Locations) do
+        item.blip = AddBlipForCoord(item.x, item.y, item.z)
+        SetBlipSprite(item.blip, item.id)
+        SetBlipColour(item.blip, item.colour)
+        SetBlipScale(item.blip, item.blipSize)
+        SetBlipAsShortRange(item.blip, true)
+        BeginTextCommandSetBlipName("STRING")
+        AddTextComponentString(item.name)
+        EndTextCommandSetBlipName(item.blip)
+    end
     while true do
         -- Disable Health Regeneration
         -- SetPlayerHealthRechargeMultiplier(PlayerId(), 0.0)

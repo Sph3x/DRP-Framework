@@ -53,6 +53,8 @@ Citizen.CreateThread(function()
                             allDoors[a].isLocked = not lockedDoor
                             TriggerServerEvent("DRP_Doors:UpdateDoorStatus", allDoors)
                             doorAccess = false
+                        else
+                            TriggerEvent("DRP_Core:Error", "Doors", "You are not the required rank to open this!", 2500, false, "leftCenter")
                         end
                     end
                 end

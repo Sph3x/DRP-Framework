@@ -1,7 +1,7 @@
 DRPDoorsConfig = {}
 DRPDoorsConfig.Doors = {
      -- CITY POLICE STATION
-    [1] = {model = "v_ilev_arm_secdoor", x = 453.13, y = -982.51, z = 30.68, isLocked = true, doorRank = 2}, -- ARMORY DOOR
+    [1] = {model = "v_ilev_arm_secdoor", x = 453.13, y = -982.51, z = 30.68, isLocked = true, doorRank = 4}, -- ARMORY DOOR
     [2] = {model = "v_ilev_ph_gendoor004", x = 450.16, y = -986.33, z = 30.68, isLocked = false, doorRank = 2}, -- LOCKER ROOM HALLWAY
     [3] = {model = "v_ilev_ph_gendoor002", x = 447.12, y = -979.93, z = 30.68, isLocked = true, doorRank = 6}, -- CAPTAIN ROOM
     [4] = {model = "v_ilev_ph_gendoor005", x = 445.40, y = -989.47, z = 30.68, isLocked = true, doorRank = 2}, -- DOWNSTAIRS HALLWAY DOOR

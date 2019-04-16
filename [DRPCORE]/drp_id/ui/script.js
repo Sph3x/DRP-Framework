@@ -9,7 +9,6 @@ const DRP_Characters = new Vue({
         showCharacterCreator: false,
         showCharacterDelete: false,
         showDisconnectQuestion: false,
-        maxCharacters: 5,
 
         // Character Selector
         characters: [],
@@ -22,6 +21,22 @@ const DRP_Characters = new Vue({
         selectedGender: "",
         selectedAge: "",
         selectedDeleteCharacter: "",
+
+        nameRules: [
+            (v) => !!v || "Name required",
+            (v) => !!v && v.length <= 15 || "Name must be 15 characters or less",
+            (v) => !!v && RegExp("^[a-zA-Z]+$").test(v) || "Invalid Characters",
+            (v) => !!v && v.length >= 4 || "Name must be 4 - 15 characters"
+        ],
+
+        genderRules: [
+            (v) => !!v || "Gender Required, you can't be an Attack Helicopter... sorry!",
+        ],
+
+        dobRules: [
+            (v) => !!v && v >= 18 || "You must be 18+ to create a character",
+            (v) => !!v && v <= 100 || "You must be less than 100 to create a character"
+        ],
     },
 
     methods: {
@@ -47,13 +62,15 @@ const DRP_Characters = new Vue({
         },
 
         CreateCharacter() {
-            axios.post(`http://${this.ResourceName}/CreateCharacter`, {
-                name: `${FixName(this.selectedFirstname)} ${FixName(this.selectedLastname)}`,
-                age: this.selectedAge,
-                gender: this.selectedGender
-            }).then((response) => {
-                this.showCharacterCreator = false;
-            }).catch((error) => { });
+            if (this.$refs.DRPCreatorForm.validate()) {
+                axios.post(`http://${this.ResourceName}/CreateCharacter`, {
+                    name: `${FixName(this.selectedFirstname)} ${FixName(this.selectedLastname)}`,
+                    age: this.selectedAge,
+                    gender: this.selectedGender
+                }).then((response) => {
+                    this.showCharacterCreator = false;
+                }).catch((error) => { });
+            };
         },
 
         SelectCharacter(index) {

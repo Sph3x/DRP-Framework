@@ -119,7 +119,7 @@
 
 						<v-dialog v-model="showCharacterCreator" scrollable persistent :overlay="false"
 							max-width="900px" transition="dialog-transition">
-							<v-card style="background-color: grey;">
+							<v-card>
 								<v-card-title light style="font-size: 25px; justify-content: center;">
 									Character Registration Form
 								</v-card-title>
@@ -128,27 +128,29 @@
 									<v-form ref="DRPCreatorForm">
 										<v-container grid-list-xs>
 											<v-layout row>
-												<v-text-field dark color="white" label="First Name"
-													v-model="selectedFirstname">
+												<v-text-field light color="black" label="First Name"
+													v-model="selectedFirstname" :rules="nameRules">
 												</v-text-field>
-												<v-text-field dark color="white" label="Last Name"
-													v-model="selectedLastname">
+												<v-text-field light color="black" label="Last Name"
+													v-model="selectedLastname" :rules="nameRules">
 												</v-text-field>
 											</v-layout>
 											<v-layout row>
-												<v-select dark :items="genders" v-model="selectedGender" label="Gender">
+												<v-select light :items="genders" v-model="selectedGender" label="Gender"
+													:rules="genderRules">
 												</v-select>
 											</v-layout>
 											<v-layout row>
-												<v-btn dark color="blue" @click="selectedAge = selectedAge - 1">
+												<v-btn light color="blue" @click="selectedAge = selectedAge - 1">
 													<v-icon>arrow_left</v-icon>
 												</v-btn>
-												<v-slider dark color="blue" ref="formSlider" v-model="selectedAge"
+												<v-slider light color="blue" ref="formSlider" v-model="selectedAge"
 													step="1" min="18" max="100"></v-slider>
-												<v-btn dark color="blue" @click="selectedAge = selectedAge + 1">
+												<v-btn light color="blue" @click="selectedAge = selectedAge + 1">
 													<v-icon>arrow_right</v-icon>
 												</v-btn>
-												<v-text-field disabled v-model="selectedAge"></v-text-field>
+												<v-text-field disabled v-model="selectedAge" :rules="dobRules">
+												</v-text-field>
 											</v-layout>
 										</v-container>
 									</v-form>
