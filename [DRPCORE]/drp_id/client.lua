@@ -57,6 +57,7 @@ AddEventHandler("DRP_ID:LoadSelectedCharacter", function(ped, spawn)
 	TriggerEvent("DRP_ID:StopSkyCamera")
 	TriggerEvent("DRP_ID:StopCreatorCamera")
 	TriggerServerEvent("DRP_Death:GetDeathStatus")
+	TriggerServerEvent("DRP_Doors:StartSync") -- If Door Is Installed
 	-- TriggerServerEvent("clothing_shop:SpawnPlayer_server")
 	-- Add Your Spawn In Stuff Here
 	local ped = GetPlayerPed(PlayerId())

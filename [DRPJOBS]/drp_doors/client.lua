@@ -3,12 +3,6 @@ local myJobRank = nil
 local myJobName = nil
 local doorAccess = false
 ---------------------------------------------------------------------------
--- Sync Start
----------------------------------------------------------------------------
-Citizen.CreateThread(function()
-    TriggerServerEvent("DRP_Doors:StartSync")
-end)
----------------------------------------------------------------------------
 -- Door Events
 ---------------------------------------------------------------------------
 RegisterNetEvent("DRP_Doors:DoorSync")
