@@ -40,10 +40,14 @@ $('document').ready(function () {
             test1 = []
         }
         test()
-        // document.getElementById('cash').innerHTML = event.data.wallet
-        // document.getElementById('blackmoney').innerHTML = event.data.black_money
-        // document.getElementById('bank').innerHTML = event.data.bank
-        // document.getElementById('job').innerHTML = event.data.label
+        console.log(event.data.cash)
+        console.log(event.data.dirty)
+        console.log(event.data.bank)
+        console.log(event.data.label)
+        document.getElementById('cash').innerHTML = event.data.cash
+        document.getElementById('blackmoney').innerHTML = event.data.dirty
+        document.getElementById('bank').innerHTML = event.data.bank
+        document.getElementById('job').innerHTML = event.data.label
     });
     document.onkeyup = function (data) {
         if (data.which == 27) {

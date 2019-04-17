@@ -9,6 +9,9 @@ RegisterServerEvent("DRP_Inventory:GetInventory")
 AddEventHandler("DRP_Inventory:GetInventory", function()
     local src = source
     local characterInfo = exports["drp_id"]:GetCharacterData(src)
+    local jobInfo = exports["drp_jobcore"]:GetPlayerJob(src)
+    TriggerEvent("DRP_Bank:GetCharacterMoney", characterInfo.charid, function(bank)
+        local bankInfo = bank["data"]
     exports["externalsql"]:DBAsyncQuery({
         string = "SELECT * FROM `character_inventory` WHERE `charid` = :char_id",
         data = {
@@ -16,7 +19,8 @@ AddEventHandler("DRP_Inventory:GetInventory", function()
         }
     }, function(inventoryResults)
     ------------------------------------------------------------------------------------
-    TriggerClientEvent("DRP_Inventory:OpenInventory", src, inventoryResults["data"])
+        TriggerClientEvent("DRP_Inventory:OpenInventory", src, inventoryResults["data"], bankInfo[1].cash, bankInfo[1].bank, bankInfo[1].dirtyCash, jobInfo.jobLabel)
+      end)
     end)
 end)
 

@@ -52,10 +52,8 @@ end)
 ---------------------------------------------------------------------------
 -- Handles distance to atm models with offset position
 ---------------------------------------------------------------------------
-local sleepTimer = 200
 Citizen.CreateThread(function()
     while true do
-        Wait(sleepTimer)
         local ped = GetPlayerPed(PlayerId())
         local pedPos = GetEntityCoords(ped, false)
         for a = 1, #atm_models do
@@ -69,7 +67,6 @@ Citizen.CreateThread(function()
                 
                 if distance <= 1.2 then
                     textDisplay("Press ~INPUT_PICKUP~ to use the ATM")
-                    sleepTimer = 0
                     if IsControlJustPressed(1, 38) then
                         TaskStartScenarioAtPosition(ped, "PROP_HUMAN_ATM", atmOffset.x, atmOffset.y, atmOffset.z + 1.0, atmHeading, -1, 0, 0)
                         Citizen.Wait(5000)

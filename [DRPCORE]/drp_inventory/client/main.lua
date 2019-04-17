@@ -24,13 +24,19 @@ end)
 -- Open NUI
 ---------------------------------------------------------------------------
 RegisterNetEvent("DRP_Inventory:OpenInventory")
-AddEventHandler("DRP_Inventory:OpenInventory", function(inventory)
-    inventoryLoader(inventory)
+AddEventHandler("DRP_Inventory:OpenInventory", function(inventory, cash, bank, dirty, jobLabel)
+    inventoryLoader(inventory, cash, bank, dirty, jobLabel)
     SendNUIMessage({
         action = "open",
         array = source
     })
     SetNuiFocus(true, true)
+    SendNUIMessage({
+        cash = cash,
+        bank = bank,
+        dirty = dirty,
+        label = jobLabel
+    })
 end)
 ---------------------------------------------------------------------------
 -- Get Inventory Function
@@ -45,13 +51,11 @@ function inventoryLoader(inventory)
             table.insert(item, {inventory[a].name, inventory[a].quantity})
         end
     end
-
     SendNUIMessage({
         items = item
     })
     local item = {}
 end
-
 ---------------------------------------------------------------------------
 -- NUI Callbacks
 ---------------------------------------------------------------------------
