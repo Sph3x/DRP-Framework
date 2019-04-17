@@ -21,7 +21,7 @@ AddEventHandler("DRP_Doors:RankSync", function(job)
     if job.job == "POLICE" or job.job == "SHERIFF" or job.job == "STATE" then
         myJobRank = job.otherJobData.rank
     else
-        myJobName = nil
+        myJobRank = nil
     end
     myJobName = job.job
 end)
