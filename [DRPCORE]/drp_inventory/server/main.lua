@@ -43,7 +43,7 @@ AddEventHandler("DRP_Inventory:AddItem", function(itemname)
                             string = "INSERT INTO `character_inventory` SET `name` = :itemname, `quantity` = :amount, `itemid` = :itemid, `charid` = :charid",
                             data = {
                                 itemname = itemname,
-                                amount = amount,
+                                amount = 1,
                                 itemid = itemInfoId,
                                 charid = character.charid
                             }
