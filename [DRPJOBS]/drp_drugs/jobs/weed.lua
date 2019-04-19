@@ -38,7 +38,7 @@ Citizen.CreateThread(function()
 		for a = 1, #plants do 
 			local distance = Vdist(coords, GetEntityCoords(plants[a]), false)
 				if distance <= 1.5 then
-					nearbyObj, nearbyId = plants[a], i
+					nearbyObj, nearbyId = plants[a], a
 				end
 			end
 
@@ -63,7 +63,7 @@ AddEventHandler("DRP_Drugs:GiveWeed", function()
 	Citizen.Wait(3500)
 	ClearPedTasks(ped)
 	ClearPedTasksImmediately(ped)
-	Citizen.Wait(2500)
+	Citizen.Wait(500)
 	deleteObject(nearbyObj)
 
 	table.remove(plants, nearbyId)

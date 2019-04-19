@@ -48,6 +48,7 @@ AddEventHandler("DRP_Inventory:AddItem", function(itemname)
                                 charid = character.charid
                             }
                         }, function(createdPlayer)
+                            TriggerClientEvent("DRP_Core:Info", src, "Inventory", "You have added 1 Weed to your inventory", 2500, false, "leftCenter")
                         end)
                     end)
                     else
@@ -60,6 +61,7 @@ AddEventHandler("DRP_Inventory:AddItem", function(itemname)
                                 itemname = itemname
                             }
                         }, function(updatedQuantity)
+                            TriggerClientEvent("DRP_Core:Info", src, "Inventory", "You have added 1 Weed to your inventory", 2500, false, "leftCenter")
                     end)
                 end
             end)
