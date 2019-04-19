@@ -60,4 +60,6 @@ ToxicBacon For allowing me to use the Front end code for the inventory.
 
 Xander1998 For the DatabaseAPI and ExternalSQL resource
 
+Frazzle For NativeUILUA
+
 SEND YOUR CUSTOM RESOURCES TO ME AND ILL ADD IT TO THE COMMUNITY RELEASES
