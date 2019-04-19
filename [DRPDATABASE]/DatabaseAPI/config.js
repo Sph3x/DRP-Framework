@@ -11,13 +11,13 @@ ExternalConfig.Database = {
     host: "localhost",
     user: "root",
     password: "",
-    database: ""
+    database: "drp"
 };
 
 // API Configs
 ExternalConfig.API = {
     route: "/external/api",
-    secret: ""
+    secret: "drp_password"
 }
 
 ExternalConfig.DevModeActive = false;

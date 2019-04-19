@@ -21,3 +21,5 @@ files {
     'assets/img/arrow.svg',
     'assets/img/inventorySVG.svg'
 }
+
+export "CreateLocalPickupObject"

@@ -23,12 +23,12 @@ AddEventHandler("DRP_Inventory:GetInventory", function()
       end)
     end)
 end)
-
 ---------------------------------------------------------------------------
 -- Add Item Event
 ---------------------------------------------------------------------------
 RegisterServerEvent("DRP_Inventory:AddItem")
 AddEventHandler("DRP_Inventory:AddItem", function(itemname)
+    print("this get triggered?")
     local src = source
     local itemname = string.lower(itemname)
     local character = exports["drp_id"]:GetCharacterData(src)
@@ -51,15 +51,15 @@ AddEventHandler("DRP_Inventory:AddItem", function(itemname)
                         end)
                     end)
                     else
+                        local amountToAdd = Ownership[1].quantity + 1
                         exports["externalsql"]:DBAsyncQuery({
-                            string = "UPDATE character_inventory SET `quantity` = :amount WHERE `id` = :charid and `name` = :itemname",
+                            string = "UPDATE character_inventory SET `quantity` = :amount WHERE `charid` = :charid and `name` = :itemname",
                             data = {
-                                amount = amount,
+                                amount = amountToAdd,
                                 charid = character.charid,
                                 itemname = itemname
                             }
                         }, function(updatedQuantity)
-                        ------------------------------------------------------------------------------------
                     end)
                 end
             end)
@@ -112,15 +112,15 @@ AddEventHandler('DRP_Inventory:Pickup', function(id)
     local pickup  = DRP.Pickups[id]
     TriggerEvent("DRP_Inventory:GetInventorySize", src, function(AmountOfSpace)
         local item      = CheckForItemOwnershipByName(src, pickup.name)
-        
-		local canTake   = (DRPInventory.MaxInventorySlots - AmountOfSpace)
-		local total     = pickup.count < canTake and pickup.count or canTake
-		local remaining = pickup.count - total
+        local canTake   = (DRPInventory.MaxInventorySlots - AmountOfSpace) or 0
+        local total     = pickup.count < canTake and pickup.count or canTake
+        local remaining = pickup.count - total
         ------------------------------------------------------------------------------------
-		TriggerClientEvent('DRP_Inventory:removePickup', -1, id)
+        TriggerClientEvent('DRP_Inventory:removePickup', -1, id)
+        
         if remaining > 0 then
-            local pickupLabel = ('~b~%s~s~ [~b~%s~s~]'):format(itemname, count)
-            CreatePickup(itemname, count, pickupLabel, src)
+            local pickupLabel = ('~b~%s~s~ [~b~%s~s~]'):format(itemname, pickup.count)
+            CreatePickup(itemname, pickup.count, pickupLabel, src)
         end
         ------------------------------------------------------------------------------------
 		if total > 0 then
@@ -128,6 +128,19 @@ AddEventHandler('DRP_Inventory:Pickup', function(id)
 		end
     end)
 end)
+
+RegisterServerEvent("DRP_Inventory:CheckInventorySpace")
+AddEventHandler("DRP_Inventory:CheckInventorySpace", function()
+    local src = source
+    TriggerEvent("DRP_Inventory:GetInventorySize", src, function(AmountOfSpace)
+        local totalAmount = AmountOfSpace + 1
+        if totalAmount >= 20 then
+            TriggerClientEvent("DRP_Core:Error", src, "Inventory", "You have no Inventory space left", 2500, false, "leftCenter")
+        else
+            TriggerClientEvent("DRP_Drugs:GiveWeed", src)
+        end
+    end)
+end)    
 
 ---------------------------------------------------------------------------
 -- Functions

@@ -67,6 +67,7 @@ function AddItem(source, itemname, amount)
     local src = source
     local itemname = string.lower(itemname)
     local character = exports["drp_id"]:GetCharacterData(src)
+    print("the amount we need is"..amount)
     TriggerEvent("DRP_Inventory:GetInventorySize", src, function(AmountOfSpace)
         if AmountOfSpace >= DRPInventory.MaxInventorySlots then
             TriggerClientEvent("DRP_Core:Error", src, "Inventory", "You have no Inventory space left", 2500, false, "leftCenter")
@@ -87,11 +88,11 @@ function AddItem(source, itemname, amount)
                         end)
                     end)
                     else
-                        print("need more of this")
+                        local amountToAdd = amount + Ownership[1].quantity
                         exports["externalsql"]:DBAsyncQuery({
                             string = "UPDATE character_inventory SET `quantity` = :amount WHERE `charid` = :charid and `name` = :itemname",
                             data = {
-                                amount = amount,
+                                amount = amountToAdd,
                                 charid = character.charid,
                                 itemname = itemname
                             }
