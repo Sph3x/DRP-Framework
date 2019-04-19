@@ -16,13 +16,7 @@ function drawLevel(r, g, b, a)
   SetTextOutline()
   SetTextEntry("STRING")
   AddTextComponentString("Range: "..voice.level)
-  local playerPed = GetPlayerPed(PlayerId())
-  local playerVeh = GetVehiclePedIsIn(playerPed, false)
-  if IsPedInAnyVehicle(playerPed,true) then
-    DrawText(0.175, 0.90)
-  else 
-    DrawText(0.025, 0.94)
-  end
+  DrawText(0.175, 0.90)
 end
       
 Citizen.CreateThread(function()

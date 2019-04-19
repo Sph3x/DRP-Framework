@@ -48,7 +48,6 @@ Citizen.CreateThread(function()
                         FreezeEntityPosition(door, false)
                     end 
                     if IsControlJustPressed(1, 86) and distance <= 2.0 then
-                        print(CheckIfJobDoor(allDoors[a].doorRank))
                         if CheckIfJobDoor(allDoors[a].doorRank) then
                             allDoors[a].isLocked = not lockedDoor
                             TriggerServerEvent("DRP_Doors:UpdateDoorStatus", allDoors)
@@ -58,7 +57,7 @@ Citizen.CreateThread(function()
                         end
                     end
                 end
-            end
+            end 
         Citizen.Wait(1)
     end
 end)

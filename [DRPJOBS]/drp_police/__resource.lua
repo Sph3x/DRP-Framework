@@ -8,6 +8,7 @@ dependencies {
     "externalsql"
 }
 
+client_script "@NativeUI/NativeUI.lua"
 client_script "client.lua"
 client_script "config.lua"
 server_script "config.lua"

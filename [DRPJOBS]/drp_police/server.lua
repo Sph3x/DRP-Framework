@@ -75,16 +75,30 @@ AddEventHandler("DRP_PoliceJob:GetJobLoadouts", function()
     local src = source
     local rankedLoadouts = {}
     local job = exports["drp_jobcore"]:GetPlayerJob(src)
+    local character = exports["drp_id"]:GetCharacterData(src)
     local rank = job.otherJobData.rank
+    ---------------------------------------------------------------------------
+    local gender = ""
+    if character.gender == "Male" then
+        gender = "Male"
+    elseif character.gender == "Female" then
+        gender = "Female"
+    end
+    ---------------------------------------------------------------------------
     for k,lockerroom in ipairs(DRPPoliceJob.LockerRooms[job.jobLabel].Loadouts) do
         if lockerroom.minrank <= rank then
-            table.insert(rankedLoadouts, {
-                name = lockerroom.label
-            })
+            if lockerroom.gender == gender then
+                table.insert(rankedLoadouts, {
+                    name = lockerroom.label,
+                    model = lockerroom.model,
+                    clothing = lockerroom.clothing,
+                    props = lockerroom.props
+                })
+            end
         end
     end
     print(json.encode(rankedLoadouts))
-    -- TriggerClientEvent("ISRP_Jobs:OpenJobLoadout", src, job.jobLabel, loadouts)
+    TriggerClientEvent("DRP_PoliceJob:OpenJobLoadout", src, rankedLoadouts)
 end)
 ---------------------------------------------------------------------------
 -- Police Job Functions

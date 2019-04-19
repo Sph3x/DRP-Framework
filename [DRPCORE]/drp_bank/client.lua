@@ -70,7 +70,6 @@ Citizen.CreateThread(function()
                     if IsControlJustPressed(1, 38) then
                         TaskStartScenarioAtPosition(ped, "PROP_HUMAN_ATM", atmOffset.x, atmOffset.y, atmOffset.z + 1.0, atmHeading, -1, 0, 0)
                         Citizen.Wait(5000)
-                        Citizen.Trace("opening bank menu")
                             TriggerServerEvent("DRP_Bank:RequestATMInfo")
                         atmOpen = true
                     end

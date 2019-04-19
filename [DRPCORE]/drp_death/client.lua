@@ -81,7 +81,7 @@ AddEventHandler("DRP_Core:InitDeath", function(time)
     for a = 1, time do
         Citizen.Wait(555)
         timeLeft = timeLeft - 1
-        if timeLeft == 0 then
+        if timeLeft <= 0 then
             canRespawn = true
             if canRespawn then
                 TriggerEvent("DRP_Core:Error", "Medical", "You can now respawn!", 2500, false, "leftCenter")

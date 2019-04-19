@@ -29,7 +29,6 @@ AddEventHandler("DRP_PoliceJob:SetLoadoutMarkerBlips", function(markerD, blipD, 
         table.insert(drawBlips, blip)
     end
 end)
-
 ---------------------------------------------------------------------------
 -- Main Thread
 ---------------------------------------------------------------------------
@@ -89,7 +88,6 @@ Citizen.CreateThread(function()
                 if distance <= 1.0 then
                     exports['drp_core']:DrawText3Ds(jobMarkerBlips.locations[a].x, jobMarkerBlips.locations[a].y, jobMarkerBlips.locations[a].z, jobMarkerBlips.markerData.label)
                     if IsControlJustPressed(1, 38) then
-                        -- SetNuiFocus(true, true)
                         TriggerServerEvent("DRP_PoliceJob:GetJobLoadouts")
                     end
                 end
@@ -97,4 +95,68 @@ Citizen.CreateThread(function()
         end
         Citizen.Wait(0)
     end
+end)
+
+local function setOutfit(outfit)
+    local ped = PlayerPedId()
+
+    RequestModel(outfit.model)
+
+    while not HasModelLoaded(outfit.model) do
+        Wait(0)
+    end
+
+    if GetEntityModel(ped) ~= GetHashKey(outfit.model) then
+        SetPlayerModel(PlayerId(), outfit.model)
+    end
+
+    ped = PlayerPedId()
+
+    for _, comp in ipairs(outfit.components) do
+       SetPedComponentVariation(ped, comp[1], comp[2] - 1, comp[3] - 1, 0)
+    end
+
+    for _, comp in ipairs(outfit.props) do
+        if comp[2] == 0 then
+            ClearPedProp(ped, comp[1])
+        else
+            SetPedPropIndex(ped, comp[1], comp[2] - 1, comp[3] - 1, true)
+        end
+    end
+end
+
+local menuLoadOuts = nil
+RegisterNetEvent("DRP_PoliceJob:OpenJobLoadout")
+AddEventHandler("DRP_PoliceJob:OpenJobLoadout", function(loadouts)
+    menuLoadOuts = loadouts
+    local menuPool = NativeUI.CreatePool()
+    local mainMenu = NativeUI.CreateMenu('DRP Police Job', 'Pick Your Clothing')
+    -- local subMenu = menuPool:AddSubMenu(mainMenu, "chicken")
+    mainMenu:Visible(not mainMenu:Visible())
+
+    for id, outfit in pairs(menuLoadOuts) do
+        outfit.item = NativeUI.CreateItem(outfit.name, "Select This Outfit")
+        mainMenu:AddItem(outfit.item)
+    end
+
+    mainMenu.OnItemSelect = function(sender, item, index)
+        for _, outfit in pairs(menuLoadOuts) do
+            if outfit.item == item then
+                CreateThread(function()
+                    setOutfit(outfit)
+                end)
+            end
+        end
+    end
+
+    menuPool:Add(mainMenu)
+
+    menuPool:RefreshIndex()
+
+    CreateThread(function()
+        while true do
+            Wait(0)
+            menuPool:ProcessMenus()
+        end
+    end)
 end)
