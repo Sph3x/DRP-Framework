@@ -28,7 +28,6 @@ client_script "config.lua"
 client_script "weaponsonback.lua"
 client_script "managers/voip.lua"
 client_script "managers/managers.lua"
-client_script "debug/client.lua"
 
 server_script "config.lua"
 server_script "server.lua"
