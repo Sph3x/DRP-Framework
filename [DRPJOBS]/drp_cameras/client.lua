@@ -11,10 +11,10 @@ Citizen.CreateThread(function()
             local pedHead = GetEntityRotation(ped, 2)
             local distance = Vdist(pedPos.x, pedPos.y, pedPos.z, SecurityCamConfig.Locations[a].camBox.x, SecurityCamConfig.Locations[a].camBox.y, SecurityCamConfig.Locations[a].camBox.z)
             if SecurityCamConfig.DebugMode then
-                exports['isrp_managers']:DrawText3Ds(pedPos.x, pedPos.y, pedPos.z + 0.6, tostring("X: " .. pedPos.x))
-                exports['isrp_managers']:DrawText3Ds(pedPos.x, pedPos.y, pedPos.z + 0.4, tostring("Y: " .. pedPos.y))
-                exports['isrp_managers']:DrawText3Ds(pedPos.x, pedPos.y, pedPos.z + 0.2, tostring("Z: " .. pedPos.z))
-                exports['isrp_managers']:DrawText3Ds(pedPos.x, pedPos.y, pedPos.z, tostring("H: " .. pedHead))
+                exports['drp_core']:DrawText3Ds(pedPos.x, pedPos.y, pedPos.z + 0.6, tostring("X: " .. pedPos.x))
+                exports['drp_core']:DrawText3Ds(pedPos.x, pedPos.y, pedPos.z + 0.4, tostring("Y: " .. pedPos.y))
+                exports['drp_core']:DrawText3Ds(pedPos.x, pedPos.y, pedPos.z + 0.2, tostring("Z: " .. pedPos.z))
+                exports['drp_core']:DrawText3Ds(pedPos.x, pedPos.y, pedPos.z, tostring("H: " .. pedHead))
             end
             local pedAllowed = false
             if #SecurityCamConfig.Locations[a].allowedModels >= 1 then
@@ -29,7 +29,7 @@ Citizen.CreateThread(function()
                     local box_x = SecurityCamConfig.Locations[a].camBox.x
                     local box_y = SecurityCamConfig.Locations[a].camBox.y
                     local box_z = SecurityCamConfig.Locations[a].camBox.z
-                    exports['isrp_managers']:DrawText3Ds(box_x, box_y, box_z, tostring("~o~[E]~w~ Use " .. box_label .. " Cameras"))
+                    exports['drp_core']:DrawText3Ds(box_x, box_y, box_z, tostring("~o~[E]~w~ Use " .. box_label .. " Cameras"))
                     if IsControlJustPressed(1, 38) and createdCamera == 0 and distance <= 1.2 then
                         local firstCamx = SecurityCamConfig.Locations[a].cameras[1].x
                         local firstCamy = SecurityCamConfig.Locations[a].cameras[1].y

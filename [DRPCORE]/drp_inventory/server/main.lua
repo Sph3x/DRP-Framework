@@ -135,7 +135,7 @@ RegisterServerEvent("DRP_Inventory:CheckInventorySpace")
 AddEventHandler("DRP_Inventory:CheckInventorySpace", function()
     local src = source
     TriggerEvent("DRP_Inventory:GetInventorySize", src, function(AmountOfSpace)
-        local totalAmount = AmountOfSpace + 1
+        local totalAmount = AmountOfSpace
         if totalAmount >= 20 then
             TriggerClientEvent("DRP_Core:Error", src, "Inventory", "You have no Inventory space left", 2500, false, "leftCenter")
         else

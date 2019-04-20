@@ -2,16 +2,18 @@ DRPCoreConfig = {}
 DRPCoreConfig.StaffRanks = {}
 DRPCoreConfig.Locations = {}
 
-DRPCoreConfig.Whitelisted = true -- true or false
+DRPCoreConfig.Whitelisted = true -- true or false if you want to add the whitelist system
+DRPCoreConfig.Debug = false
+
 DRPCoreConfig.CommunityName = "DRP Framework"
 
-DRPCoreConfig.StaffRanks.ranks = {"User", "Moderator", "Administrator", "Developer", "Owner"}
+DRPCoreConfig.StaffRanks.ranks = {"User", "Moderator", "Administrator", "Developer", "Founder"}
 DRPCoreConfig.StaffRanks.perms = {
     ["User"] = {},
     ["Moderator"] = {""},
     ["Administrator"] = {""},
     ["Developer"] = {""},
-    ["Owner"] = {""}
+    ["Founder"] = {""}
 }
 
 DRPCoreConfig.Locations = {

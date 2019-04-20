@@ -23,7 +23,12 @@ Citizen.CreateThread(function()
                 Citizen.Wait(555)
             else
                 Citizen.Wait(555)
-            end
+			end
+			if spawnedPlants > 1 then
+				if distance <= 100.0 then
+					table.remove(plants, a)
+				end
+			end
 		end
 		Citizen.Wait(10)
     end
