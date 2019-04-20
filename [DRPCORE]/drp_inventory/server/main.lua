@@ -121,8 +121,8 @@ AddEventHandler('DRP_Inventory:Pickup', function(id)
         TriggerClientEvent('DRP_Inventory:removePickup', -1, id)
         
         if remaining > 0 then
-            local pickupLabel = ('~b~%s~s~ [~b~%s~s~]'):format(itemname, pickup.count)
-            CreatePickup(itemname, pickup.count, pickupLabel, src)
+            local pickupLabel = ('~b~%s~s~ [~b~%s~s~]'):format(pickup.name, remaining)
+            CreatePickup(pickup.name, remaining, pickupLabel, src)
         end
         ------------------------------------------------------------------------------------
 		if total > 0 then

@@ -68,40 +68,42 @@ function AddItem(source, itemname, amount)
     local itemname = string.lower(itemname)
     local character = exports["drp_id"]:GetCharacterData(src)
     print("the amount we need is"..amount)
-    TriggerEvent("DRP_Inventory:GetInventorySize", src, function(AmountOfSpace)
-        if AmountOfSpace >= DRPInventory.MaxInventorySlots then
-            TriggerClientEvent("DRP_Core:Error", src, "Inventory", "You have no Inventory space left", 2500, false, "leftCenter")
-        else
-            TriggerEvent("DRP_Inventory:CheckForItemOwnershipByName", src, itemname, function(Ownership)
-                if json.encode(Ownership) == "[]" then
-                    TriggerEvent("DRP_Inventory:PullItemData", itemname, function(itemInfoId)
-                        print("adding whole new item")
-                        exports["externalsql"]:DBAsyncQuery({
-                            string = "INSERT INTO `character_inventory` SET `name` = :itemname, `quantity` = :amount, `itemid` = :itemid, `charid` = :charid",
-                            data = {
-                                itemname = itemname,
-                                amount = amount,
-                                itemid = itemInfoId,
-                                charid = character.charid
-                            }
-                        }, function(createdPlayer)
+    if itemname ~= nil then
+        TriggerEvent("DRP_Inventory:GetInventorySize", src, function(AmountOfSpace)
+            if AmountOfSpace >= DRPInventory.MaxInventorySlots then
+                TriggerClientEvent("DRP_Core:Error", src, "Inventory", "You have no Inventory space left", 2500, false, "leftCenter")
+            else
+                TriggerEvent("DRP_Inventory:CheckForItemOwnershipByName", src, itemname, function(Ownership)
+                    if json.encode(Ownership) == "[]" then
+                        TriggerEvent("DRP_Inventory:PullItemData", itemname, function(itemInfoId)
+                            print("adding whole new item")
+                            exports["externalsql"]:DBAsyncQuery({
+                                string = "INSERT INTO `character_inventory` SET `name` = :itemname, `quantity` = :amount, `itemid` = :itemid, `charid` = :charid",
+                                data = {
+                                    itemname = itemname,
+                                    amount = amount,
+                                    itemid = itemInfoId,
+                                    charid = character.charid
+                                }
+                            }, function(createdPlayer)
+                            end)
                         end)
-                    end)
-                    else
-                        local amountToAdd = amount + Ownership[1].quantity
-                        exports["externalsql"]:DBAsyncQuery({
-                            string = "UPDATE character_inventory SET `quantity` = :amount WHERE `charid` = :charid and `name` = :itemname",
-                            data = {
-                                amount = amountToAdd,
-                                charid = character.charid,
-                                itemname = itemname
-                            }
-                        }, function(updatedQuantity)
-                    end)
-                end
-            end)
-        end
-    end)
+                        else
+                            local amountToAdd = amount + Ownership[1].quantity
+                            exports["externalsql"]:DBAsyncQuery({
+                                string = "UPDATE character_inventory SET `quantity` = :amount WHERE `charid` = :charid and `name` = :itemname",
+                                data = {
+                                    amount = amountToAdd,
+                                    charid = character.charid,
+                                    itemname = itemname
+                                }
+                            }, function(updatedQuantity)
+                        end)
+                    end
+                end)
+            end
+        end)
+    end
 end
 
 function CheckForItemOwnershipByName(source, itemname)
