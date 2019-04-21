@@ -24,3 +24,4 @@ files {
 
 export "CreateLocalPickupObject"
 server_export "CheckForItemOwnershipByName"
+server_export "AddItem"

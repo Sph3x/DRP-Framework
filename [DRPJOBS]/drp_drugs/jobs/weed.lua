@@ -1,6 +1,5 @@
 local spawnedPlants = 0
 local pickingUpWeed = false
-local processingWeed = false
 local removingPlantsAllowed = false
 local plants = {}
 ---------------------------------------------------------------------------
@@ -14,20 +13,27 @@ Citizen.CreateThread(function()
         BeginTextCommandSetBlipName("STRING")
         AddTextComponentString("Weed Field")
         EndTextCommandSetBlipName(item.blip)
-    end
+	end
+	for _, item in pairs(DRPDrugsConfig.WeedProcessingLocations) do
+        item.blip = AddBlipForCoord(item.x, item.y, item.z)
+        SetBlipSprite(item.blip, 496)
+        SetBlipAsShortRange(item.blip, true)
+        BeginTextCommandSetBlipName("STRING")
+        AddTextComponentString("Weed Processing Field")
+        EndTextCommandSetBlipName(item.blip)
+	end
     while true do
 		local ped = GetPlayerPed(PlayerId())
         local coords = GetEntityCoords(ped)
         for a = 1, #DRPDrugsConfig.WeedLocations do
         local distance = Vdist(coords.x, coords.y, coords.z, DRPDrugsConfig.WeedLocations[a].x, DRPDrugsConfig.WeedLocations[a].y, DRPDrugsConfig.WeedLocations[a].z)
-            if distance <= 55 then
+            if distance <= 55.0 then
                 spawnPlants()
                 Citizen.Wait(700)
             else
                 Citizen.Wait(700)
 			end
 			if spawnedPlants > 5 and distance >= 250.0 and removingPlantsAllowed then
-				print("removing all spawned plants as too far away")
 				table.remove(plants, a)
 				removingPlantsAllowed = false
 			end
@@ -37,6 +43,12 @@ Citizen.CreateThread(function()
 end)
 ---------------------------------------------------------------------------
 Citizen.CreateThread(function()
+	local dict = "pickup_object"
+    local ped = GetPlayerPed(PlayerId())
+	RequestAnimDict(dict)
+	while not HasAnimDictLoaded(dict) do
+		Citizen.Wait(100)
+	end
 	while true do
 		local ped = GetPlayerPed(PlayerId())
 		local coords = GetEntityCoords(ped, false)
@@ -55,6 +67,18 @@ Citizen.CreateThread(function()
 				if IsControlJustPressed(1, 38) then
 					pickingUpWeed = true
 					TriggerServerEvent("DRP_Inventory:CheckInventorySpace")
+				end
+			end
+		end
+		for b = 1, #DRPDrugsConfig.WeedProcessingLocations do
+			local distance = Vdist(coords.x, coords.y, coords.z, DRPDrugsConfig.WeedProcessingLocations[b].x, DRPDrugsConfig.WeedProcessingLocations[b].y, DRPDrugsConfig.WeedProcessingLocations[b].z)
+			if distance <= 5.0 then
+				exports["drp_core"]:drawText('Press ~b~E~s~ to Process your Weed',0,1,0.5,0.8,0.6,255,255,255,255)
+				if IsControlJustPressed(1, 86) then
+					TaskPlayAnim(GetPlayerPed(PlayerId()), dict, "pickup_low", 6.0, 4.0, -1, 100, 0, false, false, false)
+					Citizen.Wait(2000)
+					ClearPedTasksImmediately(GetPlayerPed(PlayerId()))
+					TriggerServerEvent("DRP_Drugs:ProcessItem", "marijuana")
 				end
 			end
 		end
@@ -171,6 +195,13 @@ end
 function deleteObject(plants)
 	SetEntityAsMissionEntity(plants, false, true)
 	DeleteObject(plants)
+end
+---------------------------------------------------------------------------
+function loadAnimDict( dict )
+	while ( not HasAnimDictLoaded( dict ) ) do
+		RequestAnimDict( dict )
+		Citizen.Wait( 0 )
+	end
 end
 ---------------------------------------------------------------------------
 -- Handlers

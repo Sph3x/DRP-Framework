@@ -27,8 +27,7 @@ end)
 -- Add Item Event
 ---------------------------------------------------------------------------
 RegisterServerEvent("DRP_Inventory:AddItem")
-AddEventHandler("DRP_Inventory:AddItem", function(itemname)
-    print("this get triggered?")
+AddEventHandler("DRP_Inventory:AddItem", function(itemname) -- Works only from client
     local src = source
     local itemname = string.lower(itemname)
     local character = exports["drp_id"]:GetCharacterData(src)
@@ -61,7 +60,7 @@ AddEventHandler("DRP_Inventory:AddItem", function(itemname)
                                 itemname = itemname
                             }
                         }, function(updatedQuantity)
-                            TriggerClientEvent("DRP_Core:Info", src, "Inventory", "You have added 1 Weed to your inventory", 2500, false, "leftCenter")
+                        TriggerClientEvent("DRP_Core:Info", src, "Inventory", "You have added 1 Weed to your inventory", 2500, false, "leftCenter")
                     end)
                 end
             end)

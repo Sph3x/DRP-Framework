@@ -72,6 +72,54 @@ AddEventHandler("DRP_Drugs:Sell", function()
         end
     end)
 end)
+
+RegisterServerEvent("DRP_Drugs:ProcessItem")
+AddEventHandler("DRP_Drugs:ProcessItem", function(itemname)
+    local src = source
+    TriggerEvent("DRP_Inventory:CheckForItemOwnershipByName", src, "weed", function(Ownership)
+        if json.encode(Ownership) == "[]" then
+            TriggerClientEvent("DRP_Core:Error", src, "Drugs", "You do not have any of this!", 7500, false, "leftCenter")
+        else 
+            TriggerEvent("DRP_Drugs:RemoveThenAdd", src, itemname)
+        end
+    end)
+end)
+
+AddEventHandler("DRP_Drugs:RemoveThenAdd", function(source, itemname)
+    local src = source
+    local character = exports["drp_id"]:GetCharacterData(src)
+    local itemToChange = nil
+    -- Remove Item First Then Add New One
+    if itemname == "marijuana" then 
+        itemToChange = "weed"
+    end
+    TriggerEvent("DRP_Inventory:CheckForItemOwnershipByName", src, itemToChange, function(Ownership)
+        local quantity = Ownership[1].quantity
+        local newquantity = quantity - 1
+        if newquantity ~= 0 then
+            exports["externalsql"]:DBAsyncQuery({
+                string = "UPDATE character_inventory SET `quantity` = :newamount WHERE `charid` = :char_id and `name` = :itemname",
+                data = {
+                    newamount = newquantity,
+                    char_id = character.charid,
+                    itemname = itemToChange
+                }
+            }, function(yeet)
+            end)
+        else
+            exports["externalsql"]:DBAsyncQuery({
+                string = "DELETE FROM `character_inventory` WHERE `charid` = :char_id and `name` = :itemname",
+                data = {
+                    char_id = character.charid,
+                    itemname = itemToChange
+                }
+            }, function(yeeting)
+            end)
+        end
+    end)
+    -- Add New Item
+    exports["drp_inventory"]:AddItem(src, itemname, 1)
+end)
 ---------------------------------------------------------------------------
 -- Functions
 ---------------------------------------------------------------------------
