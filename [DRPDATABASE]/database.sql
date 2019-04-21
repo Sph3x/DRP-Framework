@@ -35,9 +35,9 @@ CREATE TABLE IF NOT EXISTS `characters` (
   PRIMARY KEY (`id`),
   KEY `player_id` (`playerid`) USING BTREE,
   CONSTRAINT `characters_ibfk_1` FOREIGN KEY (`playerid`) REFERENCES `users` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=latin1;
 
--- Dumping data for table drp.characters: ~1 rows (approximately)
+-- Dumping data for table drp.characters: ~2 rows (approximately)
 /*!40000 ALTER TABLE `characters` DISABLE KEYS */;
 /*!40000 ALTER TABLE `characters` ENABLE KEYS */;
 
@@ -93,7 +93,7 @@ CREATE TABLE IF NOT EXISTS `character_inventory` (
   KEY `FK_character_inventory_characters` (`charid`),
   CONSTRAINT `FK_character_inventory_characters` FOREIGN KEY (`charid`) REFERENCES `characters` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `itemid_fk1` FOREIGN KEY (`itemid`) REFERENCES `inventory_items` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+) ENGINE=InnoDB AUTO_INCREMENT=34 DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
 -- Dumping data for table drp.character_inventory: ~1 rows (approximately)
 /*!40000 ALTER TABLE `character_inventory` DISABLE KEYS */;
@@ -104,7 +104,7 @@ CREATE TABLE IF NOT EXISTS `inventory_items` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `itemname` varchar(50) COLLATE utf8_bin DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
 -- Dumping data for table drp.inventory_items: ~3 rows (approximately)
 /*!40000 ALTER TABLE `inventory_items` DISABLE KEYS */;
@@ -112,7 +112,8 @@ INSERT INTO `inventory_items` (`id`, `itemname`) VALUES
 	(1, 'water'),
 	(2, 'lockpick'),
 	(3, 'dildo'),
-	(4, 'weed');
+	(4, 'weed'),
+	(5, 'marijuana');
 /*!40000 ALTER TABLE `inventory_items` ENABLE KEYS */;
 
 -- Dumping structure for table drp.police
@@ -124,9 +125,9 @@ CREATE TABLE IF NOT EXISTS `police` (
   PRIMARY KEY (`id`),
   KEY `police_fk1` (`char_id`),
   CONSTRAINT `police_fk1` FOREIGN KEY (`char_id`) REFERENCES `characters` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
--- Dumping data for table drp.police: ~0 rows (approximately)
+-- Dumping data for table drp.police: ~1 rows (approximately)
 /*!40000 ALTER TABLE `police` DISABLE KEYS */;
 /*!40000 ALTER TABLE `police` ENABLE KEYS */;
 
@@ -139,7 +140,7 @@ CREATE TABLE IF NOT EXISTS `users` (
   `ban_data` varchar(255) COLLATE utf8_bin DEFAULT NULL,
   `whitelisted` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
 -- Dumping data for table drp.users: ~0 rows (approximately)
 /*!40000 ALTER TABLE `users` DISABLE KEYS */;
