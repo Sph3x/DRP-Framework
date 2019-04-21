@@ -69,7 +69,7 @@ AddEventHandler("DRP_Inventory:AddItem", function(itemname)
     end)
 end)
 ---------------------------------------------------------------------------
--- Remove Item
+-- Remove Item ONLY FOR DROPPING IN THE INVENTORY
 ---------------------------------------------------------------------------
 RegisterServerEvent("DRP_Inventory:RemoveItem")
 AddEventHandler("DRP_Inventory:RemoveItem", function(itemname, count)
@@ -143,6 +143,37 @@ AddEventHandler("DRP_Inventory:CheckInventorySpace", function()
         end
     end)
 end)    
+
+AddEventHandler("DRP_Inventory:RemoveItemFromInventory", function(source, itemname)
+    local src = source
+    local itemname = itemname
+    local character = exports["drp_id"]:GetCharacterData(src)
+    TriggerEvent("DRP_Inventory:CheckForItemOwnershipByName", src, itemname, function(Ownership)
+    ------------------------------------------------------------------------------------
+        local quantity = Ownership[1].quantity
+        local newquantity = quantity - 1
+        if newquantity ~= 0 then
+            exports["externalsql"]:DBAsyncQuery({
+                string = "UPDATE character_inventory SET `quantity` = :newamount WHERE `charid` = :char_id and `name` = :itemname",
+                data = {
+                    newamount = newquantity,
+                    char_id = character.charid,
+                    itemname = itemname
+                }
+            }, function(yeet)
+            end)
+        else
+            exports["externalsql"]:DBAsyncQuery({
+                string = "DELETE FROM `character_inventory` WHERE `charid` = :char_id and `name` = :itemname",
+                data = {
+                    char_id = character.charid,
+                    itemname = itemname
+                }
+            }, function(yeeting)
+            end)
+        end
+    end)
+end)
 
 ---------------------------------------------------------------------------
 -- Functions

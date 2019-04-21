@@ -60,6 +60,19 @@ AddEventHandler("DRP_Inventory:PullItemData", function(itemname, callback)
     end)
 end)
 
+
+AddEventHandler("DRP_Inventory:GetCharacterInventory", function(source, callback)
+    local src = source
+    local character = exports["drp_id"]:GetCharacterData(src)
+    exports["externalsql"]:DBAsyncQuery({
+        string = "SELECT * FROM `character_inventory` WHERE `charid` = :char_id",
+        data = {
+            char_id = character.charid
+        }
+    }, function(inventoryResults)
+        callback(inventoryResults["data"])
+    end)
+end)
 ---------------------------------------------------------------------------
 -- Manager Functions
 ---------------------------------------------------------------------------
@@ -108,14 +121,16 @@ end
 
 function CheckForItemOwnershipByName(source, itemname)
     local src = source
-    local characterInfo = exports["drp_id"]:GetCharacterData(src)
+    local character = exports["drp_id"]:GetCharacterData(src)
+    print(itemname)
     exports["externalsql"]:DBAsyncQuery({
         string = "SELECT * FROM `character_inventory` WHERE `charid` = :char_id and `name` = :itemname",
         data = {
-            char_id = characterInfo.charid,
+            char_id = character.charid,
             itemname = itemname
         }
     }, function(CheckForItemOwnership)
+        print(json.encode(CheckForItemOwnership.data))
         return CheckForItemOwnership.data
     end)
 end

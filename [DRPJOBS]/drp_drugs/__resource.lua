@@ -7,5 +7,6 @@ dependencies {
 
 client_script "config.lua"
 client_script "jobs/weed.lua"
+client_script "selltonpc.lua"
 server_script "config.lua"
 server_script "server.lua"

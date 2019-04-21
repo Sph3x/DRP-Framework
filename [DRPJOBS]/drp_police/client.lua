@@ -30,7 +30,7 @@ AddEventHandler("DRP_PoliceJob:SetLoadoutMarkerBlips", function(markerD, blipD, 
     end
 end)
 ---------------------------------------------------------------------------
--- Main Thread
+-- Main Threads
 ---------------------------------------------------------------------------
 Citizen.CreateThread(function()
     while true do
@@ -96,7 +96,9 @@ Citizen.CreateThread(function()
         Citizen.Wait(0)
     end
 end)
-
+---------------------------------------------------------------------------
+-- Functions
+---------------------------------------------------------------------------
 local function setOutfit(outfit)
     local ped = PlayerPedId()
 
@@ -124,7 +126,9 @@ local function setOutfit(outfit)
         end
     end
 end
-
+---------------------------------------------------------------------------
+-- Job Loadout Event
+---------------------------------------------------------------------------
 local menuLoadOuts = nil
 RegisterNetEvent("DRP_PoliceJob:OpenJobLoadout")
 AddEventHandler("DRP_PoliceJob:OpenJobLoadout", function(loadouts)

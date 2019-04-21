@@ -17,6 +17,7 @@ Citizen.CreateThread(function()
         Citizen.Wait(1)
         if IsControlJustPressed(0, Keys['Y']) then
             TriggerServerEvent("DRP_Inventory:GetInventory")
+            Citizen.Wait(500)
         end
     end
 end)
