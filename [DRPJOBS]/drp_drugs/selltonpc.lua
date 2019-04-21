@@ -1,8 +1,10 @@
 local myJob			= nil
 local selling 	    = false
 local has 			= false
-
 currentped = nil
+---------------------------------------------------------------------------
+-- Main Thread Used The Idea to find NPC's from the forums
+---------------------------------------------------------------------------
 Citizen.CreateThread(function()
 while true do
   Citizen.Wait(0)
@@ -23,11 +25,11 @@ while true do
                             if distance <= 2 and ped  ~= GetPlayerPed(PlayerId()) and ped ~= oldped then
                               TriggerServerEvent('DRP_Drugs:CheckForDrugs') -- Shit way of doing it i know, I will rewrite this!
                                 if has then
-                                  drawTxt(0.90, 1.40, 1.0,1.0,0.4, "Press ~g~E ~w~to sell drugs", 255, 255, 255, 255)
+                                  exports["drp_core"]:drawText('Press ~b~E~s~ to sell drugs',0,1,0.5,0.8,0.6,255,255,255,255)
                                     if IsControlJustPressed(1, 86) then
                                         oldped = ped
                                         SetEntityAsMissionEntity(ped)
-                                        TaskStandStill(ped, 10.0)
+                                        TaskStandStill(ped, 13.0)
                                         pos1 = GetEntityCoords(ped)
                                         TriggerServerEvent('DRP_Drugs:SellCoreStart')
                                         Citizen.Wait(2850)
@@ -43,15 +45,16 @@ while true do
         end
     until not success
     EndFindPed(handle)
-  end
+    end
 end)
-
-
+---------------------------------------------------------------------------
+-- Events
+---------------------------------------------------------------------------
 RegisterNetEvent("DRP_Drugs:HasDrugsOnPerson")
 AddEventHandler("DRP_Drugs:HasDrugsOnPerson", function(boolValue)
     has = boolValue
 end)
-
+---------------------------------------------------------------------------
 RegisterNetEvent('DRP_Drugs:AttemptToSell')
 AddEventHandler('DRP_Drugs:AttemptToSell', function()
     local player = GetPlayerPed(PlayerId())
@@ -64,9 +67,9 @@ AddEventHandler('DRP_Drugs:AttemptToSell', function()
     	TriggerEvent("DRP_Core:Error", "Drugs", "You moved too far away to do the deal!", 5000, false, "leftCenter")
     end
 end)
-
-RegisterNetEvent('animation')
-AddEventHandler('animation', function()
+---------------------------------------------------------------------------
+RegisterNetEvent('DRP_Drugs:Animation')
+AddEventHandler('DRP_Drugs:Animation', function()
   local pid = PlayerPedId()
   RequestAnimDict("amb@prop_human_bum_bin@idle_b")
   while (not HasAnimDictLoaded("amb@prop_human_bum_bin@idle_b")) do Citizen.Wait(0) end
@@ -74,19 +77,3 @@ AddEventHandler('animation', function()
     Wait(750)
     StopAnimTask(pid, "amb@prop_human_bum_bin@idle_b","idle_d", 1.0)
 end)
-
-function drawTxt(x,y ,width,height,scale, text, r,g,b,a, outline)
-    SetTextFont(0)
-    SetTextProportional(0)
-    SetTextScale(scale, scale)
-    SetTextColour(r, g, b, a)
-    SetTextDropShadow(0, 0, 0, 0,255)
-    SetTextEdge(1, 0, 0, 0, 255)
-    SetTextDropShadow()
-    if(outline)then
-      SetTextOutline()
-    end
-    SetTextEntry("STRING")
-    AddTextComponentString(text)
-    DrawText(x - width/2, y - height/2 + 0.005)
-end
