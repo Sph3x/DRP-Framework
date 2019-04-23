@@ -95,6 +95,42 @@ DRPCoreConfig.RealWeapons = {
 	{name = 'WEAPON_PETROLCAN', hash = "", 		bone = 24818, x = 65536.0, y = 65536.0, z = 65536.0, xRot = 0.0, yRot = 0.0, zRot = 0.0, category = 'thrown', 	model = 'w_am_jerrycan'},
 	{name = 'WEAPON_HANDCUFFS', hash = "", 		bone = 24818, x = 65536.0, y = 65536.0, z = 65536.0, xRot = 0.0, yRot = 0.0, zRot = 0.0, category = 'others', 	model = ''}
 }
+
+DRPWeatherConfig = {
+
+    -- Least time for the weather to change
+    leastTime = 10,
+
+    -- Max time for the weather to change
+    maxTime = 25,
+
+    -- Would you like the weather to be snowing???
+    isWinter = false,
+
+    -- Regular Weather Types
+    regularWeatherTypes = {
+        "CLEAR",
+        "EXTRASUNNY",
+        "CLOUDS",
+        "OVERCAST",
+        "RAIN",
+        "CLEARING",
+        "THUNDER",
+        "SMOG",
+        "FOGGY"
+    },
+
+    -- Winter Weather Types
+    winterWeatherTypes = {"XMAS"}
+}
+
+DRPTimeConfig = {
+    -- Time it takes for one minute to pass
+    SecPerMin = 10,
+
+    -- If true it doesn't allow the time to change
+    FreezeTime = false,
+}
 ---------------------------------------------------------------------------
 function getRealWeapons()
 	local weapons = {}

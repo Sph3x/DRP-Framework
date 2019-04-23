@@ -1,6 +1,7 @@
 Citizen.CreateThread(function()
     SetNuiFocus(false, false)
     TriggerServerEvent("DRP_Core:AddPlayerToTable")
+    TriggerServerEvent("DRP_Core:ConnectionSetWeather")
 end)
 ---------------------------------------------------------------------------
 Citizen.CreateThread(function()
@@ -173,6 +174,8 @@ Citizen.CreateThread(function()
         Citizen.Wait(1)
     end
 end)
+---------------------------------------------------------------------------
+--- Functions
 ---------------------------------------------------------------------------
 function AddTextEntry(key, value)
 	Citizen.InvokeNative(GetHashKey("ADD_TEXT_ENTRY"), key, value)

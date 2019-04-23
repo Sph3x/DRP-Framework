@@ -29,9 +29,11 @@ client_script "weaponsonback.lua"
 client_script "managers/voip.lua"
 client_script "managers/managers.lua"
 client_script "debug/client.lua"
+client_script "sync/client.lua"
 
 server_script "config.lua"
 server_script "server.lua"
+server_script "sync/server.lua"
 
 export "DrawText3Ds"
 export "getRealWeapons"
