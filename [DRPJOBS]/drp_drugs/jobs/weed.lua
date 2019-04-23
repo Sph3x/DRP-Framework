@@ -29,9 +29,9 @@ Citizen.CreateThread(function()
         local distance = Vdist(coords.x, coords.y, coords.z, DRPDrugsConfig.WeedLocations[a].x, DRPDrugsConfig.WeedLocations[a].y, DRPDrugsConfig.WeedLocations[a].z)
             if distance <= 55.0 then
                 spawnPlants()
-                Citizen.Wait(700)
+                Citizen.Wait(250)
             else
-                Citizen.Wait(700)
+                Citizen.Wait(250)
 			end
 			if spawnedPlants > 5 and distance >= 250.0 and removingPlantsAllowed then
 				table.remove(plants, a)

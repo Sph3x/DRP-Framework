@@ -12,7 +12,7 @@ AddEventHandler("DRP_Drugs:CheckForDrugs", function()
     TriggerEvent("DRP_Inventory:GetCharacterInventory", src, function(inventory)
         if json.encode(inventory) == "[]" then
             TriggerClientEvent("DRP_Drugs:HasDrugsOnPerson", src, false)
-        elseif inventory[1].name == "weed" then
+        elseif inventory[1].name == "marijuana" then
             TriggerClientEvent("DRP_Drugs:HasDrugsOnPerson", src, true)
         else 
             TriggerClientEvent("DRP_Drugs:HasDrugsOnPerson", src, false)
@@ -30,25 +30,25 @@ end)
 RegisterServerEvent("DRP_Drugs:Sell")
 AddEventHandler("DRP_Drugs:Sell", function()
     local src = source
-    local weed = 0
+    local marijuana = 0
     local cocaine = 0
     local meth = 0
     TriggerEvent("DRP_Inventory:GetCharacterInventory", src, function(inventory)
         for a = 1, #inventory do -- Could be cleaned up
-            if inventory[a].name == "weed" then
-                weed = inventory[a].quantity
+            if inventory[a].name == "marijuana" then
+                marijuana = inventory[a].quantity
             elseif inventory[a].name == "cocaine" then
                 cocaine = inventory[a].quantity
             elseif inventory[a].name == "meth" then
                 meth = inventory[a].quantity 
             end
         end
-        local weedPrice = DRPDrugsConfig.DrugPrices.weed
+        local marijuanaPrice = DRPDrugsConfig.DrugPrices.marijuana
         local cocainePrice = DRPDrugsConfig.DrugPrices.cocaine
         local methPrice = DRPDrugsConfig.DrugPrices.meth
-        if weed >= 1 and successful then
-            TriggerClientEvent("DRP_Core:Info", src, "Inventory", "You sold one bag of weed for $"..weedPrice.."", 6000, false, "leftCenter")
-            TriggerEvent("DRP_Inventory:RemoveItemFromInventory", src, "weed", 1)
+        if marijuana >= 1 and successful then
+            TriggerClientEvent("DRP_Core:Info", src, "Inventory", "You sold one baggie of Marijuana for $"..marijuanaPrice.."", 6000, false, "leftCenter")
+            TriggerEvent("DRP_Inventory:RemoveItemFromInventory", src, "marijuana", 1)
             TriggerClientEvent("DRP_Drugs:Animation", src)
             selling = false
         elseif cocaine >= 1 and successful then
@@ -61,7 +61,7 @@ AddEventHandler("DRP_Drugs:Sell", function()
             TriggerEvent("DRP_Inventory:RemoveItemFromInventory", src, "meth", 1)
             TriggerClientEvent("DRP_Drugs:Animation", src)
             selling = false
-        elseif weed <= 0 then
+        elseif marijuana <= 0 then
             TriggerClientEvent("DRP_Core:Info", src, "Inventory", "You do not have any weed", 6000, false, "leftCenter")
         elseif cocaine <= 0 then
             TriggerClientEvent("DRP_Core:Info", src, "Inventory", "You do not have any Cocaine", 6000, false, "leftCenter")
@@ -79,7 +79,7 @@ AddEventHandler("DRP_Drugs:ProcessItem", function(itemname)
     TriggerEvent("DRP_Inventory:CheckForItemOwnershipByName", src, "weed", function(Ownership)
         if json.encode(Ownership) == "[]" then
             TriggerClientEvent("DRP_Core:Error", src, "Drugs", "You do not have any of this!", 7500, false, "leftCenter")
-        else 
+        else
             TriggerEvent("DRP_Drugs:RemoveThenAdd", src, itemname)
         end
     end)
