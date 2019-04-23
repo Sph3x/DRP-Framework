@@ -8,6 +8,10 @@ DRPCharacters.Models = {
 DRPCharacters.SpawnLocations = {
 	{x = 433.42, y = -628.88, z = 28.72, h = 89.29}
 }
+
+DRPCharacters.ChangeCharacterLocations = {
+    {x = -121.2142, y = -862.5743, z = 33.33058}
+}
 ---------------------------------------------------------------------------
 DRPCharacters.PedComponents = {
     ["FACE"] = 0,

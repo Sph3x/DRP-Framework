@@ -66,3 +66,20 @@ AddEventHandler("DRP_ID:LoadSelectedCharacter", function(ped, spawn)
     SetEntityVisible(ped, true)
 	SetPlayerInvincible(PlayerId(), false)
 end)
+
+Citizen.CreateThread(function()
+	while true do
+		local ped = GetPlayerPed(PlayerId())
+		local pedCoords = GetEntityCoords(ped, false)
+		for a = 1, #DRPCharacters.ChangeCharacterLocations do 
+			local distance = Vdist(pedCoords.x, pedCoords.y, pedCoords.z, DRPCharacters.ChangeCharacterLocations[a].x, DRPCharacters.ChangeCharacterLocations[a].y, DRPCharacters.ChangeCharacterLocations[a].z)
+			if distance <= 7.0 then
+				exports['drp_core']:DrawText3Ds(DRPCharacters.ChangeCharacterLocations[a].x, DRPCharacters.ChangeCharacterLocations[a].y, DRPCharacters.ChangeCharacterLocations[a].z, tostring("~b~[E]~w~ To Change Character"))
+				if IsControlJustPressed(1, 86) then 
+					TriggerServerEvent("DRP_ID:RequestChangeCharacter")
+				end
+			end
+		end
+		Citizen.Wait(0)
+	end
+end)

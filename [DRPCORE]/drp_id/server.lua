@@ -15,6 +15,27 @@ AddEventHandler("DRP_ID:RequestOpenMenu", function()
 		end)
 	end)
 end)
+
+RegisterServerEvent("DRP_ID:RequestChangeCharacter")
+AddEventHandler("DRP_ID:RequestChangeCharacter", function()
+	local src = source
+	local characterInfo = GetCharacterData(src)
+	for a = 1, #character do
+		if character[a].id == characterInfo.charid then
+			table.remove(character, a)
+		end
+	end
+	TriggerEvent("DRP_Core:GetPlayerData", src, function(results)
+		exports["externalsql"]:DBAsyncQuery({
+			string = "SELECT * FROM `characters` WHERE `playerid` = :playerid",
+			data = {playerid = results.playerid}
+		}, function(characters)
+			local characters = characters["data"]
+			TriggerClientEvent("DRP_ID:OpenMenu", src, characters)
+		end)
+	end)
+end)
+
 ---------------------------------------------------------------------------
 AddEventHandler("DRP_ID:UpdateCharactersInUI", function(player)
 	TriggerEvent("DRP_Core:GetPlayerData", player, function(results)
