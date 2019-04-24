@@ -123,7 +123,7 @@
 												</v-text-field>
 											</v-layout>
 											<v-layout row>
-												<v-select :items="genders" v-model="selectedGender" label="Gender"
+												<v-select dark :items="genders" v-model="selectedGender" label="Gender"
 													:rules="genderRules">
 												</v-select>
 											</v-layout>
@@ -131,8 +131,8 @@
 												<v-btn color="white" @click="selectedAge = selectedAge - 1">
 													<v-icon>arrow_left</v-icon>
 												</v-btn>
-												<v-slider color="white" ref="formSlider" v-model="selectedAge" step="1"
-													min="18" max="100"></v-slider>
+												<v-slider dark color="white" ref="formSlider" v-model="selectedAge"
+													step="1" min="18" max="100"></v-slider>
 												<v-btn color="white" @click="selectedAge = selectedAge + 1">
 													<v-icon>arrow_right</v-icon>
 												</v-btn>
