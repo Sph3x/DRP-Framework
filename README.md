@@ -8,6 +8,9 @@ Backend Built Using Xander1998's DatabaseAPI Resource
 
 Please join my Discord server for live updates when I make changes and join the FiveM Dev Labs :D
 
+https://discord.gg/hc78sSK
+
+Please also feel free to join my Public server i am developing using the DRP Framework
 https://discord.gg/PxfPnMX
 
 # Installation Guide
