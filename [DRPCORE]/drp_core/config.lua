@@ -7,13 +7,12 @@ DRPCoreConfig.Debug = false
 
 DRPCoreConfig.CommunityName = "DRP Framework"
 
-DRPCoreConfig.StaffRanks.ranks = {"User", "Moderator", "Administrator", "Developer", "Founder"}
 DRPCoreConfig.StaffRanks.perms = {
     ["User"] = {},
-    ["Moderator"] = {""},
-    ["Administrator"] = {""},
-    ["Developer"] = {""},
-    ["Founder"] = {""}
+    ["Moderator"] = {"admin"},
+    ["Administrator"] = {"admin"},
+    ["Developer"] = {"admin"},
+    ["Founder"] = {"admin"}
 }
 
 DRPCoreConfig.Locations = {
