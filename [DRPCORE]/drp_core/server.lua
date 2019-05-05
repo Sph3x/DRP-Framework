@@ -55,7 +55,7 @@ AddEventHandler("playerConnecting", function(playerName, kickReason, deferrals)
 					data = {
 						identifier = PlayerIdentifier("license", src),
 						name = GetPlayerName(src),
-						rank = DRPCoreConfig.StaffRanks.ranks[1],
+						rank = "User",
 						bandata = json.encode({banned = false, reason = "", by = "", time = 0, perm = false}),
 						whitelisted = false
 					}

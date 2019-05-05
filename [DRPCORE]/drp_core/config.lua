@@ -1,12 +1,17 @@
+-- Do not edit this unless you know what you are doing!
 DRPCoreConfig = {}
 DRPCoreConfig.StaffRanks = {}
 DRPCoreConfig.Locations = {}
+-------------------------------------------------------
 
+-- Edit these to your needs
 DRPCoreConfig.Whitelisted = true -- true or false if you want to add the whitelist system
-DRPCoreConfig.Debug = false
+DRPCoreConfig.Debug = false -- Developer Mode, this will be seen by all the players in game (not recommended)
+DRPCoreConfig.CommunityName = "DarkRP"
+-------------------------------------------------------
 
-DRPCoreConfig.CommunityName = "DRP Framework"
-
+-- Do not edit this unless you know what you are doing!
+DRPCoreConfig.StaffRanks.ranks = {"User", "Moderator", "Administrator", "Developer", "Founder"}
 DRPCoreConfig.StaffRanks.perms = {
     ["User"] = {},
     ["Moderator"] = {"admin"},
@@ -14,7 +19,7 @@ DRPCoreConfig.StaffRanks.perms = {
     ["Developer"] = {"admin"},
     ["Founder"] = {"admin"}
 }
-
+-- Edit these to your needs
 DRPCoreConfig.Locations = {
 	{name = "Mission Row Police Station", id = 60, blipSize = 1.0, colour = 4, x = 428.21, y = -981.13, z = 30.71},
 	{name = "Sandy Shores Sheriff Department", id = 60, blipSize = 1.0, colour = 4, x = 1857.0, y = 3680.51, z = 33.9},
@@ -58,6 +63,7 @@ DRPCoreConfig.Locations = {
 	-- {name = "Fuel Station", id = 361, blipSize = 0.75, colour = 1, x = -69.94, y = -1762.01, z = 29.53},
 }
 
+-- Edit if you know what you are doing
 -- 'bone' use bonetag https://pastebin.com/D7JMnX1g
 DRPCoreConfig.RealWeapons = {
 	--{name = 'WEAPON_NIGHTSTICK', hash = "", 			bone = 58271, x = -0.20, y = 0.1,  z = -0.10, xRot = -55.0,  yRot = 90.00, zRot = 5.0, category = 'melee', 		model = 'w_me_nightstick'},

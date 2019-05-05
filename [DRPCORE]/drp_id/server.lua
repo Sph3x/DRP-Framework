@@ -108,14 +108,22 @@ AddEventHandler("DRP_ID:SelectCharacter", function(character_id)
 			character_id = character_id
 		}
 	}, function(characterInfo)
+		local playerModel = characterInfo["data"][1].model
 		table.insert(character, {id = src, charid = character_id, playerid = characterInfo.data[1].playerid, gender = characterInfo.data[1].gender, name = characterInfo.data[1].name, age = characterInfo.data[1].age})
-		
-		local charModelChecker = #characterInfo["data"][1].model
-		if charModelChecker > 0 then
-			math.randomseed(os.time())
-			local spawn = DRPCharacters.SpawnLocations[math.random(1, #DRPCharacters.SpawnLocations)]
-			TriggerClientEvent("DRP_ID:LoadSelectedCharacter", src, characterInfo.data[1].model, spawn)
-		end
+				exports["externalsql"]:DBAsyncQuery({
+					string = "SELECT * FROM `character_clothing` WHERE `char_id` = :charid",
+					data = {
+						charid = character_id
+					}
+				}, function(characterModel)
+			if json.encode(characterModel["data"]) == "[]" then
+				addNewCharacterClothing(character_id, characterInfo["data"][1].model)
+			else
+				math.randomseed(os.time())
+				local spawn = json.decode(characterInfo["data"][1].lastLocation)
+				TriggerClientEvent("DRP_ID:LoadSelectedCharacter", src, characterModel["data"][1].skin, spawn)
+			end
+		end)
 	end)
 end)
 ---------------------------------------------------------------------------
@@ -149,7 +157,7 @@ AddEventHandler("DRP_ID:SaveCharacter", function(characterData)
 				char_id = characterId.charid
 			}
 		}, function(results)
-			local spawn = DRPCharacters.SpawnLocations[math.random(1, #DRPCharacters.SpawnLocations)]
+			local spawn = json.decode(characterModel["data"][1].lastLocation)
 			TriggerClientEvent("DRP_ID:LoadSelectedCharacter", src, characterData.model, spawn)
 		end)
 	end)
@@ -160,8 +168,45 @@ end)
 RegisterServerEvent("DRP_ID:Disconnect")
 AddEventHandler("DRP_ID:Disconnect", function()
 	local src = source
-	DropPlayer(src, "Disconnected From Server!")
+	DropPlayer(src, "Disconnected From Server Using The Disconnect Button!")
 end)
+
+RegisterServerEvent("DRP_ID:SaveCharacterLocation")
+AddEventHandler("DRP_ID:SaveCharacterLocation", function(x,y,z)
+	local src = source
+	local character = GetCharacterData(src)
+	local lastPos = "{"..x..", "..y..", "..z.."}"
+	exports["externalsql"]:DBAsyncQuery({
+		string = "UPDATE characters SET `lastLocation` = :lastLocation WHERE `id` = :char_id",
+		data = {
+			lastLocation = lastPos,
+			char_id = character.charid
+		}
+	}, function(results)
+	end)
+end)
+
+function addNewCharacterClothing(characterId, model)
+	local model = model
+	exports["externalsql"]:DBAsyncQuery({
+		string = "INSERT INTO `character_clothing` SET `skin` = :model, `char_id` = :charid",
+		data = {
+			model = model,
+			charid = characterId
+		}
+	}, function(yeet)
+		exports["externalsql"]:DBAsyncQuery({
+			string = "SELECT * FROM `character_clothing` WHERE `char_id` = :charid",
+			data = {
+				charid = characterId
+			}
+		}, function(characterModel)
+		math.randomseed(os.time())
+		local spawn = json.decode(characterModel["data"][1].lastLocation)
+		TriggerClientEvent("DRP_ID:LoadSelectedCharacter", src, characterModel["data"][1].skin, spawn)
+		end)
+	end)
+end
 ---------------------------------------------------------------------------
 function GetCharacterData(id)
 	for a = 1, #character do

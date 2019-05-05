@@ -1,3 +1,14 @@
+local characterSpawnedIn = false
+Citizen.CreateThread(function()
+	while true do
+		Citizen.Wait(20000)
+		if characterSpawnedIn then
+			local ped = GetPlayerPed(PlayerId())
+			local coords = GetEntityCoords(ped)
+			TriggerServerEvent("DRP_ID:SaveCharacterLocation", coords.x, coords.y, coords.z)
+		end
+    end
+end)
 ---------------------------------------------------------------------------
 -- NUI EVENTS
 ---------------------------------------------------------------------------
@@ -52,19 +63,21 @@ end)
 ---------------------------------------------------------------------------
 RegisterNetEvent("DRP_ID:LoadSelectedCharacter")
 AddEventHandler("DRP_ID:LoadSelectedCharacter", function(ped, spawn)
-	exports["spawnmanager"]:spawnPlayer({x = spawn.x, y = spawn.y, z = spawn.z, heading = spawn.h, model = ped})
+	characterSpawnedIn = true
+	exports["spawnmanager"]:spawnPlayer({x = spawn[1], y = spawn[2], z = spawn[3], heading = 0.0, model = ped})
 	Citizen.Wait(4000)
+	local ped = GetPlayerPed(PlayerId())
+    SetPlayerInvisibleLocally(PlayerId(), false)
+    SetEntityVisible(ped, true)
+	SetPlayerInvincible(PlayerId(), false)
+	SetPedDefaultComponentVariation(ped)
+	
 	TriggerEvent("DRP_ID:StopSkyCamera")
 	TriggerEvent("DRP_ID:StopCreatorCamera")
 	TriggerServerEvent("DRP_Death:GetDeathStatus")
 	TriggerServerEvent("DRP_Doors:StartSync") -- If Door Is Installed
-	-- TriggerServerEvent("clothing_shop:SpawnPlayer_server")
+	TriggerServerEvent("clothing_shop:SpawnPlayer_server")
 	-- Add Your Spawn In Stuff Here
-	local ped = GetPlayerPed(PlayerId())
-	SetPedDefaultComponentVariation(ped)
-    SetPlayerInvisibleLocally(PlayerId(), false)
-    SetEntityVisible(ped, true)
-	SetPlayerInvincible(PlayerId(), false)
 end)
 
 Citizen.CreateThread(function()
@@ -77,6 +90,7 @@ Citizen.CreateThread(function()
 				exports['drp_core']:DrawText3Ds(DRPCharacters.ChangeCharacterLocations[a].x, DRPCharacters.ChangeCharacterLocations[a].y, DRPCharacters.ChangeCharacterLocations[a].z, tostring("~b~[E]~w~ To Change Character"))
 				if IsControlJustPressed(1, 86) then 
 					TriggerServerEvent("DRP_ID:RequestChangeCharacter")
+					characterSpawnedIn = false
 				end
 			end
 		end

@@ -31,13 +31,14 @@ CREATE TABLE IF NOT EXISTS `characters` (
   `licenses` text NOT NULL,
   `phonenumber` mediumint(11) NOT NULL,
   `isDead` int(11) NOT NULL DEFAULT '0',
+  `lastLocation` varchar(255) DEFAULT '{433.42, -628.88, 28.72}',
   `playerid` int(11) NOT NULL,
   PRIMARY KEY (`id`),
   KEY `player_id` (`playerid`) USING BTREE,
-  CONSTRAINT `characters_ibfk_1` FOREIGN KEY (`playerid`) REFERENCES `users` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=latin1;
+  CONSTRAINT `characters_ibfk_1` FOREIGN KEY (`playerid`) REFERENCES `users` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=23 DEFAULT CHARSET=latin1;
 
--- Dumping data for table drp.characters: ~2 rows (approximately)
+-- Dumping data for table drp.characters: ~0 rows (approximately)
 /*!40000 ALTER TABLE `characters` DISABLE KEYS */;
 /*!40000 ALTER TABLE `characters` ENABLE KEYS */;
 
@@ -93,7 +94,7 @@ CREATE TABLE IF NOT EXISTS `character_inventory` (
   KEY `FK_character_inventory_characters` (`charid`),
   CONSTRAINT `FK_character_inventory_characters` FOREIGN KEY (`charid`) REFERENCES `characters` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `itemid_fk1` FOREIGN KEY (`itemid`) REFERENCES `inventory_items` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=34 DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
 -- Dumping data for table drp.character_inventory: ~1 rows (approximately)
 /*!40000 ALTER TABLE `character_inventory` DISABLE KEYS */;
@@ -125,9 +126,9 @@ CREATE TABLE IF NOT EXISTS `police` (
   PRIMARY KEY (`id`),
   KEY `police_fk1` (`char_id`),
   CONSTRAINT `police_fk1` FOREIGN KEY (`char_id`) REFERENCES `characters` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
--- Dumping data for table drp.police: ~1 rows (approximately)
+-- Dumping data for table drp.police: ~0 rows (approximately)
 /*!40000 ALTER TABLE `police` DISABLE KEYS */;
 /*!40000 ALTER TABLE `police` ENABLE KEYS */;
 
@@ -140,11 +141,71 @@ CREATE TABLE IF NOT EXISTS `users` (
   `ban_data` varchar(255) COLLATE utf8_bin DEFAULT NULL,
   `whitelisted` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
--- Dumping data for table drp.users: ~0 rows (approximately)
+-- Dumping data for table drp.users: ~1 rows (approximately)
 /*!40000 ALTER TABLE `users` DISABLE KEYS */;
 /*!40000 ALTER TABLE `users` ENABLE KEYS */;
+
+-- Dumping structure for table drp.vehicles
+CREATE TABLE IF NOT EXISTS `vehicles` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `model` varchar(50) DEFAULT NULL,
+  `plate` varchar(8) DEFAULT NULL,
+  `state` varchar(50) DEFAULT NULL,
+  `primarycolor` varchar(50) DEFAULT NULL,
+  `secondarycolor` varchar(50) DEFAULT NULL,
+  `pearlescentColor` varchar(50) DEFAULT NULL,
+  `plateindex` varchar(50) DEFAULT NULL,
+  `wheelColor` varchar(50) DEFAULT NULL,
+  `neoncolor1` varchar(50) DEFAULT NULL,
+  `neoncolor3` varchar(50) DEFAULT NULL,
+  `neoncolor2` varchar(50) DEFAULT NULL,
+  `wheeltype` varchar(50) DEFAULT NULL,
+  `windowtint` varchar(50) DEFAULT NULL,
+  `mods0` varchar(50) DEFAULT '-1',
+  `mods1` varchar(50) DEFAULT '-1',
+  `mods2` varchar(50) DEFAULT '-1',
+  `mods3` varchar(50) DEFAULT '-1',
+  `mods4` varchar(50) DEFAULT '-1',
+  `mods5` varchar(50) DEFAULT '-1',
+  `mods6` varchar(50) DEFAULT '-1',
+  `mods7` varchar(50) DEFAULT '-1',
+  `mods8` varchar(50) DEFAULT '-1',
+  `mods9` varchar(50) DEFAULT '-1',
+  `mods10` varchar(50) DEFAULT '-1',
+  `mods11` varchar(50) DEFAULT '-1',
+  `mods12` varchar(50) DEFAULT '-1',
+  `mods13` varchar(50) DEFAULT '-1',
+  `mods14` varchar(50) DEFAULT '-1',
+  `mods15` varchar(50) DEFAULT '-1',
+  `mods16` varchar(50) DEFAULT '-1',
+  `turbo` varchar(50) NOT NULL DEFAULT 'off',
+  `tiresmoke` varchar(50) NOT NULL DEFAULT 'off',
+  `xenon` varchar(50) NOT NULL DEFAULT 'off',
+  `mods23` varchar(50) DEFAULT NULL,
+  `mods24` varchar(50) DEFAULT NULL,
+  `neon0` varchar(50) NOT NULL DEFAULT 'off',
+  `neon1` varchar(50) NOT NULL DEFAULT 'off',
+  `neon2` varchar(50) NOT NULL DEFAULT 'off',
+  `neon3` varchar(50) NOT NULL DEFAULT 'off',
+  `bulletproof` varchar(50) NOT NULL DEFAULT 'off',
+  `smokecolor1` varchar(50) DEFAULT NULL,
+  `smokecolor2` varchar(50) DEFAULT NULL,
+  `smokecolor3` varchar(50) DEFAULT NULL,
+  `variation` varchar(50) NOT NULL DEFAULT 'off',
+  `damage` int(11) NOT NULL DEFAULT '1000',
+  `enginedamage` int(11) NOT NULL DEFAULT '1000',
+  `charactername` varchar(50) NOT NULL,
+  `char_id` int(11) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `vehicles_ibfk_01` (`char_id`),
+  CONSTRAINT `vehicles_ibfk_01` FOREIGN KEY (`char_id`) REFERENCES `characters` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=latin2;
+
+-- Dumping data for table drp.vehicles: ~0 rows (approximately)
+/*!40000 ALTER TABLE `vehicles` DISABLE KEYS */;
+/*!40000 ALTER TABLE `vehicles` ENABLE KEYS */;
 
 /*!40101 SET SQL_MODE=IFNULL(@OLD_SQL_MODE, '') */;
 /*!40014 SET FOREIGN_KEY_CHECKS=IF(@OLD_FOREIGN_KEY_CHECKS IS NULL, 1, @OLD_FOREIGN_KEY_CHECKS) */;

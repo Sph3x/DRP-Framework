@@ -88,6 +88,6 @@ function RemoteSetTime(mins, hrs)
     if hrs > 23 or hrs < 1 then return {hasSet = false, msg = "Hours does not have the correct range 1 - 24"} end
     hours = hrs
     mins = mins
-    TriggerClientEvent("ISRP_TimeSync:SetTime", -1, hours, minutes)
+    TriggerClientEvent("DRP_TimeSync:SetTime", -1, hours, minutes)
     return {hasSet = true, msg = "You have set the time."}
 end

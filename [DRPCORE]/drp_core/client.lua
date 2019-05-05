@@ -46,6 +46,8 @@ Citizen.CreateThread(function()
         -- Remove Getting Weapons From Vehicles
         DisablePlayerVehicleRewards(PlayerId())
 
+        DisableControlAction(0, 140, true)
+
         -- Remove Drops
         RemoveAllPickupsOfType(0x550447A9)
         RemoveAllPickupsOfType(0xF92F486C)

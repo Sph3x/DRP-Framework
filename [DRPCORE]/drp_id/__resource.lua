@@ -32,3 +32,4 @@ client_script "modifier/character_modifier.lua"
 
 
 server_export "GetCharacterData"
+server_export "GetCharacterName"
