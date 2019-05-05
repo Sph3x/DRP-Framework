@@ -1,0 +1,49 @@
+<html>
+  <header>
+    <title>Police Menu</title>
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Material+Icons"
+    />
+    <link rel="stylesheet" href="libraries/vuetify.css" />
+    <link rel="stylesheet" href="style.css" />
+  </header>
+  <body>
+    <v-app id="DRP_PoliceMenu">
+      <v-content>
+        <div id="DRP_PoliceMenu_Base" v-show="showPoliceMenu">
+          <div id="DRP_PoliceMenu_Header">
+            <v-btn
+              color="red"
+              slot="activator"
+              absolute
+              right
+              top
+              fab
+              dark
+              small
+              @click="ClosePoliceMenu()"
+              ><v-icon>clear</v-icon></v-btn
+            >
+            Police Menu
+          </div>
+          <div id="DRP_PoliceMenu_Body">
+            <v-container grid-list-xs>
+              <v-btn color="blue darken-1" block dark @click="Cuff()"
+                >Cuff</v-btn
+              >
+              <v-btn color="blue darken-1" block dark @click="Escort()"
+                >Escort</v-btn
+              >
+            </v-container>
+          </div>
+        </div>
+      </v-content>
+    </v-app>
+
+    <script src="libraries/axios.min.js"></script>
+    <script src="libraries/vue.min.js"></script>
+    <script src="libraries/vuetify.js"></script>
+    <script src="script.js"></script>
+  </body>
+</html>

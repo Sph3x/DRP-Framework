@@ -117,9 +117,8 @@ AddEventHandler("DRP_ID:SelectCharacter", function(character_id)
 					}
 				}, function(characterModel)
 			if json.encode(characterModel["data"]) == "[]" then
-				addNewCharacterClothing(character_id, characterInfo["data"][1].model)
+				addNewCharacterClothing(src, character_id, characterInfo["data"][1].model, characterInfo["data"][1].lastLocation)
 			else
-				math.randomseed(os.time())
 				local spawn = json.decode(characterInfo["data"][1].lastLocation)
 				TriggerClientEvent("DRP_ID:LoadSelectedCharacter", src, characterModel["data"][1].skin, spawn)
 			end
@@ -186,8 +185,10 @@ AddEventHandler("DRP_ID:SaveCharacterLocation", function(x,y,z)
 	end)
 end)
 
-function addNewCharacterClothing(characterId, model)
+function addNewCharacterClothing(source, characterId, model, spawnLocation)
 	local model = model
+	local spawn = spawnLocation
+	local src = source
 	exports["externalsql"]:DBAsyncQuery({
 		string = "INSERT INTO `character_clothing` SET `skin` = :model, `char_id` = :charid",
 		data = {
@@ -195,15 +196,14 @@ function addNewCharacterClothing(characterId, model)
 			charid = characterId
 		}
 	}, function(yeet)
+		Wait(500)
 		exports["externalsql"]:DBAsyncQuery({
 			string = "SELECT * FROM `character_clothing` WHERE `char_id` = :charid",
 			data = {
 				charid = characterId
 			}
 		}, function(characterModel)
-		math.randomseed(os.time())
-		local spawn = json.decode(characterModel["data"][1].lastLocation)
-		TriggerClientEvent("DRP_ID:LoadSelectedCharacter", src, characterModel["data"][1].skin, spawn)
+			TriggerClientEvent("DRP_ID:LoadSelectedCharacter", src, characterModel["data"][1].skin, spawn)
 		end)
 	end)
 end

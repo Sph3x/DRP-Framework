@@ -42,8 +42,7 @@ Citizen.CreateThread(function()
             if distance <= 5.0 then
                 exports['drp_core']:DrawText3Ds(DRPPoliceJob.SignOnAndOff[a].x, DRPPoliceJob.SignOnAndOff[a].y, DRPPoliceJob.SignOnAndOff[a].z, tostring("~b~[E]~w~ to sign on duty or ~r~[H]~w~ to sign off duty"))
                 if IsControlJustPressed(1, 86) then
-                    local jobName = "POLICE"
-                    TriggerServerEvent("DRP_PoliceJobs:SignOnDuty", jobName)
+                    TriggerServerEvent("DRP_PoliceJobs:SignOnDuty")
                 end
                 if IsControlJustPressed(1, 74) then
                     TriggerServerEvent("DRP_PoliceJobs:SignOffDuty")
@@ -97,54 +96,22 @@ Citizen.CreateThread(function()
     end
 end)
 ---------------------------------------------------------------------------
--- Functions
+-- Locker Room Stuff
 ---------------------------------------------------------------------------
-local function setOutfit(outfit)
-    local ped = PlayerPedId()
-
-    RequestModel(outfit.model)
-
-    while not HasModelLoaded(outfit.model) do
-        Wait(0)
-    end
-
-    if GetEntityModel(ped) ~= GetHashKey(outfit.model) then
-        SetPlayerModel(PlayerId(), outfit.model)
-    end
-
-    ped = PlayerPedId()
-
-    for _, comp in ipairs(outfit.components) do
-       SetPedComponentVariation(ped, comp[1], comp[2] - 1, comp[3] - 1, 0)
-    end
-
-    for _, comp in ipairs(outfit.props) do
-        if comp[2] == 0 then
-            ClearPedProp(ped, comp[1])
-        else
-            SetPedPropIndex(ped, comp[1], comp[2] - 1, comp[3] - 1, true)
-        end
-    end
-end
----------------------------------------------------------------------------
--- Job Loadout Event
----------------------------------------------------------------------------
-local menuLoadOuts = nil
 RegisterNetEvent("DRP_PoliceJob:OpenJobLoadout")
 AddEventHandler("DRP_PoliceJob:OpenJobLoadout", function(loadouts)
-    menuLoadOuts = loadouts
     local menuPool = NativeUI.CreatePool()
     local mainMenu = NativeUI.CreateMenu('DRP Police Job', 'Pick Your Clothing')
     -- local subMenu = menuPool:AddSubMenu(mainMenu, "chicken")
     mainMenu:Visible(not mainMenu:Visible())
 
-    for id, outfit in pairs(menuLoadOuts) do
+    for id, outfit in pairs(loadouts) do
         outfit.item = NativeUI.CreateItem(outfit.name, "Select This Outfit")
         mainMenu:AddItem(outfit.item)
     end
 
     mainMenu.OnItemSelect = function(sender, item, index)
-        for _, outfit in pairs(menuLoadOuts) do
+        for id, outfit in pairs(loadouts) do
             if outfit.item == item then
                 CreateThread(function()
                     setOutfit(outfit)
@@ -164,3 +131,50 @@ AddEventHandler("DRP_PoliceJob:OpenJobLoadout", function(loadouts)
         end
     end)
 end)
+---------------------------------------------------------------------------
+-- MAIN CALLBACKS
+---------------------------------------------------------------------------
+RegisterNetEvent("DRP_Interactions:OpenMenu")
+AddEventHandler("DRP_Interactions:OpenMenu", function()
+    SetNuiFocus(true, true)
+    print("triggered this")
+    SendNUIMessage({
+        type = "open_jobcenter_menu",
+    })
+end)
+
+RegisterNUICallback("closeJobCenter", function(data, cb)
+    SetNuiFocus(false, false)
+    cb("ok")
+end)
+
+---------------------------------------------------------------------------
+-- Functions
+---------------------------------------------------------------------------
+function setOutfit(outfit)
+    local ped = PlayerPedId()
+
+    RequestModel(outfit.model)
+
+    while not HasModelLoaded(outfit.model) do
+        Wait(0)
+    end
+
+    if GetEntityModel(ped) ~= GetHashKey(outfit.model) then
+        SetPlayerModel(PlayerId(), outfit.model)
+    end
+
+    ped = PlayerPedId()
+    for _, comp in ipairs(outfit.clothing) do
+        print(json.encode(comp))
+       SetPedComponentVariation(ped, comp.component, comp.drawable - 1, comp.texture - 1, 0)
+    end
+
+    for _, comp in ipairs(outfit.props) do
+        if comp.drawable == 0 then
+            ClearPedProp(ped, comp.props)
+        else
+            SetPedPropIndex(ped, comp.component, comp.drawable - 1, comp.texture - 1, true)
+        end
+    end
+end
