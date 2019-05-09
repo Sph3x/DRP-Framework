@@ -17,7 +17,7 @@ ExternalConfig.Database = {
 // API Configs
 ExternalConfig.API = {
     route: "/external/api",
-    secret: "drp_password"
+    secret: "CHANGEME"
 }
 
 ExternalConfig.DevModeActive = false;
