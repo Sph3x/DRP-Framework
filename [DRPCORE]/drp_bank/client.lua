@@ -47,6 +47,7 @@ RegisterNUICallback("closeatm", function(data, callback)
     callback("ok")
     Citizen.Wait(5000)
     ClearPedTasksImmediately(GetPlayerPed(PlayerId()))
+    sleeper = false
 end)
 
 ---------------------------------------------------------------------------
@@ -54,29 +55,32 @@ end)
 ---------------------------------------------------------------------------
 Citizen.CreateThread(function()
     while true do
+        sleeper = false
         local ped = GetPlayerPed(PlayerId())
         local pedPos = GetEntityCoords(ped, false)
         for a = 1, #atm_models do
-            local atm = GetClosestObjectOfType(pedPos.x, pedPos.y, pedPos.z, 5.0, GetHashKey(atm_models[a]), false, 1, 1)
+            local atm = GetClosestObjectOfType(pedPos.x, pedPos.y, pedPos.z, 3.0, GetHashKey(atm_models[a]), false, 1, 1)
             if atm ~= 0 and not atmOpen then
-
                 local atmOffset = GetOffsetFromEntityInWorldCoords(atm, 0.0, -0.7, 0.0)
                 local atmHeading = GetEntityHeading(atm)
                 local distance = Vdist(pedPos.x, pedPos.y, pedPos.z, atmOffset.x, atmOffset.y, atmOffset.z)
-                DrawMarker(29, atmOffset.x, atmOffset.y, atmOffset.z + 1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 1.0, 1.0, 30, 144, 255, 0.8, 1, 0, 0, 1, 0, 0, 0)
-                
+                -- DrawMarker(29, atmOffset.x, atmOffset.y, atmOffset.z + 1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 1.0, 1.0, 30, 144, 255, 0.8, 1, 0, 0, 1, 0, 0, 0)
                 if distance <= 1.2 then
                     textDisplay("Press ~INPUT_PICKUP~ to use the ATM")
                     if IsControlJustPressed(1, 38) then
+                        atmOpen, sleeper = true, true
                         TaskStartScenarioAtPosition(ped, "PROP_HUMAN_ATM", atmOffset.x, atmOffset.y, atmOffset.z + 1.0, atmHeading, -1, 0, 0)
                         Citizen.Wait(5000)
-                            TriggerServerEvent("DRP_Bank:RequestATMInfo")
-                        atmOpen = true
+                        TriggerServerEvent("DRP_Bank:RequestATMInfo")
                     end
+                    break
                 end
             end
         end
-        Citizen.Wait(1)
+        if sleeper then
+            Citizen.Wait(500)
+        end
+        Citizen.Wait(10)
     end
 end)
 

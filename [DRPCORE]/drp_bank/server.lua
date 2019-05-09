@@ -181,7 +181,6 @@ AddEventHandler("DRP_Bank:RemoveCashMoney", function(source, amount)
         end)
     end)
 end)
-
 ---------------------------------------------------------------------------
 -- Add PayCheck Money
 ---------------------------------------------------------------------------
@@ -207,6 +206,47 @@ AddEventHandler("DRP_Bank:AddPayCheckMoney", function(source, amount)
         end
     end)
 end)
+
+AddEventHandler("DRP_Bank:AddDirtyMoney", function(source, amount)
+    local src = source
+    if type(amount) == "number" then
+        TriggerEvent("DRP_ID:GetCharacterData", src, function(CharacterData)
+            TriggerEvent("DRP_Bank:GetCharacterMoney", CharacterData.charid, function(characterMoney)
+                local newDirtyBalance = characterMoney.data[1].dirtyCash + tonumber(amount)
+                exports["externalsql"]:DBAsyncQuery({
+                    string = "UPDATE `characters` SET `dirtyCash` = :dirtyCash WHERE `id` = :charid",
+                    data = {
+                        dirtyCash = newDirtyBalance,
+                        charid = CharacterData.charid
+                    }
+                }, function(results)
+                    TriggerClientEvent("DRP_Bank:ActionCallback", src, true, "Success", newBankBalance)
+                end)
+            end)
+        end)
+    end
+end)
+
+AddEventHandler("DRP_Bank:RemoveDirtyMoney", function(source, amount)
+    local src = source
+    print(amount)
+    TriggerEvent("DRP_ID:GetCharacterData", src, function(characterData)
+        TriggerEvent("DRP_Bank:GetCharacterMoney", characterData.charid, function(characterMoney)
+            local moneyRemoved = 25
+            local newDirtyBalance = characterMoney.data[1].dirtyCash - tonumber(amount)
+            print(newCashBalance)
+            exports["externalsql"]:DBAsyncQuery({
+                string = "UPDATE `characters` SET `dirtyCash` = :dirtyCash WHERE `id` = :charid",
+                data = {
+                    dirtyCash = newDirtyBalance,
+                    charid = characterData.charid
+                }
+            }, function(results)
+                TriggerClientEvent("ISRP:Notify", src, "CHAR_BANK_MAZE", 1, "Maze Bank", false, "Money Removed :  - ~r~$~s~ "..moneyRemoved.." ~n~New Cash Total : + ~g~$~s~ "..newCashBalance.."")
+            end)
+        end)
+    end)
+end)
 ---------------------------------------------------------------------------
 -- Get Character Money Data
 ---------------------------------------------------------------------------
@@ -230,6 +270,15 @@ RegisterCommand('cash', function(source, args, user)
     TriggerEvent("DRP_ID:GetCharacterData", src, function(CharacterData)
         TriggerEvent("DRP_Bank:GetCharacterMoney", CharacterData.charid, function(characterMoney)
             TriggerClientEvent("chatMessage", src, tostring("^2Cash^0: Your Cash total: ^2$"..characterMoney.data[1].cash.."^0 "))
+        end)
+    end)
+end, false)
+
+RegisterCommand('dirtycash', function(source, args, user)
+    local src = source
+    TriggerEvent("DRP_ID:GetCharacterData", src, function(CharacterData)
+        TriggerEvent("DRP_Bank:GetCharacterMoney", CharacterData.charid, function(characterMoney)
+            TriggerClientEvent("chatMessage", src, tostring("^1Dirty Cash^0: Your Dirty Cash total: ^1$"..characterMoney.data[1].dirtyCash.."^0 "))
         end)
     end)
 end, false)

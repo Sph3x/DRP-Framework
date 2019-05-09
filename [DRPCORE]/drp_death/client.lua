@@ -69,17 +69,17 @@ end)
 RegisterNetEvent("DRP_Core:InitDeath")
 AddEventHandler("DRP_Core:InitDeath", function(time)
     local ped = GetPlayerPed(PlayerId())
-    while GetEntitySpeed(ped) >= 0.33 do
-        Citizen.Wait(555)
+    while GetEntitySpeed(ped) >= 0.35 do
+        Citizen.Wait(1000)
     end
     local pedPos = GetEntityCoords(ped, false)
     ResurrectPed(ped)
     SetEntityCoords(ped, pedPos.x, pedPos.y, pedPos.z, 0.0, 0.0, 0.0, 0)
     startAnimation = true
-    Citizen.Wait(555)
+    Citizen.Wait(500)
     timeLeft = time
     for a = 1, time do
-        Citizen.Wait(555)
+        Citizen.Wait(500)
         timeLeft = timeLeft - 1
         if timeLeft == 0 then
             canRespawn = true
@@ -134,7 +134,6 @@ RegisterCommand("respawn", function(source, args, raw)
             canRespawn = false
             playerDied = false
             timeLeft = -1
-            math.randomseed(os.time())
             local hosSpawns = DRP_Core.HospitalLocations[math.random(1, #DRP_Core.HospitalLocations)]
             exports["spawnmanager"]:spawnPlayer({x = hosSpawns.x, y = hosSpawns.y, z = hosSpawns.z, heading = hosSpawns.h})
             TriggerEvent("DRP_Core:Info", "Life", tostring("You have woken up at the Hospital and forgotten everything in the past!"), 7000, false, "leftCenter")
