@@ -46,6 +46,7 @@ Citizen.CreateThread(function()
         -- Remove Getting Weapons From Vehicles
         DisablePlayerVehicleRewards(PlayerId())
 
+        -- Stop Pistol/Gun Whipping
         DisableControlAction(0, 140, true)
 
         -- Remove Drops

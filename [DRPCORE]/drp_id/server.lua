@@ -1,6 +1,6 @@
 character = {}
 ---------------------------------------------------------------------------
--- UI Events START
+-- START CHARACTER NUI
 ---------------------------------------------------------------------------
 RegisterServerEvent("DRP_ID:RequestOpenMenu")
 AddEventHandler("DRP_ID:RequestOpenMenu", function()
@@ -15,7 +15,9 @@ AddEventHandler("DRP_ID:RequestOpenMenu", function()
 		end)
 	end)
 end)
-
+---------------------------------------------------------------------------
+-- REQUEST TO CHANGE CHARACTER IN GAME
+---------------------------------------------------------------------------
 RegisterServerEvent("DRP_ID:RequestChangeCharacter")
 AddEventHandler("DRP_ID:RequestChangeCharacter", function()
 	local src = source
@@ -35,7 +37,8 @@ AddEventHandler("DRP_ID:RequestChangeCharacter", function()
 		end)
 	end)
 end)
-
+---------------------------------------------------------------------------
+-- UPDATE NUI EVENT
 ---------------------------------------------------------------------------
 AddEventHandler("DRP_ID:UpdateCharactersInUI", function(player)
 	TriggerEvent("DRP_Core:GetPlayerData", player, function(results)
@@ -169,7 +172,9 @@ AddEventHandler("DRP_ID:Disconnect", function()
 	local src = source
 	DropPlayer(src, "Disconnected From Server Using The Disconnect Button!")
 end)
-
+---------------------------------------------------------------------------
+-- Saving Character Location
+---------------------------------------------------------------------------
 RegisterServerEvent("DRP_ID:SaveCharacterLocation")
 AddEventHandler("DRP_ID:SaveCharacterLocation", function(x,y,z)
 	local src = source
@@ -184,7 +189,9 @@ AddEventHandler("DRP_ID:SaveCharacterLocation", function(x,y,z)
 	}, function(results)
 	end)
 end)
-
+---------------------------------------------------------------------------
+-- Character ID Core Functions and Event Handles
+---------------------------------------------------------------------------
 function addNewCharacterClothing(source, characterId, model, spawnLocation)
 	local model = model
 	local spawn = spawnLocation

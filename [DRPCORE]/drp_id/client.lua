@@ -1,14 +1,4 @@
 local characterSpawnedIn = false
-Citizen.CreateThread(function()
-	while true do
-		Citizen.Wait(20000)
-		if characterSpawnedIn then
-			local ped = GetPlayerPed(PlayerId())
-			local coords = GetEntityCoords(ped)
-			TriggerServerEvent("DRP_ID:SaveCharacterLocation", coords.x, coords.y, coords.z)
-		end
-    end
-end)
 ---------------------------------------------------------------------------
 -- NUI EVENTS
 ---------------------------------------------------------------------------
@@ -71,15 +61,17 @@ AddEventHandler("DRP_ID:LoadSelectedCharacter", function(ped, spawn)
     SetEntityVisible(ped, true)
 	SetPlayerInvincible(PlayerId(), false)
 	SetPedDefaultComponentVariation(ped)
-	
+	---------------------------------------------------------------------------
 	TriggerEvent("DRP_ID:StopSkyCamera")
 	TriggerEvent("DRP_ID:StopCreatorCamera")
 	TriggerServerEvent("DRP_Death:GetDeathStatus")
-	TriggerServerEvent("DRP_Doors:StartSync") -- If Door Is Installed
+	TriggerServerEvent("DRP_Doors:StartSync") -- If Doors is Installed
 	TriggerServerEvent("clothing_shop:SpawnPlayer_server")
-	-- Add Your Spawn In Stuff Here
+	---------------------------------------------------------------------------
 end)
-
+---------------------------------------------------------------------------
+-- MAIN THREAD
+---------------------------------------------------------------------------
 Citizen.CreateThread(function()
 	while true do
 		local ped = GetPlayerPed(PlayerId())
@@ -96,4 +88,17 @@ Citizen.CreateThread(function()
 		end
 		Citizen.Wait(0)
 	end
+end)
+---------------------------------------------------------------------------
+-- SAVE CHARACTERS LOCATION THREAD
+---------------------------------------------------------------------------
+Citizen.CreateThread(function()
+	while true do
+		Citizen.Wait(20000)
+		if characterSpawnedIn then
+			local ped = GetPlayerPed(PlayerId())
+			local coords = GetEntityCoords(ped)
+			TriggerServerEvent("DRP_ID:SaveCharacterLocation", coords.x, coords.y, coords.z)
+		end
+    end
 end)
