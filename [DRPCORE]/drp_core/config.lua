@@ -14,10 +14,10 @@ DRPCoreConfig.CommunityName = "DarkRP"
 DRPCoreConfig.StaffRanks.ranks = {"User", "Moderator", "Administrator", "Developer", "Founder"}
 DRPCoreConfig.StaffRanks.perms = {
     ["User"] = {},
-    ["Moderator"] = {"admin"},
-    ["Administrator"] = {"admin"},
-    ["Developer"] = {"admin"},
-    ["Founder"] = {"admin"}
+    ["Moderator"] = {""},
+    ["Administrator"] = {"time"},
+    ["Developer"] = {"time"},
+    ["Founder"] = {"time"}
 }
 -- Edit these to your needs
 DRPCoreConfig.Locations = {

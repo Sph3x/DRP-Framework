@@ -57,7 +57,7 @@ end)
 
 Citizen.CreateThread(function()
     while true do 
-        if IsControlJustPressed(1, 289) then
+        if IsControlJustPressed(1, 318) then
             TriggerServerEvent("DRP_Police:CheckIfMenuIsAllowed")
         end
         Citizen.Wait(0)
