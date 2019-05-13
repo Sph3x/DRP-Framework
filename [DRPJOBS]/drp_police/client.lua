@@ -131,6 +131,62 @@ AddEventHandler("DRP_PoliceJob:OpenJobLoadout", function(loadouts)
         end
     end)
 end)
+
+local allInServiceBlips = {}
+local blipsOn = false
+
+RegisterNetEvent("DRP_Police:BlipToggle")
+AddEventHandler("DRP_Police:BlipToggle", function(bool)
+    blipsOn = bool
+
+    if not blipsOn then
+        RemoveAnyExistingEmergencyBlips()
+    end
+end)
+
+RegisterNetEvent("DRP_Police:BlipsUpdate")
+AddEventHandler("DRP_Police:BlipsUpdate", function(persons)
+    allInServiceBlips = persons
+    print(json.encode(allInServiceBlips))
+end)
+
+function RemoveAnyExistingEmergencyBlips()
+	for src, info in pairs(allInServiceBlips) do
+		local possible_blip = GetBlipFromEntity(GetPlayerPed(GetPlayerFromServerId(src)))
+		if possible_blip ~= 0 then
+			RemoveBlip(possible_blip)
+			allInServiceBlips[src] = nil
+		end
+	end
+end
+
+-----------------------------------------------------
+-- Watch for emergency personnel to show blips for --
+-----------------------------------------------------
+Citizen.CreateThread(function()
+	while true do
+		if blipsOn then
+			for src, info in pairs(allInServiceBlips) do
+                local player = GetPlayerFromServerId(src)
+				local ped = GetPlayerPed(player)
+				if GetPlayerPed(-1) ~= ped then
+					if GetBlipFromEntity(ped) == 0 then
+						local blip = AddBlipForEntity(ped)
+						SetBlipSprite(blip, 1)
+						SetBlipColour(blip, info.color)
+						SetBlipAsShortRange(blip, true)
+						SetBlipDisplay(blip, 4)
+						SetBlipShowCone(blip, true)
+						BeginTextCommandSetBlipName("STRING")
+						AddTextComponentString(info.name)
+						EndTextCommandSetBlipName(blip)
+					end
+				end
+			end
+		end
+		Wait(1)
+	end
+end)
 ---------------------------------------------------------------------------
 -- MAIN CALLBACKS
 ---------------------------------------------------------------------------
@@ -139,7 +195,7 @@ AddEventHandler("DRP_Interactions:OpenMenu", function()
     SetNuiFocus(true, true)
     print("triggered this")
     SendNUIMessage({
-        type = "open_jobcenter_menu",
+        type = "open_police_menu",
     })
 end)
 

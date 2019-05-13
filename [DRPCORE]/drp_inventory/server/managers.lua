@@ -110,7 +110,6 @@ function AddItem(source, itemname, amount)
     local src = source
     local itemname = string.lower(itemname)
     local character = exports["drp_id"]:GetCharacterData(src)
-    print("the amount we need is"..amount)
     if itemname ~= nil then
         TriggerEvent("DRP_Inventory:GetInventorySize", src, function(AmountOfSpace)
             if AmountOfSpace >= DRPInventory.MaxInventorySlots then

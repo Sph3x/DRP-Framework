@@ -1,64 +1,79 @@
 #water {
-    background: url(https://cdn.discordapp.com/attachments/522345297259659264/552144006046416906/water.png) no-repeat;
-    background-size: 23%;
+  background: url(https://cdn.discordapp.com/attachments/522345297259659264/552144006046416906/water.png)
+    no-repeat;
+  background-size: 23%;
 }
 
 #telefon {
-    background: url(https://cdn.discordapp.com/attachments/522345297259659264/552143993509642261/phone.png) no-repeat;
-    background-size: 70%;
+  background: url(https://cdn.discordapp.com/attachments/522345297259659264/552143993509642261/phone.png)
+    no-repeat;
+  background-size: 70%;
 }
 
 #lockpick {
-    background: url(https://gamepedia.cursecdn.com/dayz_gamepedia/a/ac/Lockpick.png) no-repeat;
-    background-size: 50%;
+  background: url(https://gamepedia.cursecdn.com/dayz_gamepedia/a/ac/Lockpick.png)
+    no-repeat;
+  background-size: 50%;
 }
 
 #weed {
-    background: url(https://cdn3.iconfinder.com/data/icons/nature-emoji/50/Marijuana-512.png) no-repeat;
-    background-size: 50%;
+  background: url(https://cdn3.iconfinder.com/data/icons/nature-emoji/50/Marijuana-512.png)
+    no-repeat;
+  background-size: 50%;
 }
 
 #marijuana {
-    background: url(https://ih0.redbubble.net/image.84647802.6104/tpr,875x875,s.6u1.png) no-repeat;
-    background-size: 50%;
+  background: url(
+      https://ih0.redbubble.net/image.84647802.6104/tpr,
+      875x875,
+      s.6u1.png
+    )
+    no-repeat;
+  background-size: 50%;
 }
 
-#dildo {
-    background: url(https://cdn4.iconfinder.com/data/icons/sex-toys-set-1-1/240/Dildo_Strapon-512.png) no-repeat;
-    background-size: 50%;
+#rawcocaine {
+  background: url(https://cdn.iconscout.com/icon/premium/png-256-thumb/cocaine-1427891-1207254.png)
+    no-repeat;
+  background-size: 80%;
 }
 
-#lott {
-    background: url(https://cdn.discordapp.com/attachments/522345297259659264/552143996256780288/trisslot.jpg) no-repeat;
-    background-size: 50%;
+#cocaine {
+  background: url(https://static.thenounproject.com/png/122404-200.png)
+    no-repeat;
+  background-size: 80%;
 }
 
-#bread {
-    background: url(http://www.pngmart.com/files/5/Hamburger-PNG-HD.png) no-repeat;
-    background-size: 80%;
+#cocainebrick {
+  background: url(https://cdn.discordapp.com/attachments/565526874361430018/576417169513119745/cocainebrick.png)
+    no-repeat;
+  background-size: 80%;
 }
 
 #WEAPON_PISTOL {
-    background: url(http://pngimg.com/uploads/gun/gun_PNG1358.png) no-repeat;
-    background-size: 80%;
+  background: url(http://pngimg.com/uploads/gun/gun_PNG1358.png) no-repeat;
+  background-size: 80%;
 }
 
 #WEAPON_APPISTOL {
-    background: url(https://vignette.wikia.nocookie.net/the-gta-online/images/3/34/APPistol-GTAV.png/revision/latest/scale-to-width-down/210?cb=20150519175336) no-repeat;
-    background-size: 80%;
+  background: url(https://vignette.wikia.nocookie.net/the-gta-online/images/3/34/APPistol-GTAV.png/revision/latest/scale-to-width-down/210?cb=20150519175336)
+    no-repeat;
+  background-size: 80%;
 }
 
 #WEAPON_HEAVYPISTOL {
-    background: url(https://www.gtabase.com/images/gta-5/weapons/handguns/heavy-pistol.png) no-repeat;
-    background-size: 230%;
+  background: url(https://www.gtabase.com/images/gta-5/weapons/handguns/heavy-pistol.png)
+    no-repeat;
+  background-size: 230%;
 }
 
 #WEAPON_BAT {
-    background: url(https://gamepedia.cursecdn.com/thedeadlinger_gamepedia/thumb/3/3c/Weapon_melee_baseballbat_wooden.png/150px-Weapon_melee_baseballbat_wooden.png?version=0c306666934df721bb14d98bba49c7a9) no-repeat;
-    background-size: 70%;
+  background: url(https://gamepedia.cursecdn.com/thedeadlinger_gamepedia/thumb/3/3c/Weapon_melee_baseballbat_wooden.png/150px-Weapon_melee_baseballbat_wooden.png?version=0c306666934df721bb14d98bba49c7a9)
+    no-repeat;
+  background-size: 70%;
 }
 
 #WEAPON_ASSAULTRIFLE {
-    background: url(http://pngimg.com/uploads/ak47/ak47_PNG15471.png) no-repeat;
-    background-size: 100%;
+  background: url(http://pngimg.com/uploads/ak47/ak47_PNG15471.png) no-repeat;
+  background-size: 100%;
 }

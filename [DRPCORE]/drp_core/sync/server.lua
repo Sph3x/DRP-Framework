@@ -36,6 +36,11 @@ function TriggerWeatherChange()
         TriggerWeatherChange()
     end)
 end
+
+function ManualWeatherSet(newWeather)
+    currentWeather = string.upper(newWeather)
+    TriggerClientEvent("DRP_Core:SetWeather", -1, currentWeather)
+end
 ---------------------------------------------------------------------------
 RegisterServerEvent("DRP_Core:ConnectionSetWeather")
 AddEventHandler("DRP_Core:ConnectionSetWeather", function()
@@ -89,5 +94,5 @@ function RemoteSetTime(mins, hrs)
     hours = hrs
     mins = mins
     TriggerClientEvent("DRP_TimeSync:SetTime", -1, hours, minutes)
-    return {hasSet = true, msg = "You have set the time."}
+    return {hasSet = true, msg = "You have set the time!"}
 end

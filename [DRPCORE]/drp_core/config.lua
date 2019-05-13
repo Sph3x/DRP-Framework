@@ -15,9 +15,9 @@ DRPCoreConfig.StaffRanks.ranks = {"User", "Moderator", "Administrator", "Develop
 DRPCoreConfig.StaffRanks.perms = {
     ["User"] = {},
     ["Moderator"] = {""},
-    ["Administrator"] = {"time"},
-    ["Developer"] = {"time"},
-    ["Founder"] = {"time"}
+    ["Administrator"] = {"time", "weather"},
+    ["Developer"] = {"time", "weather"},
+    ["Founder"] = {"time", "weather"}
 }
 -- Edit these to your needs
 DRPCoreConfig.Locations = {
@@ -31,36 +31,7 @@ DRPCoreConfig.Locations = {
 	{name = "Capital Blvd Medical Center", id = 61, blipSize = 1.0, colour = 4, x = 1149.5, y = -1495.27, z = 34.69},
 	{name = "Sandy Shore Medical Center", id = 61, blipSize = 1.0, colour = 4, x = 1840.4, y = 3670.41, z = 33.77},
 	{name = "Paleto Bay Medical Center", id = 61, blipSize = 1.0, colour = 4, x = -232.73, y = 6316.16, z = 31.48},
-	{name = "Taxi Depot", id = 56, colour = 46, blipSize = 1.0, x = 894.4, y = -181.55, z = 74.7},
-	-- {name = "Bus Depot", id = 513, colour = 18, blipSize = 0.7, x = 452.42, y = -633.37, z = 28.53},
-	{name = "GoPostal", id = 478, colour = 21, blipSize = 1.0, x = 72.75, y = 107.16, z = 79.2},
-	{name = "RON Deliveries", id = 477, colour = 64, blipSize = 1.0, x = -69.2, y = -2517.23, z = 5.14},
 	{name = "Yellow Jack", id = 93, colour = 50, blipSize = 1.0, x = 1985.68, y = 3052.05, z = 47.22},
-	-- {name = "Fuel Station", id = 361, blipSize = 0.75, colour = 1, x = 263.69, y = -1259.66, z = 36.14},
-	-- {name = "Fuel Station", id = 361, blipSize = 0.75, colour = 1, x = 172.45, y = -1560.21, z = 35.71},
-	-- {name = "Fuel Station", id = 361, blipSize = 0.75, colour = 1, x = -310.48, y = -1467.69, z = 37.19},
-	-- {name = "Fuel Station", id = 361, blipSize = 0.75, colour = 1, x = -523.95, y = -1210.99, z = 18.18},
-	-- {name = "Fuel Station", id = 361, blipSize = 0.75, colour = 1, x = -724.13, y = -935.68, z = 23.98},
-	-- {name = "Fuel Station", id = 361, blipSize = 0.75, colour = 1, x = 815.99, y = -1027.2, z = 26.38},
-	-- {name = "Fuel Station", id = 361, blipSize = 0.75, colour = 1, x = 1211.14, y = -1404.96, z = 43.83},
-	-- {name = "Fuel Station", id = 361, blipSize = 0.75, colour = 1, x = 1181.2, y = -331.35, z = 69.32},
-	-- {name = "Fuel Station", id = 361, blipSize = 0.75, colour = 1, x = 620.4, y = 268.45, z = 103.09},
-	-- {name = "Fuel Station", id = 361, blipSize = 0.75, colour = 1, x = -2096.35, y = -317.24, z = 13.02},
-	-- {name = "Fuel Station", id = 361, blipSize = 0.75, colour = 1, x = -1799.97, y = 802.39, z = 138.65},
-	-- {name = "Fuel Station", id = 361, blipSize = 0.75, colour = 1, x = 2581.23, y = 361.5, z = 108.47},
-	-- {name = "Fuel Station", id = 361, blipSize = 0.75, colour = 1, x = -2555.02, y = 2334.12, z = 33.08},
-	-- {name = "Fuel Station", id = 361, blipSize = 0.75, colour = 1, x = 264.62, y = 2608.07, z = 44.84}, -- Old Tiny Fuel Station
-	-- {name = "Fuel Station", id = 361, blipSize = 0.75, colour = 1, x = -1436.64, y = -276.85, z = 46.21},
-	-- {name = "Fuel Station", id = 361, blipSize = 0.75, colour = 1, x = 1206.6, y = 2662.45, z = 37.9}, -- Old Tiny Fuel Station by Sandy Customs
-	-- {name = "Fuel Station", id = 361, blipSize = 0.75, colour = 1, x = 1785.86, y = 3331.43, z = 41.36}, -- Old Tiny Fuel Station by Airfield
-	-- {name = "Fuel Station", id = 361, blipSize = 0.75, colour = 1, x = 2005.36, y = 3772.86, z = 32.18},
-	-- {name = "Fuel Station", id = 361, blipSize = 0.75, colour = 1, x = 2680.21, y = 3263.73, z = 55.24},
-	-- {name = "Fuel Station", id = 361, blipSize = 0.75, colour = 1, x = 1689.43, y = 4928.38, z = 42.23},
-	-- {name = "Fuel Station", id = 361, blipSize = 0.75, colour = 1, x = 1701.92, y = 6417.2, z = 32.76},
-	-- {name = "Fuel Station", id = 361, blipSize = 0.75, colour = 1, x = 180.0, y = 6603.07, z = 31.87},
-	-- {name = "Fuel Station", id = 361, blipSize = 0.75, colour = 1, x = -94.28, y = 6419.79, z = 31.49},
-	-- {name = "Fuel Station", id = 361, blipSize = 0.75, colour = 1, x = 48.24, y = 2779.1, z = 58.04},
-	-- {name = "Fuel Station", id = 361, blipSize = 0.75, colour = 1, x = -69.94, y = -1762.01, z = 29.53},
 }
 
 -- Edit if you know what you are doing

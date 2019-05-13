@@ -27,7 +27,6 @@ AddEventHandler("DRP_PoliceJobs:SignOnDuty", function()
                             rank = jobResults.data[1].rank,
                             division = jobResults.data[1].division
                         })
-                        TriggerEvent("DRP_Police:CopsOnDutyData", src) -- Triggers the cop bonus counter to go up
                         -- Time For Some Discusting Code!
                         local policeJobTitle = ""
                         if jobResults.data[1].division == "police" then
@@ -40,6 +39,8 @@ AddEventHandler("DRP_PoliceJobs:SignOnDuty", function()
                         TriggerClientEvent("DRP_Core:Info", src, "Government", tostring("Welcome "..policeJobTitle.." "..characterInfo.name..""), 2500, false, "leftCenter")
                         PoliceAbilities(src, jobLabel)
                         TriggerEvent("DRP_Doors:UpdatePlayerJob", src)
+                        TriggerEvent("DRP_Police:CopsOnDutyData", src) -- Triggers the cop bonus counter to go up
+                        TriggerEvent("DRP_Police:ServiceBlips", src)
                     end
                 end)
             else
@@ -82,16 +83,9 @@ AddEventHandler("DRP_PoliceJob:GetJobLoadouts", function()
     local rank = job.otherJobData.rank
     local division = job.otherJobData.division
     ---------------------------------------------------------------------------
-    local gender = ""
-    if character.gender == "Male" then
-        gender = "Male"
-    elseif character.gender == "Female" then
-        gender = "Female"
-    end
-    ---------------------------------------------------------------------------
     for k,lockerroom in ipairs(DRPPoliceJob.LockerRooms[job.jobLabel].Loadouts) do
         if lockerroom.minrank <= rank then
-            if lockerroom.gender == gender then
+            if lockerroom.gender == character.gender then
                 if lockerroom.division == division then
                     table.insert(rankedLoadouts, {
                         name = lockerroom.label,
@@ -117,13 +111,24 @@ AddEventHandler("DRP_Police:CallHandler", function(coords, information)
     for a = 0, #players do
         local playersJobs = exports["drp_jobcore"]:GetPlayerJob(tonumber(players[a]))
         if playersJobs ~= false then
-            if playersJobs.job == "POLICE" or playersJobs == "SHERIFF" or playersJobs == "STATE" then
+            if playersJobs.job == "POLICE" or playersJobs.job == "SHERIFF" or playersJobs.job == "STATE" then
                 TriggerClientEvent("DRP_Core:Info", src, "Call Handler", tostring("Thank you for your call, a unit will be contacted and we will get back to you"), 5000, false, "rightCenter")
                 TriggerClientEvent("DRP_Core:Warning", tonumber(players[a]), "Police Call", tostring("A new call has come from "..information), 7500, false, "rightCenter")
                 TriggerClientEvent("DRP_Police:AwaitingCall", tonumber(players[a]), coords)
             end
         end
     end
+end)
+---------------------------------------------------------------------------
+-- Police Service Blips
+---------------------------------------------------------------------------
+RegisterServerEvent("DRP_Police:ServiceBlips")
+AddEventHandler("DRP_Police:ServiceBlips", function(source)
+    local src = source
+    for a = 1, #AllCopsInService do
+        TriggerClientEvent("DRP_Police:BlipsUpdate", AllCopsInService[a].src, AllCopsInService)
+    end
+    TriggerClientEvent("DRP_Police:BlipToggle", src, true)
 end)
 ---------------------------------------------------------------------------
 -- Check If Police Menu Is Allowed
@@ -155,23 +160,19 @@ end)
 -- Cops On Duty Counter and Source Id's
 ---------------------------------------------------------------------------
 AddEventHandler("DRP_Police:CopsOnDutyData", function(source)
-    local src = source
-    local job = exports["drp_jobcore"]:GetPlayerJob(src)
+    local job = exports["drp_jobcore"]:GetPlayerJob(source)
     if job.job == "POLICE" or job.job == "SHERIFF" or job.job == "STATE" then
-        table.insert(AllCopsInService, {source = src})
+        table.insert(AllCopsInService, {src = source})
     end
-    print(json.encode(AllCopsInService))
 end)
 ---------------------------------------------------------------------------
 AddEventHandler("DRP_Police:CopsOnDutyDataRemove", function(source)
-    local src = source
     for a = 1, #AllCopsInService do 
-        if AllCopsInService[a].source == src then
+        if AllCopsInService[a].src == source then
             table.remove(AllCopsInService, a)
             break
         end
     end
-    print(json.encode(AllCopsInService))
 end)
 ---------------------------------------------------------------------------
 -- Cops Online Callback

@@ -40,7 +40,7 @@ const PoliceMenu = new Vue({
 document.onreadystatechange = () => {
   if (document.readyState == "complete") {
     window.addEventListener("message", event => {
-      if (event.data.type == "open_jobcenter_menu") {
+      if (event.data.type == "open_police_menu") {
         PoliceMenu.OpenPoliceMenu();
       }
     });

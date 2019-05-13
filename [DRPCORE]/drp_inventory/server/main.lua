@@ -32,7 +32,7 @@ AddEventHandler("DRP_Inventory:AddItem", function(itemname) -- Works only from c
     local itemname = string.lower(itemname)
     local character = exports["drp_id"]:GetCharacterData(src)
     TriggerEvent("DRP_Inventory:GetInventorySize", src, function(AmountOfSpace)
-        if AmountOfSpace >= DRPInventory.MaxInventorySlots then
+        if AmountOfSpace == DRPInventory.MaxInventorySlots then
             TriggerClientEvent("DRP_Core:Error", src, "Inventory", "You have no Inventory space left", 2500, false, "leftCenter")
         else
             TriggerEvent("DRP_Inventory:CheckForItemOwnershipByName", src, itemname, function(Ownership)
@@ -47,7 +47,7 @@ AddEventHandler("DRP_Inventory:AddItem", function(itemname) -- Works only from c
                                 charid = character.charid
                             }
                         }, function(createdPlayer)
-                            TriggerClientEvent("DRP_Core:Info", src, "Inventory", "You have added 1 Weed to your inventory", 2500, false, "leftCenter")
+                            TriggerClientEvent("DRP_Core:Info", src, "Inventory", "You have added 1 "..itemname.." to your inventory", 2500, false, "leftCenter")
                         end)
                     end)
                     else
@@ -60,7 +60,7 @@ AddEventHandler("DRP_Inventory:AddItem", function(itemname) -- Works only from c
                                 itemname = itemname
                             }
                         }, function(updatedQuantity)
-                        TriggerClientEvent("DRP_Core:Info", src, "Inventory", "You have added 1 Weed to your inventory", 2500, false, "leftCenter")
+                        TriggerClientEvent("DRP_Core:Info", src, "Inventory", "You have added 1 "..itemname.." to your inventory", 2500, false, "leftCenter")
                     end)
                 end
             end)

@@ -79,7 +79,7 @@ AddEventHandler("DRP_Core:InitDeath", function(time)
     Citizen.Wait(500)
     timeLeft = time
     for a = 1, time do
-        Citizen.Wait(500)
+        Citizen.Wait(1000)
         timeLeft = timeLeft - 1
         if timeLeft == 0 then
             canRespawn = true
@@ -97,7 +97,7 @@ AddEventHandler("DRP_Death:IsDeadStatus", function(data)
         print("This Person Is Dead")
         SetEntityHealth(ped, 0) -- This will set them to die
     else
-        print("This person is not dead")
+        print("This person is not dead inside xd memes kappa dank")
     end
 end)
 ---------------------------------------------------------------------------

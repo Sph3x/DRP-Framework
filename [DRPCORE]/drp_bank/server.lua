@@ -176,7 +176,7 @@ AddEventHandler("DRP_Bank:RemoveCashMoney", function(source, amount)
                     charid = characterData.charid
                 }
             }, function(results)
-                TriggerClientEvent("ISRP:Notify", src, "CHAR_BANK_MAZE", 1, "Maze Bank", false, "Money Removed :  - ~r~$~s~ "..moneyRemoved.." ~n~New Cash Total : + ~g~$~s~ "..newCashBalance.."")
+                TriggerClientEvent("DRP_Bank:ActionCallback", src, true, "Success", newBankBalance)
             end)
         end)
     end)
@@ -242,7 +242,7 @@ AddEventHandler("DRP_Bank:RemoveDirtyMoney", function(source, amount)
                     charid = characterData.charid
                 }
             }, function(results)
-                TriggerClientEvent("ISRP:Notify", src, "CHAR_BANK_MAZE", 1, "Maze Bank", false, "Money Removed :  - ~r~$~s~ "..moneyRemoved.." ~n~New Cash Total : + ~g~$~s~ "..newCashBalance.."")
+                TriggerClientEvent("DRP_Bank:ActionCallback", src, true, "Success", newBankBalance)
             end)
         end)
     end)

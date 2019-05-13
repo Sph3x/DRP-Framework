@@ -1,28 +1,11 @@
 local handCuffed = false
 local drag = false
 local officerDrag = -1
-
-RegisterCommand("911", function(source, args, raw)
-    local src = source
-    local callTarget = args[1]
-    local callInformation = table.concat(args, ' ', 2, #args)
-    local coords = GetEntityCoords(GetPlayerPed(PlayerId()))
-    if callInformation ~= nil then
-        if callTarget == "police" then
-            TriggerServerEvent("DRP_Police:CallHandler", {x = coords.x, y = coords.y , z = coords.z}, callInformation)
-        elseif callTarget == "sheriff" then
-
-        elseif callTarget == "state" then
-
-        elseif callTarget == "cops" then
-
-        end
-    end
-end)
-
 local callActive = false
 local haveTarget = false
 local target = {}
+
+
 Citizen.CreateThread(function()
     while true do 
     Citizen.Wait(1)
@@ -76,10 +59,7 @@ end)
 
 RegisterNetEvent("DRP_Police:EscortToggle")
 AddEventHandler("DRP_Police:EscortToggle", function(target)
-	if IsPedSittingInAnyVehicle(target) then
-		print("person is in a vehicle")
-	else
-		print("person is not in a vehicle")
+	if not IsPedSittingInAnyVehicle(target) then
 		drag = not drag
 		officerDrag = target
 	end
@@ -117,7 +97,7 @@ Citizen.CreateThread(function()
 	end
 end)
 ---------------------------------------------------------------------------
--- LEO CALLBACKS
+-- CALLBACKS
 ---------------------------------------------------------------------------
 local badgeObject = nil
 RegisterNUICallback("showbadge", function(data, cb)
@@ -152,6 +132,58 @@ RegisterNUICallback("handcuff", function(data, cb)
     cb("ok")
 end)
 
+RegisterNUICallback("ziptie", function(data, cb)
+    cb("ok")
+end)
+---------------------------------------------------------------------------
+RegisterNUICallback("drag", function(data, cb)
+    SetNuiFocus(false, false)
+    local target, distance = GetClosestPlayer()
+        if distance ~= -1 and distance < 3 then
+            TriggerServerEvent("DRP_Police:CheckLEOEscort", GetPlayerServerId(target))
+        else
+            TriggerEvent("DRP_Core:Info", "Drag", tostring("No Players Near You"), 7000, false, "leftCenter")
+    end
+    cb("ok")
+end)
+---------------------------------------------------------------------------
+RegisterNUICallback("blindfold", function(data, cb)
+    cb("ok")
+end)
+---------------------------------------------------------------------------
+-- RegisterNUICallback("fine", function(data, cb)
+--     local t, distance = GetClosestPlayer()
+--     local amount = 0
+--     if distance ~= -1 and distance < 3 then
+--         DisplayOnscreenKeyboard(1, "FMMC_KEY_TIP8S", "", "", "", "", "", 20)
+-- 			while (UpdateOnscreenKeyboard() == 0) do
+-- 				DisableAllControlActions(0);
+-- 				Wait(0);
+-- 			end
+-- 			if (GetOnscreenKeyboardResult()) then
+-- 				local res = tonumber(GetOnscreenKeyboardResult())
+-- 				if(res ~= nil and res ~= 0) then
+-- 					amount = tonumber(res)
+--                 end
+--             end
+--         TriggerServerEvent("ISRP_Cops:FinePlayer", GetPlayerServerId(t), tonumber(amount))
+--     else 
+--         TriggerEvent("ISRP_Notification:Info", "Cops", tostring("No Players Near You"), 7000, false, "leftCenter")
+--     end
+--     cb("ok")
+-- end)
+---------------------------------------------------------------------------
+-- COMMANDS
+---------------------------------------------------------------------------
+RegisterCommand("escort", function()
+    local target, distance = GetClosestPlayer()
+        if distance ~= -1 and distance < 3 then
+            TriggerServerEvent("DRP_Police:CheckLEOEscort", GetPlayerServerId(target))
+        else
+            TriggerEvent("DRP_Core:Info", "Drag", tostring("No Players Near You"), 7000, false, "leftCenter")
+    end
+end)
+---------------------------------------------------------------------------
 RegisterCommand("cuff", function()
     local target, distance = GetClosestPlayer()
     if distance ~= -1 and distance < 3 then
@@ -159,7 +191,25 @@ RegisterCommand("cuff", function()
     else
         TriggerEvent("DRP_Core:Info", "Cops", tostring("No Players Near You"), 7000, false, "leftCenter")
     end
-end) 
+end)
+---------------------------------------------------------------------------
+RegisterCommand("911", function(source, args, raw)
+    local src = source
+    local callTarget = args[1]
+    local callInformation = table.concat(args, ' ', 2, #args)
+    local coords = GetEntityCoords(GetPlayerPed(PlayerId()))
+    if callInformation ~= nil then
+        if callTarget == "police" then
+            TriggerServerEvent("DRP_Police:CallHandler", {x = coords.x, y = coords.y , z = coords.z}, callInformation)
+        elseif callTarget == "sheriff" then
+
+        elseif callTarget == "state" then
+
+        elseif callTarget == "cops" then
+
+        end
+    end
+end)
 
 -- RegisterNUICallback("search", function(data, cb)
 
@@ -217,58 +267,6 @@ end)
 --     end
 -- end)
 
--- RegisterNUICallback("fine", function(data, cb)
---     local t, distance = GetClosestPlayer()
---     local amount = 0
---     if distance ~= -1 and distance < 3 then
---         DisplayOnscreenKeyboard(1, "FMMC_KEY_TIP8S", "", "", "", "", "", 20)
--- 			while (UpdateOnscreenKeyboard() == 0) do
--- 				DisableAllControlActions(0);
--- 				Wait(0);
--- 			end
--- 			if (GetOnscreenKeyboardResult()) then
--- 				local res = tonumber(GetOnscreenKeyboardResult())
--- 				if(res ~= nil and res ~= 0) then
--- 					amount = tonumber(res)
---                 end
---             end
---         TriggerServerEvent("ISRP_Cops:FinePlayer", GetPlayerServerId(t), tonumber(amount))
---     else 
---         TriggerEvent("ISRP_Notification:Info", "Cops", tostring("No Players Near You"), 7000, false, "leftCenter")
---     end
---     cb("ok")
--- end)
----------------------------------------------------------------------------
--- REGULAR CALLBACKS
----------------------------------------------------------------------------
-RegisterNUICallback("ziptie", function(data, cb)
-    cb("ok")
-end)
-
-RegisterNUICallback("drag", function(data, cb)
-    SetNuiFocus(false, false)
-    local target, distance = GetClosestPlayer()
-        if distance ~= -1 and distance < 3 then
-            TriggerServerEvent("DRP_Police:CheckLEOEscort", GetPlayerServerId(target))
-        else
-            TriggerEvent("DRP_Core:Info", "Drag", tostring("No Players Near You"), 7000, false, "leftCenter")
-    end
-    cb("ok")
-end)
-
-RegisterCommand("escort", function()
-    local target, distance = GetClosestPlayer()
-        if distance ~= -1 and distance < 3 then
-            TriggerServerEvent("DRP_Police:CheckLEOEscort", GetPlayerServerId(target))
-        else
-            TriggerEvent("DRP_Core:Info", "Drag", tostring("No Players Near You"), 7000, false, "leftCenter")
-    end
-end)
-
-RegisterNUICallback("blindfold", function(data, cb)
-    cb("ok")
-end)
-
 ---------------------------------------------------------------------------
 -- FUNCTIONS
 ---------------------------------------------------------------------------
@@ -293,7 +291,7 @@ function GetClosestPlayer()
 	
 	return closestPlayer, closestDistance
 end
-
+---------------------------------------------------------------------------
 function GetPlayer(ped)
     local players = GetPlayers()
     print(json.encode(players))
@@ -303,7 +301,7 @@ function GetPlayer(ped)
         end
     end
 end
-
+---------------------------------------------------------------------------
 function GetPlayers()
     local players = {}
     for a = 0, 40 do
@@ -313,7 +311,7 @@ function GetPlayers()
     end
     return players
 end
-
+---------------------------------------------------------------------------
 function SendNotification(message)
     SetNotificationTextEntry('STRING')
     AddTextComponentString(message)

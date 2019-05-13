@@ -16,4 +16,6 @@ DRPDoorsConfig.Doors = {
     [11] = {model = "v_ilev_fib_door2", x = -1047.87, y = -237.28, z = 44.02, isLocked = true, doorRank = 2},
     [12] = {model = "prop_gate_prison_01", x = 1845.07, y = 2608.36, z = 45.59, isLocked = true, doorRank = 2},
     [13] = {model = "prop_fnclink_03gate5", x = 1796.85, y = 2596.79, z = 45.64, isLocked = true, doorRank = 2}
+
+    -- [14] = {model = "v_ilev_gb_vauldr", x = 311.7173, y = -283.4138, z = 54.16476, isLocked = true, doorRank = 1}
 }

@@ -99,6 +99,8 @@ Citizen.CreateThread(function()
 			local ped = GetPlayerPed(PlayerId())
 			local coords = GetEntityCoords(ped)
 			TriggerServerEvent("DRP_ID:SaveCharacterLocation", coords.x, coords.y, coords.z)
+		else
+			Citizen.Trace("You have not spawned in yet, not saving location...")
 		end
     end
 end)

@@ -21,7 +21,23 @@ RegisterCommand("time", function(source, args, raw)
                 TriggerClientEvent("chatMessage", src, tostring(results.msg))
             end
         else
-            TriggerClientEvent("chatMessage", src, tostring("You do not have permissions to set the time."))
+            TriggerClientEvent("chatMessage", src, tostring("You do not have permissions to set the Time"))
         end
+    end
+end, false)
+
+RegisterCommand("weather", function(source, args, raw)
+    local src = source
+    local player = GetPlayerData(src)
+    if player ~= false then
+        if DoesRankHavePerms(player.rank, "weather") then
+            local newWeather = string.upper(args[1])
+            if newWeather ~= nil then
+                ManualWeatherSet(newWeather)
+                TriggerClientEvent("chatMessage", src, tostring("You have set the Weather"))
+            end
+        end
+    else
+        TriggerClientEvent("chatMessage", src, tostring("You do not have permissions to set the Weather"))
     end
 end, false)
