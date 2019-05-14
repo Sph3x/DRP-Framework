@@ -138,7 +138,6 @@ local blipsOn = false
 RegisterNetEvent("DRP_Police:BlipToggle")
 AddEventHandler("DRP_Police:BlipToggle", function(bool)
     blipsOn = bool
-
     if not blipsOn then
         RemoveAnyExistingEmergencyBlips()
     end
@@ -159,9 +158,8 @@ function RemoveAnyExistingEmergencyBlips()
 		end
 	end
 end
-
 -----------------------------------------------------
--- Watch for emergency personnel to show blips for --
+-- Service Blips
 -----------------------------------------------------
 Citizen.CreateThread(function()
 	while true do
@@ -169,7 +167,7 @@ Citizen.CreateThread(function()
 			for src, info in pairs(allInServiceBlips) do
                 local player = GetPlayerFromServerId(src)
 				local ped = GetPlayerPed(player)
-				if GetPlayerPed(-1) ~= ped then
+				if GetPlayerPed(PlayerId()) ~= ped then
 					if GetBlipFromEntity(ped) == 0 then
 						local blip = AddBlipForEntity(ped)
 						SetBlipSprite(blip, 1)
@@ -184,7 +182,7 @@ Citizen.CreateThread(function()
 				end
 			end
 		end
-		Wait(1)
+		Citizen.Wait(1)
 	end
 end)
 ---------------------------------------------------------------------------

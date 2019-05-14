@@ -173,6 +173,7 @@ AddEventHandler("DRP_Police:CopsOnDutyDataRemove", function(source)
             break
         end
     end
+    TriggerClientEvent("DRP_Police:BlipToggle", source, false)
 end)
 ---------------------------------------------------------------------------
 -- Cops Online Callback
