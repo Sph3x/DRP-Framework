@@ -13,21 +13,6 @@ DRPCharacters.ChangeCharacterLocations = {
     {x = -121.2142, y = -862.5743, z = 33.33058}
 }
 ---------------------------------------------------------------------------
-DRPCharacters.PedComponents = {
-    ["FACE"] = 0,
-    ["HEAD"] = 1,
-    ["HAIR"] = 2,
-    ["ARMS"] = 3,
-    ["LEGS"] = 4,
-    ["BAGS"] = 5,
-    ["SHOES"] = 6,
-    ["NECK"] = 7,
-    ["ACCESSORIES"] = 8,
-    ["VESTS"] = 9,
-    ["OVERLAYS"] = 10,
-    ["JACKETS"] = 11
-}
----------------------------------------------------------------------------
 DRPCharacters.StarterBank = 750
 DRPCharacters.StarterCash = 75
 DRPCharacters.MaxCharacters = 4
