@@ -1,10 +1,7 @@
-RegisterCommand("admin", function()
+RegisterCommand("admin", function(source, args, raw)
     local src = source
     local player = GetPlayerData(src)
-    -- if DoesRankHavePerms(playerData.rank, "admin") then
-    --     print("yeet")
-    --     TriggerClientEvent("chatMessage", src, "My Permission Rank is: "..playerData.rank.."")
-    -- end
+    TriggerClientEvent("chatMessage", src, tostring("^2Your Permission Rank is: ^1"..player.rank))
 end, false)
 
 RegisterCommand("time", function(source, args, raw)

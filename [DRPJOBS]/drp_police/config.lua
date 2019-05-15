@@ -3,6 +3,7 @@ DRPPoliceJob.SignOnAndOff = {}
 DRPPoliceJob.PoliceJobLabels = {}
 DRPPoliceJob.Requirements = {}
 DRPPoliceJob.LockerRooms = {}
+DRPPoliceJob.Garages = {}
 DRPPoliceJob.SignOnAndOff = {
     {x = 441.02, y = -974.94, z = 30.54} -- Mission Row Behind Desk In Lobby
 }
@@ -29,7 +30,7 @@ DRPPoliceJob.PoliceJobLabels["SHERIFF"] = "Sheriff Deputy"
 DRPPoliceJob.Requirements["POLICE"] = "police" -- Database Table Name
 DRPPoliceJob.Requirements["STATE"] = "state" -- Database Table Name
 DRPPoliceJob.Requirements["SHERIFF"] = "sheriff" -- Database Table Name
-
+---------------------------------------------------------------------------
 -- Police Officer Uniforms and Loadouts
 DRPPoliceJob.LockerRooms["Police Officer"] = {
     BlipData = {label = "Police Department Locker Room", sprite = 366, color = 77, scale = 1.0},
@@ -128,5 +129,42 @@ DRPPoliceJob.LockerRooms["Police Officer"] = {
     },
     Locations = {
         {x = 458.60, y = -992.55, z = 30.68}
+    }
+}
+---------------------------------------------------------------------------
+DRPPoliceJob.Garages["Police Officer"] = {
+    Vehicles = {
+        {label = "2011 Ford Crown Victoria", model = "police", extras = {}, livery = 0, allowedRanks = 1, division = false},
+        {label = "2014 Dodge Charger", model = "police2", extras = {}, livery = 0, allowedRanks = 1, division = false},
+        {label = "2015 Chevrolet Tahoe", model = "pranger", extras = {}, livery = 0, allowedRanks = 1, division = false},
+        {label = "2016 Ford Taurus", model = "police3", extras = {}, livery = 0, allowedRanks = 1, division = false},
+        {label = "2018 4head", model = "police4", extras = {}, livery = 0, allowedRanks = 1, division = false},
+        {label = "2013 Ford Utility", model = "fbi", extras = {}, livery = 0, allowedRanks = 1, division = false},
+        {label = "2010-13 Ford Silverado", model = "fbi2", extras = {}, livery = 0, allowedRanks = 1, division = false},
+        {label = "Lenco BearCat G2", model = "riot", extras = {}, livery = 0, allowedRanks = 3, division = false}
+    },
+    GameStuff = {
+        BlipData = {label = "Police Garage", sprite = 198, color = 77, scale = 1.0},
+        MarkerData = {label = "~b~[E]~w~ Police Department Garage", markerType = 1, color = {0, 0, 255}, scale = 1.0},
+        Locations = {
+            {
+                x = 465.42,
+                y = -1016.98,
+                z = 28.08,
+                spawnpoints = {
+                    {x = 462.97, y = -1014.70, z = 28.06, h = 94.34},
+                    {x = 463.45, y = -1019.59, z = 28.10, h = 89.27}
+                }
+            },
+            {
+                x = 449.99,
+                y = -995.33,
+                z = 25.78,
+                spawnpoints = {
+                    {x = 447.27, y = -997.05, z = 25.76, h = 182.24},
+                    {x = 452.47, y = -997.22, z = 25.76, h = 179.33}
+                }
+            }
+        }
     }
 }

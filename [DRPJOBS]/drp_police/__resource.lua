@@ -26,6 +26,9 @@ client_script "client.lua"
 client_script "features.lua"
 client_script "config.lua"
 
+client_script "basics/garage.lua"
+client_script "basics/loadouts.lua"
+
 server_script "config.lua"
 server_script "commands.lua"
 server_script "server.lua"

@@ -5,7 +5,6 @@ local callActive = false
 local haveTarget = false
 local target = {}
 
-
 Citizen.CreateThread(function()
     while true do 
     Citizen.Wait(1)
@@ -151,27 +150,27 @@ RegisterNUICallback("blindfold", function(data, cb)
     cb("ok")
 end)
 ---------------------------------------------------------------------------
--- RegisterNUICallback("fine", function(data, cb)
---     local t, distance = GetClosestPlayer()
---     local amount = 0
---     if distance ~= -1 and distance < 3 then
---         DisplayOnscreenKeyboard(1, "FMMC_KEY_TIP8S", "", "", "", "", "", 20)
--- 			while (UpdateOnscreenKeyboard() == 0) do
--- 				DisableAllControlActions(0);
--- 				Wait(0);
--- 			end
--- 			if (GetOnscreenKeyboardResult()) then
--- 				local res = tonumber(GetOnscreenKeyboardResult())
--- 				if(res ~= nil and res ~= 0) then
--- 					amount = tonumber(res)
---                 end
---             end
---         TriggerServerEvent("ISRP_Cops:FinePlayer", GetPlayerServerId(t), tonumber(amount))
---     else 
---         TriggerEvent("ISRP_Notification:Info", "Cops", tostring("No Players Near You"), 7000, false, "leftCenter")
---     end
---     cb("ok")
--- end)
+RegisterNUICallback("fine", function(data, cb)
+    local t, distance = GetClosestPlayer()
+    local amount = 0
+    if distance ~= -1 and distance < 3 then
+        DisplayOnscreenKeyboard(1, "FMMC_KEY_TIP8S", "", "", "", "", "", 20)
+			while (UpdateOnscreenKeyboard() == 0) do
+				DisableAllControlActions(0);
+				Wait(0);
+			end
+			if (GetOnscreenKeyboardResult()) then
+				local res = tonumber(GetOnscreenKeyboardResult())
+				if(res ~= nil and res ~= 0) then
+					amount = tonumber(res)
+                end
+            end
+        TriggerServerEvent("DRP_PoliceJob:FinePlayer", GetPlayerServerId(t), tonumber(amount))
+    else 
+        TriggerEvent("DRP_Core:Info", "Cops", tostring("No Players Near You"), 7000, false, "leftCenter")
+    end
+    cb("ok")
+end)
 ---------------------------------------------------------------------------
 -- COMMANDS
 ---------------------------------------------------------------------------

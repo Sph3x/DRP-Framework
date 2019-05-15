@@ -11,6 +11,7 @@ AddEventHandler("DRP_PoliceJobs:SignOnDuty", function()
     local jobLabel = DRPPoliceJob.PoliceJobLabels[job] -- Gets The Job Label To Display In The Notifications
     local jobRequirement = DRPPoliceJob.Requirements[job] -- Gets If You Are Enabled To Do This Job
     local currentPlayerJob = exports["drp_jobcore"]:GetPlayerJob(src)
+    ---------------------------------------------------------------------------
         if currentPlayerJob.job == job then
             TriggerClientEvent("DRP_Core:Error", src, "Job Manager", tostring("You are already on duty"), 2500, false, "leftCenter")
         else
@@ -60,6 +61,7 @@ AddEventHandler("DRP_PoliceJobs:SignOffDuty", function()
     local currentPlayerJob = exports["drp_jobcore"]:GetPlayerJob(src)
     local job = "UNEMPLOYED"
     local jobLabel = "Unemployed"
+    ---------------------------------------------------------------------------
     if currentPlayerJob.jobLabel == jobLabel then
         TriggerClientEvent("DRP_Core:Error", src, "Job Manager", "You are already Unemployed", 5500, false, "leftCenter")
     else
@@ -101,6 +103,31 @@ AddEventHandler("DRP_PoliceJob:GetJobLoadouts", function()
     rankedLoadouts = {}
 end)
 ---------------------------------------------------------------------------
+-- Police Garages
+---------------------------------------------------------------------------
+RegisterServerEvent("DRP_PoliceJob:GetJobGarages")
+AddEventHandler("DRP_PoliceJob:GetJobGarages", function()
+    local src = source
+    local rankedGarages = {}
+    local job = exports["drp_jobcore"]:GetPlayerJob(src)
+    local character = exports["drp_id"]:GetCharacterData(src)
+    local rank = job.otherJobData.rank
+    local division = job.otherJobData.division
+    ---------------------------------------------------------------------------
+    for k,garage in ipairs(DRPPoliceJob.Garages[job.jobLabel].Vehicles) do
+        if garage.allowedRanks <= rank then
+            table.insert(rankedGarages, {
+                label = garage.label,
+                model = garage.model,
+                extras = garage.extras,
+                livery = garage.livery
+            })
+        end
+    end
+    TriggerClientEvent("DRP_PoliceJob:OpenGarage", src, rankedGarages)
+    rankedGarages = {}
+end)
+---------------------------------------------------------------------------
 -- Police Call Handling
 ---------------------------------------------------------------------------
 RegisterServerEvent("DRP_Police:CallHandler")
@@ -108,6 +135,7 @@ AddEventHandler("DRP_Police:CallHandler", function(coords, information)
     local src = source
     local players = GetPlayers()
     local myCharacterName = exports["drp_id"]:GetCharacterName(src)
+    ---------------------------------------------------------------------------
     for a = 0, #players do
         local playersJobs = exports["drp_jobcore"]:GetPlayerJob(tonumber(players[a]))
         if playersJobs ~= false then
@@ -125,6 +153,7 @@ end)
 RegisterServerEvent("DRP_Police:ServiceBlips")
 AddEventHandler("DRP_Police:ServiceBlips", function(source)
     local src = source
+    ---------------------------------------------------------------------------
     for a = 1, #AllCopsInService do
         TriggerClientEvent("DRP_Police:BlipsUpdate", AllCopsInService[a].src, AllCopsInService)
     end
@@ -137,6 +166,7 @@ RegisterServerEvent("DRP_Police:CheckIfMenuIsAllowed")
 AddEventHandler("DRP_Police:CheckIfMenuIsAllowed", function()
     local src = source
     local job = exports["drp_jobcore"]:GetPlayerJob(src)
+    ---------------------------------------------------------------------------
     if job.job == "POLICE" or job.job == "SHERIFF" or job.job == "STATE" then
         TriggerClientEvent("DRP_Interactions:OpenMenu", src)
     end
@@ -154,20 +184,32 @@ end)
 RegisterServerEvent("DRP_Police:CheckLEOEscort")
 AddEventHandler("DRP_Police:CheckLEOEscort", function(targetPlayer)
     local src = source
+    ---------------------------------------------------------------------------
     TriggerClientEvent("DRP_Police:EscortToggle", targetPlayer, src)
+end)
+
+RegisterServerEvent("DRP_PoliceJob:FinePlayer")
+AddEventHandler("DRP_PoliceJob:FinePlayer", function(t, amount)
+    local src = source
+    TriggerEvent("DRP_Bank:RemoveBankMoney", t, amount)
+    TriggerClientEvent("DRP_Core:Info", t, "Government", tostring("You were fined: "..amount), 2500, false, "leftCenter")
+    TriggerClientEvent("chatMessage", t, "Government", tostring("You were just fined: ")..amount)
+
+    TriggerClientEvent("DPR_Core:Info", src, "Government", tostring("You just fined this Person for: "..amount), 2500, false, "leftCenter")
 end)
 ---------------------------------------------------------------------------
 -- Cops On Duty Counter and Source Id's
 ---------------------------------------------------------------------------
 AddEventHandler("DRP_Police:CopsOnDutyData", function(source)
     local job = exports["drp_jobcore"]:GetPlayerJob(source)
+    ---------------------------------------------------------------------------
     if job.job == "POLICE" or job.job == "SHERIFF" or job.job == "STATE" then
         table.insert(AllCopsInService, {src = source})
     end
 end)
 ---------------------------------------------------------------------------
 AddEventHandler("DRP_Police:CopsOnDutyDataRemove", function(source)
-    for a = 1, #AllCopsInService do 
+    for a = 1, #AllCopsInService do
         if AllCopsInService[a].src == source then
             table.remove(AllCopsInService, a)
             break
@@ -187,10 +229,17 @@ end)
 function PoliceAbilities(source, label)
     local src = source
     local jobLoadouts = DRPPoliceJob.LockerRooms[label]
+    local jobGarages = DRPPoliceJob.Garages[label]
+    ---------------------------------------------------------------------------
     if jobLoadouts ~= nil then
         TriggerClientEvent("DRP_PoliceJob:SetLoadoutMarkerBlips", src, jobLoadouts.MarkerData, jobLoadouts.BlipData, jobLoadouts.Locations)
     else
         TriggerClientEvent("DRP_PoliceJob:SetLoadoutMarkerBlips", src, {}, {}, {})
+    end
+    if jobGarages ~= nil then
+        TriggerClientEvent("DRP_PoliceJob:SetGarageMarkerBlips", src, jobGarages.GameStuff.MarkerData, jobGarages.GameStuff.BlipData, jobGarages.GameStuff.Locations)
+    else
+        TriggerClientEvent("DRP_PoliceJob:SetGarageMarkerBlips", src, {}, {}, {})
     end
 end
 ---------------------------------------------------------------------------
@@ -199,6 +248,7 @@ end
 AddEventHandler("DRP_Police:GetPoliceDivision", function(source, callback)
     local src = source
     local character = exports["drp_id"]:GetCharacterData(src)
+    ---------------------------------------------------------------------------
     exports["externalsql"]:DBAsyncQuery({
         string = "SELECT division FROM `police` WHERE `char_id` = :charid",
         data = {

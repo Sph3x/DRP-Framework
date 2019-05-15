@@ -50,31 +50,27 @@ Citizen.CreateThread(function()
     while true do 
         local ped = GetPlayerPed(PlayerId())
         local coords = GetEntityCoords(ped, false)
-        for a = 1, #cocainePickingLocation do
-        local distance = Vdist(coords.x, coords.y, coords.z, cocainePickingLocation[a].x, cocainePickingLocation[a].y, cocainePickingLocation[a].z)
-            if distance <= 5.0 then
-                exports['drp_core']:DrawText3Ds(cocainePickingLocation[a].x, cocainePickingLocation[a].y, cocainePickingLocation[a].z + 0.3, tostring("~r~[E]~w~ - Purchase Raw Cocaine $"..DRPDrugsConfig.DrugPrices.rawcocaine..""))
-                if IsControlJustPressed(1, 86) then
-                    TriggerServerEvent("DRP_Drugs:CheckPurchaseRawCocaine")
-                end
+        local distance = Vdist(coords.x, coords.y, coords.z, cocainePickingLocation[1].x, cocainePickingLocation[1].y, cocainePickingLocation[1].z)
+        if distance <= 5.0 then
+            DrawText3Ds(cocainePickingLocation[1].x, cocainePickingLocation[1].y, cocainePickingLocation[1].z + 0.3, tostring("~r~[E]~w~ - Purchase Raw Cocaine $"..DRPDrugsConfig.DrugPrices.rawcocaine..""))
+            if IsControlJustPressed(1, 86) then
+                TriggerServerEvent("DRP_Drugs:CheckPurchaseRawCocaine")
             end
         end
-        for b = 1, #DRPDrugsConfig.CocaineLocations do
-            local distance = Vdist(coords.x, coords.y, coords.z, DRPDrugsConfig.CocaineLocations[b].x, DRPDrugsConfig.CocaineLocations[b].y, DRPDrugsConfig.CocaineLocations[b].z)
+        for a = 1, #DRPDrugsConfig.CocaineLocations do
+            local distance = Vdist(coords.x, coords.y, coords.z, DRPDrugsConfig.CocaineLocations[a].x, DRPDrugsConfig.CocaineLocations[a].y, DRPDrugsConfig.CocaineLocations[a].z)
             if distance <= 3.0 then
-                exports['drp_core']:DrawText3Ds(DRPDrugsConfig.CocaineLocations[b].x, DRPDrugsConfig.CocaineLocations[b].y, DRPDrugsConfig.CocaineLocations[b].z + 0.3, tostring("~r~[E]~w~ - Process your Raw Cocaine"))
+                DrawText3Ds(DRPDrugsConfig.CocaineLocations[a].x, DRPDrugsConfig.CocaineLocations[a].y, DRPDrugsConfig.CocaineLocations[a].z + 0.3, tostring("~r~[E]~w~ - Process your Raw Cocaine"))
                 if IsControlJustPressed(1, 86) then
                     TriggerServerEvent("DRP_Drugs:ProcessItem", "rawcocaine", "cocaine")
                 end
             end
         end
-        for c = 1, #cocainePackingAndCuttingLocations do
-            local distance = Vdist(coords.x, coords.y, coords.z, cocainePackingAndCuttingLocations[c].x, cocainePackingAndCuttingLocations[c].y, cocainePackingAndCuttingLocations[c].z)
-            if distance <= 3.0 then
-                exports['drp_core']:DrawText3Ds(cocainePackingAndCuttingLocations[c].x, cocainePackingAndCuttingLocations[c].y, cocainePackingAndCuttingLocations[c].z + 0.3, tostring("~r~[E]~w~ - Cut and Package your Cocaine"))
-                if IsControlJustPressed(1, 86) then
-                    TriggerServerEvent("DRP_Drugs:CutAndPackageCocaine")
-                end
+        local cuttingDistance = Vdist(coords.x, coords.y, coords.z, cocainePackingAndCuttingLocations[1].x, cocainePackingAndCuttingLocations[1].y, cocainePackingAndCuttingLocations[1].z)
+        if cuttingDistance <= 3.0 then
+            DrawText3Ds(cocainePackingAndCuttingLocations[1].x, cocainePackingAndCuttingLocations[1].y, cocainePackingAndCuttingLocations[1].z + 0.3, tostring("~r~[E]~w~ - Cut and Package your Cocaine"))
+            if IsControlJustPressed(1, 86) then
+                TriggerServerEvent("DRP_Drugs:CutAndPackageCocaine")
             end
         end
         for d = 1, #dealerPed do
@@ -122,30 +118,26 @@ Citizen.CreateThread(function()
     while true do
         local ped = GetPlayerPed(PlayerId())
         local coords = GetEntityCoords(ped, false)
-        for a = 1, #cocaineOutsideEntryDoorLocation do
-            local outsideDistance = Vdist(coords.x, coords.y, coords.z, cocaineOutsideEntryDoorLocation[a].x, cocaineOutsideEntryDoorLocation[a].y, cocaineOutsideEntryDoorLocation[a].z)
-            if outsideDistance <= 5.0 then
-                if not isCollecting or isProcessing then
-                    if IsPedOnFoot(ped) then
-                        exports['drp_core']:DrawText3Ds(cocaineOutsideEntryDoorLocation[a].x, cocaineOutsideEntryDoorLocation[a].y, cocaineOutsideEntryDoorLocation[a].z + 0.3, tostring("~r~[E]~w~ - Enter This Premises"))
-                        if IsControlJustPressed(1, 86) then
-                            Citizen.Wait(500)
-                            SetEntityCoords(ped, 1088.514, -3187.744, -38.99)
-                        end
+        local outsideDistance = Vdist(coords.x, coords.y, coords.z, cocaineOutsideEntryDoorLocation[1].x, cocaineOutsideEntryDoorLocation[1].y, cocaineOutsideEntryDoorLocation[1].z)
+        if outsideDistance <= 5.0 then
+            if not isCollecting or isProcessing then
+                if IsPedOnFoot(ped) then
+                    exports['drp_core']:DrawText3Ds(cocaineOutsideEntryDoorLocation[1].x, cocaineOutsideEntryDoorLocation[1].y, cocaineOutsideEntryDoorLocation[1].z + 0.3, tostring("~r~[E]~w~ - Enter This Premises"))
+                    if IsControlJustPressed(1, 86) then
+                        Citizen.Wait(500)
+                        SetEntityCoords(ped, 1088.514, -3187.744, -38.99)
                     end
                 end
             end
         end
-        for b = 1, #cocaineInsideExitDoorLocation do
-            local insideDistance = Vdist(coords.x, coords.y, coords.z, cocaineInsideExitDoorLocation[b].x, cocaineInsideExitDoorLocation[b].y, cocaineInsideExitDoorLocation[b].z)
-            if insideDistance <= 5.0 then
-                if not isCollecting or isProcessing then
-                    if IsPedOnFoot(ped) then
-                        exports['drp_core']:DrawText3Ds(cocaineInsideExitDoorLocation[b].x, cocaineInsideExitDoorLocation[b].y, cocaineInsideExitDoorLocation[b].z + 0.3, tostring("~r~[E]~w~ - Exit This Premises"))
-                        if IsControlJustPressed(1, 86) then
-                            Citizen.Wait(500)
-                            SetEntityCoords(ped, 2855.637, 4446.728, 48.53489)
-                        end
+        local insideDistance = Vdist(coords.x, coords.y, coords.z, cocaineInsideExitDoorLocation[1].x, cocaineInsideExitDoorLocation[1].y, cocaineInsideExitDoorLocation[1].z)
+        if insideDistance <= 5.0 then
+            if not isCollecting or isProcessing then
+                if IsPedOnFoot(ped) then
+                    exports['drp_core']:DrawText3Ds(cocaineInsideExitDoorLocation[1].x, cocaineInsideExitDoorLocation[1].y, cocaineInsideExitDoorLocation[1].z + 0.3, tostring("~r~[E]~w~ - Exit This Premises"))
+                    if IsControlJustPressed(1, 86) then
+                        Citizen.Wait(500)
+                        SetEntityCoords(ped, 2855.637, 4446.728, 48.53489)
                     end
                 end
             end
@@ -159,3 +151,19 @@ AddEventHandler("DRP_Drugs:StartCollectingRawCocaine", function()
     Citizen.Wait(1000)
     TriggerServerEvent("DRP_Inventory:AddItem", "rawcocaine")
 end)
+
+function DrawText3Ds(x,y,z, text)
+    local onScreen,_x,_y=World3dToScreen2d(x,y,z)
+    local px,py,pz=table.unpack(GetGameplayCamCoords())
+    
+    SetTextScale(0.35, 0.35)
+    SetTextFont(4)
+    SetTextProportional(1)
+    SetTextColour(255, 255, 255, 215)
+    SetTextEntry("STRING")
+    SetTextCentre(1)
+    AddTextComponentString(text)
+    DrawText(_x,_y)
+    local factor = (string.len(text)) / 370
+    DrawRect(_x,_y+0.0125, 0.015+ factor, 0.03, 41, 11, 41, 68)
+end

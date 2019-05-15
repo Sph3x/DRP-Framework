@@ -27,6 +27,13 @@ const PoliceMenu = new Vue({
       });
     },
 
+    Fine() {
+      this.showPoliceMenu = false;
+      axios.post("http://drp_police/fine", {}).catch(error => {
+        console.log(error);
+      });
+    },
+
     ClosePoliceMenu() {
       this.showPoliceMenu = false;
       axios.post("http://drp_police/closeJobCenter", {}).catch(error => {

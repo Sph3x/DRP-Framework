@@ -41,7 +41,7 @@ AddEventHandler("DRP_Drugs:CheckPurchaseRawCocaine", function()
             TriggerClientEvent("DRP_Drugs:StartCollectingRawCocaine", src)
             TriggerEvent("DRP_Bank:RemoveCashMoney", src, price)
         else
-            TriggerClientEvent("DRP_Core:Error", src, "Raw Cocaine Dealer", "You do not have enough Money for this", 6000, false, "leftCenter")
+            TriggerClientEvent("DRP_Core:Error", src, "Cocaine Dealer", "You do not have enough Money for this", 6000, false, "leftCenter")
         end
     end)
 end)
