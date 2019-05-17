@@ -101,7 +101,7 @@ Citizen.CreateThread(function()
             dealerCoords = GetEntityCoords(dealerNPC, false)
             local closeToDealer = Vdist(dealerCoords.x, dealerCoords.y, dealerCoords.z, coords.x, coords.y, coords.z)
             if closeToDealer <= 3.0 then
-                exports['drp_core']:DrawText3Ds(dealerCoords.x, dealerCoords.y, dealerCoords.z + 0.3, tostring("~r~[E]~w~ - To Sell Your Cocaine Bricks"))
+                DrawText3Ds(dealerCoords.x, dealerCoords.y, dealerCoords.z + 0.3, tostring("~r~[E]~w~ - To Sell Your Cocaine Bricks"))
                 if IsControlJustPressed(1, 86) then
                     Wait(500)
                     TriggerServerEvent("DRP_Drugs:SellCocaineBrick")
@@ -122,7 +122,7 @@ Citizen.CreateThread(function()
         if outsideDistance <= 5.0 then
             if not isCollecting or isProcessing then
                 if IsPedOnFoot(ped) then
-                    exports['drp_core']:DrawText3Ds(cocaineOutsideEntryDoorLocation[1].x, cocaineOutsideEntryDoorLocation[1].y, cocaineOutsideEntryDoorLocation[1].z + 0.3, tostring("~r~[E]~w~ - Enter This Premises"))
+                    DrawText3Ds(cocaineOutsideEntryDoorLocation[1].x, cocaineOutsideEntryDoorLocation[1].y, cocaineOutsideEntryDoorLocation[1].z + 0.3, tostring("~r~[E]~w~ - Enter This Premises"))
                     if IsControlJustPressed(1, 86) then
                         Citizen.Wait(500)
                         SetEntityCoords(ped, 1088.514, -3187.744, -38.99)
@@ -134,7 +134,7 @@ Citizen.CreateThread(function()
         if insideDistance <= 5.0 then
             if not isCollecting or isProcessing then
                 if IsPedOnFoot(ped) then
-                    exports['drp_core']:DrawText3Ds(cocaineInsideExitDoorLocation[1].x, cocaineInsideExitDoorLocation[1].y, cocaineInsideExitDoorLocation[1].z + 0.3, tostring("~r~[E]~w~ - Exit This Premises"))
+                    DrawText3Ds(cocaineInsideExitDoorLocation[1].x, cocaineInsideExitDoorLocation[1].y, cocaineInsideExitDoorLocation[1].z + 0.3, tostring("~r~[E]~w~ - Exit This Premises"))
                     if IsControlJustPressed(1, 86) then
                         Citizen.Wait(500)
                         SetEntityCoords(ped, 2855.637, 4446.728, 48.53489)

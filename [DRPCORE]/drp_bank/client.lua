@@ -1,5 +1,6 @@
 local atm_models = {"prop_fleeca_atm", "prop_atm_01", "prop_atm_02", "prop_atm_03"}
 local atmOpen = false
+local laundering = false
 local banks = {
   {name="Bank", id=108, x=150.266, y=-1040.203, z=29.374},
   {name="Bank", id=108, x=-1212.980, y=-330.841, z=37.787},
@@ -9,18 +10,6 @@ local banks = {
   {name="Bank", id=108, x=-351.534, y=-49.529, z=49.042},
   {name="Bank", id=108, x=241.727, y=220.706, z=106.286},
 }
-
--- Display Map Blips
-Citizen.CreateThread(function()
-    for _, item in pairs(banks) do
-        item.blip = AddBlipForCoord(item.x, item.y, item.z)
-        SetBlipSprite(item.blip, item.id)
-        SetBlipAsShortRange(item.blip, true)
-        BeginTextCommandSetBlipName("STRING")
-        AddTextComponentString(item.name)
-        EndTextCommandSetBlipName(item.blip)
-    end
-end)
 ---------------------------------------------------------------------------
 -- Triggers ATM menu to open
 ---------------------------------------------------------------------------
@@ -34,7 +23,6 @@ AddEventHandler("DRP_Bank:OpenMenu", function(name, balance, cash)
         cash = cash
     })
 end)
-
 ---------------------------------------------------------------------------
 -- Closes ATM menu and cancels animation
 ---------------------------------------------------------------------------
@@ -49,11 +37,18 @@ RegisterNUICallback("closeatm", function(data, callback)
     ClearPedTasksImmediately(GetPlayerPed(PlayerId()))
     sleeper = false
 end)
-
 ---------------------------------------------------------------------------
 -- Handles distance to atm models with offset position
 ---------------------------------------------------------------------------
 Citizen.CreateThread(function()
+    for _, item in pairs(banks) do
+        item.blip = AddBlipForCoord(item.x, item.y, item.z)
+        SetBlipSprite(item.blip, item.id)
+        SetBlipAsShortRange(item.blip, true)
+        BeginTextCommandSetBlipName("STRING")
+        AddTextComponentString(item.name)
+        EndTextCommandSetBlipName(item.blip)
+    end
     while true do
         sleeper = false
         local ped = GetPlayerPed(PlayerId())
@@ -84,7 +79,67 @@ Citizen.CreateThread(function()
     end
 end)
 
+Citizen.CreateThread(function()
+    while true do
+        local ped = GetPlayerPed(PlayerId())
+        local coords = GetEntityCoords(ped, false)
+            for a = 1, #DRPBankConfig.LaunderLocations do
+                local distance = Vdist(coords.x, coords.y, coords.z, DRPBankConfig.LaunderLocations[a].x, DRPBankConfig.LaunderLocations[a].y, DRPBankConfig.LaunderLocations[a].z)
+                if distance <= 30.0 then
+                    DrawMarker(
+                    1,
+                    DRPBankConfig.LaunderLocations[a].x, 
+                    DRPBankConfig.LaunderLocations[a].y, 
+                    DRPBankConfig.LaunderLocations[a].z - 1.0,
+                    0.0,
+                    0.0,
+                    0.0,
+                    0.0,
+                    0.0,
+                    0.0,
+                    3.001,
+                    3.0001,
+                    0.5001,
+                    255,
+                    0,
+                    0,
+                    1.0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0
+                )
+                end
+                if distance <= 5.0 then
+                    exports['drp_core']:DrawText3Ds(DRPBankConfig.LaunderLocations[a].x, DRPBankConfig.LaunderLocations[a].y, DRPBankConfig.LaunderLocations[a].z, tostring("~r~[E]~w~ to Launder your Money!"))
+                    if IsControlJustPressed(1, 86) and not laundering then
+                        laundering = true
+                        TriggerEvent("DRP_Core:Info", "Launder", "Stay close while we sort your money!", 2500, false, "leftCenter")
+                        Citizen.Wait(30000)
+                        if distance <= 7.0 and laundering then
+                            TriggerServerEvent("DRP_Bank:LaunderMoney")
+                        elseif distance > 10.0 and laundering then
+                            laundering = false
+                            TriggerEvent("DRP_Core:Error", "Launder", "Where did you go, we can't Launder any of your money at that Distance!", 2500, false, "leftCenter")
+                        end
+                    end
+                end
+                if distance > 5 and laundering then
+                    laundering = false
+                    TriggerEvent("DRP_Core:Error", "Launder", "Where did you go, we can't Launder any of your money at that Distance!", 2500, false, "leftCenter")
+                end
+            end
+        Citizen.Wait(1)
+    end
+end)
 
+RegisterNetEvent("DRP_Bank:FinishedLaundering")
+AddEventHandler("DRP_Bank:FinishedLaundering", function()
+    laundering = false
+end)
 ---------------------------------------------------------------------------
 -- NUI Functions
 ---------------------------------------------------------------------------
