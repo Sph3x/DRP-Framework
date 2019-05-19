@@ -35,7 +35,7 @@ CREATE TABLE IF NOT EXISTS `characters` (
   PRIMARY KEY (`id`),
   KEY `player_id` (`playerid`) USING BTREE,
   CONSTRAINT `characters_ibfk_1` FOREIGN KEY (`playerid`) REFERENCES `users` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=29 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=34 DEFAULT CHARSET=latin1;
 
 -- Dumping data for table drp.characters: ~0 rows (approximately)
 /*!40000 ALTER TABLE `characters` DISABLE KEYS */;
@@ -44,40 +44,17 @@ CREATE TABLE IF NOT EXISTS `characters` (
 -- Dumping structure for table drp.character_clothing
 CREATE TABLE IF NOT EXISTS `character_clothing` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `skin` varchar(255) NOT NULL DEFAULT 'mp_m_freemode_01',
-  `face` varchar(255) NOT NULL DEFAULT '0',
-  `face_texture` varchar(255) NOT NULL DEFAULT '0',
-  `hair` varchar(255) NOT NULL DEFAULT '11',
-  `hair_texture` varchar(255) NOT NULL DEFAULT '4',
-  `shirt` varchar(255) NOT NULL DEFAULT '0',
-  `shirt_texture` varchar(255) NOT NULL DEFAULT '0',
-  `pants` varchar(255) NOT NULL DEFAULT '8',
-  `pants_texture` varchar(255) NOT NULL DEFAULT '0',
-  `shoes` varchar(255) NOT NULL DEFAULT '1',
-  `shoes_texture` varchar(255) NOT NULL DEFAULT '0',
-  `vest` varchar(255) NOT NULL DEFAULT '0',
-  `vest_texture` varchar(255) NOT NULL DEFAULT '0',
-  `bag` varchar(255) NOT NULL DEFAULT '40',
-  `bag_texture` varchar(255) NOT NULL DEFAULT '0',
-  `hat` varchar(255) NOT NULL DEFAULT '1',
-  `hat_texture` varchar(255) NOT NULL DEFAULT '1',
-  `mask` varchar(255) NOT NULL DEFAULT '0',
-  `mask_texture` varchar(255) NOT NULL DEFAULT '0',
-  `glasses` varchar(255) NOT NULL DEFAULT '6',
-  `glasses_texture` varchar(255) NOT NULL DEFAULT '0',
-  `gloves` varchar(255) NOT NULL DEFAULT '2',
-  `gloves_texture` varchar(255) NOT NULL DEFAULT '0',
-  `jacket` varchar(255) NOT NULL DEFAULT '7',
-  `jacket_texture` varchar(255) NOT NULL DEFAULT '2',
-  `ears` varchar(255) NOT NULL DEFAULT '1',
-  `ears_texture` varchar(255) NOT NULL DEFAULT '0',
+  `model` varchar(255) NOT NULL DEFAULT 'mp_m_freemode_01',
+  `clothing` varchar(255) NOT NULL,
+  `props` varchar(255) NOT NULL,
+  `overlays` varchar(255) NOT NULL,
   `char_id` int(11) NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`) USING BTREE,
   KEY `clothing_FK1` (`char_id`),
   CONSTRAINT `clothing_FK1` FOREIGN KEY (`char_id`) REFERENCES `characters` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC;
+) ENGINE=InnoDB AUTO_INCREMENT=23 DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC;
 
--- Dumping data for table drp.character_clothing: ~1 rows (approximately)
+-- Dumping data for table drp.character_clothing: ~0 rows (approximately)
 /*!40000 ALTER TABLE `character_clothing` DISABLE KEYS */;
 /*!40000 ALTER TABLE `character_clothing` ENABLE KEYS */;
 
@@ -93,9 +70,9 @@ CREATE TABLE IF NOT EXISTS `character_inventory` (
   KEY `FK_character_inventory_characters` (`charid`),
   CONSTRAINT `FK_character_inventory_characters` FOREIGN KEY (`charid`) REFERENCES `characters` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `itemid_fk1` FOREIGN KEY (`itemid`) REFERENCES `inventory_items` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+) ENGINE=InnoDB AUTO_INCREMENT=50 DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
--- Dumping data for table drp.character_inventory: ~2 rows (approximately)
+-- Dumping data for table drp.character_inventory: ~0 rows (approximately)
 /*!40000 ALTER TABLE `character_inventory` DISABLE KEYS */;
 /*!40000 ALTER TABLE `character_inventory` ENABLE KEYS */;
 
@@ -107,7 +84,7 @@ CREATE TABLE IF NOT EXISTS `character_tattoos` (
   PRIMARY KEY (`id`),
   KEY `FK_character_tattoos_characters` (`char_id`),
   CONSTRAINT `FK_character_tattoos_characters` FOREIGN KEY (`char_id`) REFERENCES `characters` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
 -- Dumping data for table drp.character_tattoos: ~0 rows (approximately)
 /*!40000 ALTER TABLE `character_tattoos` DISABLE KEYS */;
@@ -118,9 +95,9 @@ CREATE TABLE IF NOT EXISTS `inventory_items` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `itemname` varchar(50) COLLATE utf8_bin DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+) ENGINE=InnoDB AUTO_INCREMENT=24 DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
--- Dumping data for table drp.inventory_items: ~7 rows (approximately)
+-- Dumping data for table drp.inventory_items: ~19 rows (approximately)
 /*!40000 ALTER TABLE `inventory_items` DISABLE KEYS */;
 INSERT INTO `inventory_items` (`id`, `itemname`) VALUES
 	(1, 'water'),
@@ -130,7 +107,19 @@ INSERT INTO `inventory_items` (`id`, `itemname`) VALUES
 	(5, 'marijuana'),
 	(6, 'rawcocaine'),
 	(7, 'cocaine'),
-	(9, 'cocainebrick');
+	(9, 'cocainebrick'),
+	(10, 'barkersofkensingtonmegasport'),
+	(11, 'rolex'),
+	(12, 'silverwatch'),
+	(14, 'goldchain'),
+	(15, 'goldearrings'),
+	(16, 'goldplatedwatch'),
+	(17, 'watch'),
+	(18, 'earrings'),
+	(19, 'vwbadge'),
+	(20, 'chain'),
+	(22, 'burger'),
+	(23, 'junk');
 /*!40000 ALTER TABLE `inventory_items` ENABLE KEYS */;
 
 -- Dumping structure for table drp.police
@@ -144,7 +133,7 @@ CREATE TABLE IF NOT EXISTS `police` (
   CONSTRAINT `police_fk1` FOREIGN KEY (`char_id`) REFERENCES `characters` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
--- Dumping data for table drp.police: ~0 rows (approximately)
+-- Dumping data for table drp.police: ~1 rows (approximately)
 /*!40000 ALTER TABLE `police` DISABLE KEYS */;
 /*!40000 ALTER TABLE `police` ENABLE KEYS */;
 
@@ -157,9 +146,9 @@ CREATE TABLE IF NOT EXISTS `users` (
   `ban_data` varchar(255) COLLATE utf8_bin DEFAULT NULL,
   `whitelisted` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
--- Dumping data for table drp.users: ~0 rows (approximately)
+-- Dumping data for table drp.users: ~1 rows (approximately)
 /*!40000 ALTER TABLE `users` DISABLE KEYS */;
 /*!40000 ALTER TABLE `users` ENABLE KEYS */;
 
@@ -217,7 +206,7 @@ CREATE TABLE IF NOT EXISTS `vehicles` (
   PRIMARY KEY (`id`),
   KEY `vehicles_ibfk_01` (`char_id`),
   CONSTRAINT `vehicles_ibfk_01` FOREIGN KEY (`char_id`) REFERENCES `characters` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin2;
+) ENGINE=InnoDB DEFAULT CHARSET=latin2;
 
 -- Dumping data for table drp.vehicles: ~0 rows (approximately)
 /*!40000 ALTER TABLE `vehicles` DISABLE KEYS */;

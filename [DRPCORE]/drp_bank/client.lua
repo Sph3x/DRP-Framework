@@ -153,6 +153,16 @@ RegisterNUICallback("withdrawatm", function(data, cb)
     cb("ok")
 end)
 
+RegisterNUICallback("depositall", function(data, cb) -- Data is going to be nil
+    TriggerServerEvent("DRP_Bank:DepositMoney", data.cashTotal) 
+    cb("ok")
+end)
+
+RegisterNUICallback("quick250", function(data, cb) -- Data is going to be nil
+    TriggerServerEvent("DRP_Bank:WithdrawMoney", 250) -- im seeeuper smert omgurd :P
+    cb("ok")
+end)
+
 RegisterNetEvent("DRP_Bank:ActionCallback")
 AddEventHandler("DRP_Bank:ActionCallback", function(status, message, balance, cash)
     SendNUIMessage({

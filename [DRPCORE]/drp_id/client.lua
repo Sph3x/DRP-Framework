@@ -1,4 +1,5 @@
 local characterSpawnedIn = false
+local firstSpawn = true
 ---------------------------------------------------------------------------
 -- NUI EVENTS
 ---------------------------------------------------------------------------
@@ -66,9 +67,21 @@ AddEventHandler("DRP_ID:LoadSelectedCharacter", function(ped, spawn)
 	TriggerEvent("DRP_ID:StopCreatorCamera")
 	TriggerServerEvent("DRP_Death:GetDeathStatus")
 	TriggerServerEvent("DRP_Doors:StartSync") -- If Doors is Installed
-	TriggerServerEvent("clothing_shop:SpawnPlayer_server")
 	TriggerServerEvent("DRP_Tattoos:GetTattoos")
+	if firstSpawn then
+		TriggerServerEvent("clothes:firstspawn")
+	else
+		TriggerServerEvent("clothes:spawn")
+	end
 	---------------------------------------------------------------------------
+end)
+
+RegisterCommand("yeet", function(source, args, raw)
+	local headblendData
+	TriggerEvent("hbw:GetHeadBlendData", PlayerPedId(), function(data)
+		headblendData = data
+		print(json.encode(headblendData))
+	end)
 end)
 ---------------------------------------------------------------------------
 -- MAIN THREAD

@@ -123,7 +123,7 @@ AddEventHandler("DRP_ID:SelectCharacter", function(character_id)
 				addNewCharacterClothing(src, character_id, characterInfo["data"][1].model, characterInfo["data"][1].lastLocation)
 			else
 				local spawn = json.decode(characterInfo["data"][1].lastLocation)
-				TriggerClientEvent("DRP_ID:LoadSelectedCharacter", src, characterModel["data"][1].skin, spawn)
+				TriggerClientEvent("DRP_ID:LoadSelectedCharacter", src, characterModel["data"][1].model, spawn)
 			end
 		end)
 	end)
@@ -197,7 +197,7 @@ function addNewCharacterClothing(source, characterId, model, spawnLocation)
 	local spawn = spawnLocation
 	local src = source
 	exports["externalsql"]:DBAsyncQuery({
-		string = "INSERT INTO `character_clothing` SET `skin` = :model, `char_id` = :charid",
+		string = "INSERT INTO `character_clothing` SET `model` = :model, `char_id` = :charid",
 		data = {
 			model = model,
 			charid = characterId
@@ -210,7 +210,7 @@ function addNewCharacterClothing(source, characterId, model, spawnLocation)
 				charid = characterId
 			}
 		}, function(characterModel)
-			TriggerClientEvent("DRP_ID:LoadSelectedCharacter", src, characterModel["data"][1].skin, spawn)
+			TriggerClientEvent("DRP_ID:LoadSelectedCharacter", src, characterModel["data"][1].model, spawn)
 		end)
 	end)
 end

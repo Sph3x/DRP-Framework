@@ -1,8 +1,7 @@
 resource_manifest_version '44febabe-d386-4d18-afbe-5e627f4af937'
 
 dependencies {
-    "drp_core",
-    "drp_id"
+    "drp_core"
 }
 
 client_script "@NativeUI/NativeUI.lua"

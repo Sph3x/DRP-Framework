@@ -107,6 +107,7 @@ end)
 -- Manager Functions
 ---------------------------------------------------------------------------
 function AddItem(source, itemname, amount)
+    print(itemname)
     local src = source
     local itemname = string.lower(itemname)
     local character = exports["drp_id"]:GetCharacterData(src)
@@ -128,6 +129,7 @@ function AddItem(source, itemname, amount)
                                     charid = character.charid
                                 }
                             }, function(createdPlayer)
+                                TriggerClientEvent("DRP_Core:Info", src, "Inventory", "Added 1x "..itemname, 2500, false, "leftCenter")
                             end)
                         end)
                         else
@@ -140,6 +142,7 @@ function AddItem(source, itemname, amount)
                                     itemname = itemname
                                 }
                             }, function(updatedQuantity)
+                            TriggerClientEvent("DRP_Core:Info", src, "Inventory", "Added 1x "..itemname, 2500, false, "leftCenter")
                         end)
                     end
                 end)

@@ -4,8 +4,19 @@
   background-size: 23%;
 }
 
-#telefon {
-  background: url(https://cdn.discordapp.com/attachments/522345297259659264/552143993509642261/phone.png)
+#dildo {
+  background: url(https://static.thenounproject.com/png/35380-200.png) no-repeat;
+  background-size: 7s0%;
+}
+
+#burger {
+  background: url(http://www.myiconfinder.com/uploads/iconsets/256-256-8a98392e8674eb71887ee57b861dd1c0-Burger.png)
+    no-repeat;
+  background-size: 70%;
+}
+
+#iFruit {
+  background: url(https://vignette.wikia.nocookie.net/gtawiki/images/3/35/IFruit_Phone.png/revision/latest?cb=20130507221151)
     no-repeat;
   background-size: 70%;
 }
@@ -62,6 +73,12 @@
   background-size: 50%;
 }
 
+#junk {
+  background: url(https://upload.wikimedia.org/wikipedia/commons/thumb/d/d1/Mail-mark-not-junk.svg/1024px-Mail-mark-not-junk.svg.png)
+    no-repeat;
+  background-size: 80%;
+}
+
 #goldchain {
   background: url(https://www.freeiconspng.com/uploads/thug-life-gold-chain-png-pictures-23.png)
     no-repeat;
@@ -81,11 +98,7 @@
 }
 
 #marijuana {
-  background: url(
-      https://ih0.redbubble.net/image.84647802.6104/tpr,
-      875x875,
-      s.6u1.png
-    )
+  background: url(https://cdn3.iconfinder.com/data/icons/nature-emoji/50/Marijuana-512.png)
     no-repeat;
   background-size: 50%;
 }

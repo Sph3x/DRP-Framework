@@ -30,8 +30,6 @@ AddEventHandler("DRP_Bank:WithdrawMoney", function(amount)
 
                     local cashBalance = characterMoney.data[1].cash
                     local newCashBalance = characterMoney.data[1].cash + tonumber(amount)
-                    print(cashBalance)
-                    print(newCashBalance)
                     exports["externalsql"]:DBAsyncQuery({
                         string = "UPDATE `characters` SET `cash` = :cash WHERE `id` = :charid",
                         data = {
@@ -159,7 +157,6 @@ end)
 ---------------------------------------------------------------------------
 AddEventHandler("DRP_Bank:RemoveBankMoney", function(source, amount)
     local src = source
-    print(amount)
     TriggerEvent("DRP_ID:GetCharacterData", src, function(characterData)
         TriggerEvent("DRP_Bank:GetCharacterMoney", characterData.charid, function(characterMoney)
             local newBankBalance = characterMoney.data[1].bank - tonumber(amount)
@@ -204,12 +201,10 @@ end)
 ---------------------------------------------------------------------------
 AddEventHandler("DRP_Bank:RemoveCashMoney", function(source, amount)
     local src = source
-    print(amount)
     TriggerEvent("DRP_ID:GetCharacterData", src, function(characterData)
         TriggerEvent("DRP_Bank:GetCharacterMoney", characterData.charid, function(characterMoney)
             local moneyRemoved = 25
             local newCashBalance = characterMoney.data[1].cash - tonumber(amount)
-            print(newCashBalance)
             exports["externalsql"]:DBAsyncQuery({
                 string = "UPDATE `characters` SET `cash` = :cash WHERE `id` = :charid",
                 data = {
@@ -270,12 +265,10 @@ end)
 
 AddEventHandler("DRP_Bank:RemoveDirtyMoney", function(source, amount)
     local src = source
-    print(amount)
     TriggerEvent("DRP_ID:GetCharacterData", src, function(characterData)
         TriggerEvent("DRP_Bank:GetCharacterMoney", characterData.charid, function(characterMoney)
             local moneyRemoved = 25
             local newDirtyBalance = characterMoney.data[1].dirtyCash - tonumber(amount)
-            print(newCashBalance)
             exports["externalsql"]:DBAsyncQuery({
                 string = "UPDATE `characters` SET `dirtyCash` = :dirtyCash WHERE `id` = :charid",
                 data = {
