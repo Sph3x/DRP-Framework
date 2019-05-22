@@ -1,3 +1,6 @@
+---------------------------------------------------------------------------
+-- Add Cop -- Will add them to the POLICE rank. You must be on duty for this to work aswell  USAGE: /addcop CHARID
+---------------------------------------------------------------------------
 RegisterCommand("addcop", function(source, args, raw)
     -- Usage = /addcop id ONLY WORKS WHEN YOU ARE A JOB YOURSELF IN THE DATABASE!
     local src = source
@@ -49,7 +52,9 @@ RegisterCommand("addcop", function(source, args, raw)
         TriggerClientEvent("DRP_Core:Error", src, "Government", "You are not an Employee of the Police Force or you need to be on Duty", 5500, false, "leftCenter")
     end
 end, false)
-
+---------------------------------------------------------------------------
+-- Remove Cop USAGE: /removecop CHARID
+---------------------------------------------------------------------------
 RegisterCommand("removecop", function(source, args, raw)
     local src = source
     local myJob = exports["drp_jobcore"]:GetPlayerJob(src)

@@ -1,11 +1,15 @@
 DRPPoliceJob = {}
 DRPPoliceJob.SignOnAndOff = {}
+DRPPoliceJob.Helipad = {}
 DRPPoliceJob.PoliceJobLabels = {}
 DRPPoliceJob.Requirements = {}
 DRPPoliceJob.LockerRooms = {}
 DRPPoliceJob.Garages = {}
 DRPPoliceJob.SignOnAndOff = {
     {x = 441.02, y = -974.94, z = 30.54} -- Mission Row Behind Desk In Lobby
+}
+DRPPoliceJob.Helipad = {
+    {x = 449.02, y = -981.4316, z = 43.69168}
 }
 ---------------------------------------------------------------------------
 -- Police Job Config, edit to your requirements
@@ -39,7 +43,6 @@ DRPPoliceJob.LockerRooms["Police Officer"] = {
         {
             minrank = 1,
             gender = "Male",
-            division = "police",
             label = "Standard Uniform [Male]",
             model = "s_m_y_cop_01",
             clothing = {
@@ -62,7 +65,6 @@ DRPPoliceJob.LockerRooms["Police Officer"] = {
         {
             minrank = 7,
             gender = "Male",
-            division = "police",
             label = "Captain Uniform [Male]",
             model = "lspdofficer_01",
             clothing = {
@@ -81,33 +83,10 @@ DRPPoliceJob.LockerRooms["Police Officer"] = {
                 {model = "weapon_nightstick", ammo = -1, attachments = {}}
             },
         },
-        {
-            minrank = 7,
-            gender = "Male",
-            division = "sheriff",
-            label = "Sheriff Uniform [Male]",
-            model = "s_m_y_hwaycop_01",
-            clothing = {
-                {component = 1, drawable = 2, texture = 0}, -- Shirt
-                {component = 1, drawable = 2, texture = 0}, -- Night stick shit
-                {component = 0, drawable = 0, texture = 0},  -- Pants
-                {component = 0, drawable = 0, texture = 0} -- Shoes
-            },
-            props = {
-                {component = 1, drawable = 11, texture = 3}
-            },
-            weapons = {
-                {model = "weapon_pistol_mk2", ammo = 120, attachments = {"COMPONENT_AT_PI_FLSH_02"}},
-                {model = "weapon_flashlight", ammo = -1, attachments = {}},
-                {model = "weapon_stungun", ammo = -1, attachments = {}},
-                {model = "weapon_nightstick", ammo = -1, attachments = {}}
-            },
-        },
-        -- FEMALE CLOTHING --
+        -- Female Uniform
         {
             minrank = 1,
             gender = "Female",
-            division = "police",
             label = "Standard Uniform [Female]",
             model = "s_f_y_cop_01",
             clothing = {
@@ -131,6 +110,39 @@ DRPPoliceJob.LockerRooms["Police Officer"] = {
         {x = 458.60, y = -992.55, z = 30.68}
     }
 }
+
+DRPPoliceJob.LockerRooms["Sheriff Deputy"] = {
+    BlipData = {label = "Locker Room", sprite = 366, color = 77, scale = 1.0},
+    MarkerData = {label = "~b~[E]~w~ Service Locker Room", markerType = 1, color = {0, 0, 255}, scale = 1.0},
+    Loadouts = {
+        {
+            minrank = 7,
+            gender = "Male",
+            label = "Sheriff Uniform [Male]",
+            model = "s_m_y_hwaycop_01",
+            clothing = {
+                {component = 1, drawable = 2, texture = 0}, -- Shirt
+                {component = 1, drawable = 2, texture = 0}, -- Night stick shit
+                {component = 0, drawable = 0, texture = 0},  -- Pants
+                {component = 0, drawable = 0, texture = 0} -- Shoes
+            },
+            props = {
+                {component = 1, drawable = 11, texture = 3}
+            },
+            weapons = {
+                {model = "weapon_pistol_mk2", ammo = 120, attachments = {"COMPONENT_AT_PI_FLSH_02"}},
+                {model = "weapon_flashlight", ammo = -1, attachments = {}},
+                {model = "weapon_stungun", ammo = -1, attachments = {}},
+                {model = "weapon_nightstick", ammo = -1, attachments = {}}
+            },
+        },
+    },
+    Locations = {
+        {x = 458.60, y = -992.55, z = 30.68}
+    }
+}
+---------------------------------------------------------------------------
+-- POLICE GARAGES
 ---------------------------------------------------------------------------
 DRPPoliceJob.Garages["Police Officer"] = {
     Vehicles = {

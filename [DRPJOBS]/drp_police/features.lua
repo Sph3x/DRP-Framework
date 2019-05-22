@@ -4,7 +4,9 @@ local officerDrag = -1
 local callActive = false
 local haveTarget = false
 local target = {}
-
+---------------------------------------------------------------------------
+-- Main Thread
+---------------------------------------------------------------------------
 Citizen.CreateThread(function()
     while true do 
     Citizen.Wait(1)
@@ -26,17 +28,22 @@ Citizen.CreateThread(function()
                 haveTarget = false
             end
         end
+        local ped = GetPlayerPed(PlayerId())
+        local coords = GetEntityCoords(ped, false)
+        for a = 1, #DRPPoliceJob.Helipad do
+            local distance = Vdist(coords.x, coords.y, coords.z, DRPPoliceJob.Helipad[a].x, DRPPoliceJob.Helipad[a].y, DRPPoliceJob.Helipad[a].z)
+            if distance <= 10.0 then
+                DrawMarker(1, DRPPoliceJob.Helipad[a].x, DRPPoliceJob.Helipad[a].y, DRPPoliceJob.Helipad[a].z, 0, 0, 0, 0, 0, 0, 2.001, 2.0001, 0.5001, 0, 155, 255, 200, 0, 0, 0, 0)
+                if distance <= 3.0 then
+                    exports['drp_core']:DrawText3Ds(DRPPoliceJob.Helipad[a].x, DRPPoliceJob.Helipad[a].y, DRPPoliceJob.Helipad[a].z, tostring("~b~[E]~w~ Police Heli"))
+                end
+            end
+        end
     end
 end)
-
-RegisterNetEvent("DRP_Police:AwaitingCall")
-AddEventHandler("DRP_Police:AwaitingCall", function(coords)
-    callActive = true
-    target.pos = coords
-    SendNotification("Press ~g~X~s~ to accept call or press ~g~N~s~ to refuse call")
-    PlaySoundFrontend(-1, "TENNIS_POINT_WON", "HUD_AWARDS")
-end)
-
+---------------------------------------------------------------------------
+-- Open Police Menu Control (F5)
+---------------------------------------------------------------------------
 Citizen.CreateThread(function()
     while true do 
         if IsControlJustPressed(1, 318) then
@@ -45,7 +52,19 @@ Citizen.CreateThread(function()
         Citizen.Wait(0)
     end
 end)
-
+---------------------------------------------------------------------------
+-- Call Event
+---------------------------------------------------------------------------
+RegisterNetEvent("DRP_Police:AwaitingCall")
+AddEventHandler("DRP_Police:AwaitingCall", function(coords)
+    callActive = true
+    target.pos = coords
+    SendNotification("Press ~g~X~s~ to accept call or press ~g~N~s~ to refuse call")
+    PlaySoundFrontend(-1, "TENNIS_POINT_WON", "HUD_AWARDS")
+end)
+---------------------------------------------------------------------------
+-- Police Feature Events
+---------------------------------------------------------------------------
 RegisterNetEvent("DRP_Police:HandCuffToggle")
 AddEventHandler("DRP_Police:HandCuffToggle", function()
 		handCuffed = not handCuffed
@@ -55,7 +74,7 @@ AddEventHandler("DRP_Police:HandCuffToggle", function()
 		drag = false
 	end
 end)
-
+---------------------------------------------------------------------------
 RegisterNetEvent("DRP_Police:EscortToggle")
 AddEventHandler("DRP_Police:EscortToggle", function(target)
 	if not IsPedSittingInAnyVehicle(target) then
@@ -63,27 +82,31 @@ AddEventHandler("DRP_Police:EscortToggle", function(target)
 		officerDrag = target
 	end
 end)
-
+---------------------------------------------------------------------------
+-- Police Feature Thread
+---------------------------------------------------------------------------
 Citizen.CreateThread(function()
 	while true do
 	Citizen.Wait(10)
 
-	if handCuffed then
-		RequestAnimDict('mp_arresting')
-		DisableControlAction(1, 323, true)
-		while not HasAnimDictLoaded('mp_arresting') do
-			Citizen.Wait(0)
-		end
+    if handCuffed then
+        if IsPedDeadOrDying(playerPed, true) == false then
+            RequestAnimDict('mp_arresting')
+            DisableControlAction(1, 323, true)
+            while not HasAnimDictLoaded('mp_arresting') do
+                Citizen.Wait(0)
+            end
 
-		local myPed = PlayerPedId(-1)
-		local animation = 'idle'
-		local flags = 16
-		handsup = false
-		
-			while(IsPedBeingStunned(myPed, 0)) do
-				ClearPedTasksImmediately(myPed)
-			end
-			TaskPlayAnim(myPed, 'mp_arresting', animation, 8.0, -8, -1, flags, 0, 0, 0, 0)
+            local myPed = PlayerPedId(-1)
+            local animation = 'idle'
+            local flags = 16
+            handsup = false
+            
+                while(IsPedBeingStunned(myPed, 0)) do
+                    ClearPedTasksImmediately(myPed)
+                end
+                TaskPlayAnim(myPed, 'mp_arresting', animation, 8.0, -8, -1, flags, 0, 0, 0, 0)
+            end
 		end
 
 		if drag then
@@ -119,7 +142,7 @@ RegisterNUICallback("showbadge", function(data, cb)
     end
     cb("ok")
 end)
-
+---------------------------------------------------------------------------
 RegisterNUICallback("handcuff", function(data, cb)
     SetNuiFocus(false, false)
     local target, distance = GetClosestPlayer()
@@ -130,7 +153,7 @@ RegisterNUICallback("handcuff", function(data, cb)
     end
     cb("ok")
 end)
-
+---------------------------------------------------------------------------
 RegisterNUICallback("ziptie", function(data, cb)
     cb("ok")
 end)
@@ -151,6 +174,7 @@ RegisterNUICallback("blindfold", function(data, cb)
 end)
 ---------------------------------------------------------------------------
 RegisterNUICallback("fine", function(data, cb)
+    SetNuiFocus(false, false)
     local t, distance = GetClosestPlayer()
     local amount = 0
     if distance ~= -1 and distance < 3 then
@@ -289,16 +313,6 @@ function GetClosestPlayer()
 	end
 	
 	return closestPlayer, closestDistance
-end
----------------------------------------------------------------------------
-function GetPlayer(ped)
-    local players = GetPlayers()
-    print(json.encode(players))
-    for a = 1, #players do
-        if GetPlayerPed(players[a]) == ped then
-            return players[a]
-        end
-    end
 end
 ---------------------------------------------------------------------------
 function GetPlayers()

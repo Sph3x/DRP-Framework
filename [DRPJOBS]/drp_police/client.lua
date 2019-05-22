@@ -32,13 +32,12 @@ AddEventHandler("DRP_Police:BlipToggle", function(bool)
         RemoveAnyExistingEmergencyBlips()
     end
 end)
-
+-----------------------------------------------------
 RegisterNetEvent("DRP_Police:BlipsUpdate")
 AddEventHandler("DRP_Police:BlipsUpdate", function(persons)
     allInServiceBlips = persons
     print(json.encode(allInServiceBlips))
 end)
-
 -----------------------------------------------------
 -- Service Blips Thread
 -----------------------------------------------------
@@ -67,7 +66,7 @@ Citizen.CreateThread(function()
 	end
 end)
 ---------------------------------------------------------------------------
--- MAIN CALLBACKS
+-- NUI Menu Trigger
 ---------------------------------------------------------------------------
 RegisterNetEvent("DRP_Interactions:OpenMenu")
 AddEventHandler("DRP_Interactions:OpenMenu", function()
@@ -77,12 +76,13 @@ AddEventHandler("DRP_Interactions:OpenMenu", function()
         type = "open_police_menu",
     })
 end)
-
+---------------------------------------------------------------------------
+-- NUI Callbacks
+---------------------------------------------------------------------------
 RegisterNUICallback("closeJobCenter", function(data, cb)
     SetNuiFocus(false, false)
     cb("ok")
 end)
-
 ---------------------------------------------------------------------------
 -- Functions
 ---------------------------------------------------------------------------
@@ -113,7 +113,7 @@ function setOutfit(outfit)
         end
     end
 end
-
+---------------------------------------------------------------------------
 function RemoveAnyExistingEmergencyBlips()
 	for src, info in pairs(allInServiceBlips) do
 		local possible_blip = GetBlipFromEntity(GetPlayerPed(GetPlayerFromServerId(src)))

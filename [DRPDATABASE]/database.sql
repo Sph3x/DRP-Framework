@@ -22,7 +22,6 @@ CREATE TABLE IF NOT EXISTS `characters` (
   `name` varchar(255) NOT NULL,
   `age` int(255) NOT NULL,
   `gender` varchar(255) NOT NULL,
-  `model` varchar(255) NOT NULL,
   `cash` bigint(20) NOT NULL,
   `bank` bigint(20) NOT NULL,
   `dirtyCash` bigint(20) NOT NULL,
@@ -35,24 +34,29 @@ CREATE TABLE IF NOT EXISTS `characters` (
   PRIMARY KEY (`id`),
   KEY `player_id` (`playerid`) USING BTREE,
   CONSTRAINT `characters_ibfk_1` FOREIGN KEY (`playerid`) REFERENCES `users` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=34 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=41 DEFAULT CHARSET=latin1;
 
--- Dumping data for table drp.characters: ~0 rows (approximately)
+-- Dumping data for table drp.characters: ~1 rows (approximately)
 /*!40000 ALTER TABLE `characters` DISABLE KEYS */;
 /*!40000 ALTER TABLE `characters` ENABLE KEYS */;
 
 -- Dumping structure for table drp.character_clothing
 CREATE TABLE IF NOT EXISTS `character_clothing` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `model` varchar(255) NOT NULL DEFAULT 'mp_m_freemode_01',
-  `clothing` varchar(255) NOT NULL,
-  `props` varchar(255) NOT NULL,
-  `overlays` varchar(255) NOT NULL,
-  `char_id` int(11) NOT NULL DEFAULT '0',
-  PRIMARY KEY (`id`) USING BTREE,
-  KEY `clothing_FK1` (`char_id`),
-  CONSTRAINT `clothing_FK1` FOREIGN KEY (`char_id`) REFERENCES `characters` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=23 DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC;
+  `model` varchar(255) COLLATE utf8_bin DEFAULT NULL,
+  `clothing_drawables` varchar(255) COLLATE utf8_bin DEFAULT NULL,
+  `clothing_textures` varchar(255) COLLATE utf8_bin DEFAULT NULL,
+  `clothing_palette` varchar(255) COLLATE utf8_bin DEFAULT NULL,
+  `props_drawables` varchar(255) COLLATE utf8_bin DEFAULT NULL,
+  `props_textures` varchar(255) COLLATE utf8_bin DEFAULT NULL,
+  `overlays_drawables` varchar(255) COLLATE utf8_bin DEFAULT NULL,
+  `overlays_opacity` varchar(255) COLLATE utf8_bin DEFAULT NULL,
+  `overlays_colours` varchar(255) COLLATE utf8_bin DEFAULT NULL,
+  `char_id` int(11) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `FK_character_clothing_characters` (`char_id`),
+  CONSTRAINT `FK_character_clothing_characters` FOREIGN KEY (`char_id`) REFERENCES `characters` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
 -- Dumping data for table drp.character_clothing: ~0 rows (approximately)
 /*!40000 ALTER TABLE `character_clothing` DISABLE KEYS */;
@@ -70,9 +74,9 @@ CREATE TABLE IF NOT EXISTS `character_inventory` (
   KEY `FK_character_inventory_characters` (`charid`),
   CONSTRAINT `FK_character_inventory_characters` FOREIGN KEY (`charid`) REFERENCES `characters` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `itemid_fk1` FOREIGN KEY (`itemid`) REFERENCES `inventory_items` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=50 DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
--- Dumping data for table drp.character_inventory: ~0 rows (approximately)
+-- Dumping data for table drp.character_inventory: ~4 rows (approximately)
 /*!40000 ALTER TABLE `character_inventory` DISABLE KEYS */;
 /*!40000 ALTER TABLE `character_inventory` ENABLE KEYS */;
 
@@ -84,7 +88,7 @@ CREATE TABLE IF NOT EXISTS `character_tattoos` (
   PRIMARY KEY (`id`),
   KEY `FK_character_tattoos_characters` (`char_id`),
   CONSTRAINT `FK_character_tattoos_characters` FOREIGN KEY (`char_id`) REFERENCES `characters` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
 -- Dumping data for table drp.character_tattoos: ~0 rows (approximately)
 /*!40000 ALTER TABLE `character_tattoos` DISABLE KEYS */;
@@ -97,7 +101,7 @@ CREATE TABLE IF NOT EXISTS `inventory_items` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=24 DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
--- Dumping data for table drp.inventory_items: ~19 rows (approximately)
+-- Dumping data for table drp.inventory_items: ~20 rows (approximately)
 /*!40000 ALTER TABLE `inventory_items` DISABLE KEYS */;
 INSERT INTO `inventory_items` (`id`, `itemname`) VALUES
 	(1, 'water'),
@@ -126,14 +130,15 @@ INSERT INTO `inventory_items` (`id`, `itemname`) VALUES
 CREATE TABLE IF NOT EXISTS `police` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `rank` int(11) DEFAULT NULL,
-  `division` varchar(50) COLLATE utf8_bin DEFAULT 'police',
+  `division` varchar(50) COLLATE utf8_bin DEFAULT NULL,
+  `department` varchar(50) COLLATE utf8_bin DEFAULT 'police',
   `char_id` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `police_fk1` (`char_id`),
   CONSTRAINT `police_fk1` FOREIGN KEY (`char_id`) REFERENCES `characters` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
--- Dumping data for table drp.police: ~1 rows (approximately)
+-- Dumping data for table drp.police: ~0 rows (approximately)
 /*!40000 ALTER TABLE `police` DISABLE KEYS */;
 /*!40000 ALTER TABLE `police` ENABLE KEYS */;
 
@@ -146,7 +151,7 @@ CREATE TABLE IF NOT EXISTS `users` (
   `ban_data` varchar(255) COLLATE utf8_bin DEFAULT NULL,
   `whitelisted` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
 -- Dumping data for table drp.users: ~1 rows (approximately)
 /*!40000 ALTER TABLE `users` DISABLE KEYS */;
@@ -206,7 +211,7 @@ CREATE TABLE IF NOT EXISTS `vehicles` (
   PRIMARY KEY (`id`),
   KEY `vehicles_ibfk_01` (`char_id`),
   CONSTRAINT `vehicles_ibfk_01` FOREIGN KEY (`char_id`) REFERENCES `characters` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=latin2;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin2;
 
 -- Dumping data for table drp.vehicles: ~0 rows (approximately)
 /*!40000 ALTER TABLE `vehicles` DISABLE KEYS */;

@@ -174,6 +174,7 @@ Citizen.CreateThread(function()
         RemoveAllPickupsOfType(0xDDE4181A)
         RemoveAllPickupsOfType(0xEBF89D5F)
         RemoveAllPickupsOfType(0xE5121369)
+        
         Citizen.Wait(1)
     end
 end)

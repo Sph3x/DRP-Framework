@@ -5,8 +5,8 @@ AllCopsInService = {}
 RegisterServerEvent("DRP_PoliceJobs:SignOnDuty")
 AddEventHandler("DRP_PoliceJobs:SignOnDuty", function()
     local src = source
-    TriggerEvent("DRP_Police:GetPoliceDivision", src, function(myJobDivision)
-    local job = string.upper(myJobDivision)
+    TriggerEvent("DRP_Police:GetPoliceDepartment", src, function(myJobDepartment)
+    local job = string.upper(myJobDepartment)
     local characterInfo = exports["drp_id"]:GetCharacterData(src)
     local jobLabel = DRPPoliceJob.PoliceJobLabels[job] -- Gets The Job Label To Display In The Notifications
     local jobRequirement = DRPPoliceJob.Requirements[job] -- Gets If You Are Enabled To Do This Job
@@ -18,7 +18,7 @@ AddEventHandler("DRP_PoliceJobs:SignOnDuty", function()
         if exports["drp_jobcore"]:DoesJobExist(job) then
             if jobRequirement ~= false then
                 exports["externalsql"]:DBAsyncQuery({
-                    string = "SELECT * FROM `" .. jobRequirement .. "` WHERE `char_id` = :charid",
+                    string = "SELECT * FROM police WHERE `char_id` = :charid",
                     data = {
                         charid = characterInfo.charid
                     }
@@ -26,15 +26,15 @@ AddEventHandler("DRP_PoliceJobs:SignOnDuty", function()
                     if jobResults.data[1] ~= nil then
                         exports["drp_jobcore"]:SetPlayerJob(src, job, jobLabel, {
                             rank = jobResults.data[1].rank,
-                            division = jobResults.data[1].division
+                            department = jobResults.data[1].department
                         })
                         -- Time For Some Discusting Code!
                         local policeJobTitle = ""
-                        if jobResults.data[1].division == "police" then
+                        if jobResults.data[1].department == "police" then
                             policeJobTitle = "Police Officer"
-                        elseif jobResults.data[1].division == "sheriff" then 
+                        elseif jobResults.data[1].department == "sheriff" then 
                             policeJobTitle = "Sheriff Deputy"
-                        elseif jobResults.data[1].division == "state" then
+                        elseif jobResults.data[1].department == "state" then
                             policeJobTitle = "State Trooper"
                         end
                         TriggerClientEvent("DRP_Core:Info", src, "Government", tostring("Welcome "..policeJobTitle.." "..characterInfo.name..""), 2500, false, "leftCenter")
@@ -69,7 +69,7 @@ AddEventHandler("DRP_PoliceJobs:SignOffDuty", function()
         TriggerClientEvent("DRP_Core:Info", src, "Job Manager", tostring("You are now a "..exports["drp_jobcore"]:GetPlayerJob(src).jobLabel), 2500, false, "leftCenter")
         PoliceAbilities(src, jobLabel)
         TriggerEvent("DRP_Doors:UpdatePlayerJob", src)
-        TriggerEvent("clothing_shop:ResetClothing", src)
+        TriggerEvent("clothes:resetclothing", src)
         TriggerEvent("DRP_Police:CopsOnDutyDataRemove", src) -- Triggers the cop bonus counter to go down
     end
 end)
@@ -83,19 +83,16 @@ AddEventHandler("DRP_PoliceJob:GetJobLoadouts", function()
     local job = exports["drp_jobcore"]:GetPlayerJob(src)
     local character = exports["drp_id"]:GetCharacterData(src)
     local rank = job.otherJobData.rank
-    local division = job.otherJobData.division
     ---------------------------------------------------------------------------
     for k,lockerroom in ipairs(DRPPoliceJob.LockerRooms[job.jobLabel].Loadouts) do
         if lockerroom.minrank <= rank then
             if lockerroom.gender == character.gender then
-                if lockerroom.division == division then
-                    table.insert(rankedLoadouts, {
-                        name = lockerroom.label,
-                        model = lockerroom.model,
-                        clothing = lockerroom.clothing,
-                        props = lockerroom.props
-                    })
-                end
+                table.insert(rankedLoadouts, {
+                    name = lockerroom.label,
+                    model = lockerroom.model,
+                    clothing = lockerroom.clothing,
+                    props = lockerroom.props
+                })
             end
         end
     end
@@ -112,7 +109,6 @@ AddEventHandler("DRP_PoliceJob:GetJobGarages", function()
     local job = exports["drp_jobcore"]:GetPlayerJob(src)
     local character = exports["drp_id"]:GetCharacterData(src)
     local rank = job.otherJobData.rank
-    local division = job.otherJobData.division
     ---------------------------------------------------------------------------
     for k,garage in ipairs(DRPPoliceJob.Garages[job.jobLabel].Vehicles) do
         if garage.allowedRanks <= rank then
@@ -245,20 +241,20 @@ end
 ---------------------------------------------------------------------------
 -- Event Handlers
 ---------------------------------------------------------------------------
-AddEventHandler("DRP_Police:GetPoliceDivision", function(source, callback)
+AddEventHandler("DRP_Police:GetPoliceDepartment", function(source, callback)
     local src = source
     local character = exports["drp_id"]:GetCharacterData(src)
     ---------------------------------------------------------------------------
     exports["externalsql"]:DBAsyncQuery({
-        string = "SELECT division FROM `police` WHERE `char_id` = :charid",
+        string = "SELECT department FROM `police` WHERE `char_id` = :charid",
         data = {
             charid = character.charid
         }
-    }, function(division)
-        if json.encode(division["data"]) == "[]" then
+    }, function(department)
+        if json.encode(department["data"]) == "[]" then
             TriggerClientEvent("DRP_Core:Error", src, "Government", "You are not registered for this Job!", 5500, false, "leftCenter")
         else
-            callback(division["data"][1].division)
+            callback(department["data"][1].department)
         end
     end)
 end)

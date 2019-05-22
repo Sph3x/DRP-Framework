@@ -64,9 +64,11 @@ AddEventHandler("DRP_Tattoos:OpenMenu", function()
     mainMenu:Visible(not mainMenu:Visible())
 
 	for id, v in pairs(tattoosList) do
-		v.item = UIMenuItem.New(v.nameHash, "Select This Tattoo")
-		v.item:SetLeftBadge(BadgeStyle.Star)
-		mainMenu:AddItem(v.item)
+		if v.tattoosList ~= currentTattoos then
+			v.item = UIMenuItem.New(v.nameHash, "Select This Tattoo")
+			v.item:SetLeftBadge(BadgeStyle.Star)
+			mainMenu:AddItem(v.item)
+		end
 	end
 
 	mainMenu.OnIndexChange = function(sender, index)

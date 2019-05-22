@@ -40,7 +40,9 @@ end)
 ---------------------------------------------------------------------------
 -- Handles distance to atm models with offset position
 ---------------------------------------------------------------------------
+local sleeper = 0
 Citizen.CreateThread(function()
+    Citizen.Wait(100)
     for _, item in pairs(banks) do
         item.blip = AddBlipForCoord(item.x, item.y, item.z)
         SetBlipSprite(item.blip, item.id)
@@ -50,12 +52,13 @@ Citizen.CreateThread(function()
         EndTextCommandSetBlipName(item.blip)
     end
     while true do
-        sleeper = false
+        sleeper = 1000
         local ped = GetPlayerPed(PlayerId())
         local pedPos = GetEntityCoords(ped, false)
         for a = 1, #atm_models do
             local atm = GetClosestObjectOfType(pedPos.x, pedPos.y, pedPos.z, 3.0, GetHashKey(atm_models[a]), false, 1, 1)
-            if atm ~= 0 and not atmOpen then
+                if atm ~= 0 and not atmOpen then
+                sleeper = 5 
                 local atmOffset = GetOffsetFromEntityInWorldCoords(atm, 0.0, -0.7, 0.0)
                 local atmHeading = GetEntityHeading(atm)
                 local distance = Vdist(pedPos.x, pedPos.y, pedPos.z, atmOffset.x, atmOffset.y, atmOffset.z)
@@ -63,19 +66,18 @@ Citizen.CreateThread(function()
                 if distance <= 1.2 then
                     textDisplay("Press ~INPUT_PICKUP~ to use the ATM")
                     if IsControlJustPressed(1, 38) then
-                        atmOpen, sleeper = true, true
+                        atmOpen = true
                         TaskStartScenarioAtPosition(ped, "PROP_HUMAN_ATM", atmOffset.x, atmOffset.y, atmOffset.z + 1.0, atmHeading, -1, 0, 0)
                         Citizen.Wait(5000)
                         TriggerServerEvent("DRP_Bank:RequestATMInfo")
                     end
                     break
                 end
+            else
+                sleeper = 1000
             end
         end
-        if sleeper then
-            Citizen.Wait(500)
-        end
-        Citizen.Wait(10)
+        Citizen.Wait(sleeper)
     end
 end)
 

@@ -54,6 +54,7 @@ end)
 ---------------------------------------------------------------------------
 RegisterNetEvent("DRP_ID:LoadSelectedCharacter")
 AddEventHandler("DRP_ID:LoadSelectedCharacter", function(ped, spawn)
+	print(ped)
 	characterSpawnedIn = true
 	exports["spawnmanager"]:spawnPlayer({x = spawn[1], y = spawn[2], z = spawn[3], heading = 0.0, model = ped})
 	Citizen.Wait(4000)
@@ -68,20 +69,8 @@ AddEventHandler("DRP_ID:LoadSelectedCharacter", function(ped, spawn)
 	TriggerServerEvent("DRP_Death:GetDeathStatus")
 	TriggerServerEvent("DRP_Doors:StartSync") -- If Doors is Installed
 	TriggerServerEvent("DRP_Tattoos:GetTattoos")
-	if firstSpawn then
-		TriggerServerEvent("clothes:firstspawn")
-	else
-		TriggerServerEvent("clothes:spawn")
-	end
+	TriggerServerEvent("DRP_Clothing:FirstSpawn")
 	---------------------------------------------------------------------------
-end)
-
-RegisterCommand("yeet", function(source, args, raw)
-	local headblendData
-	TriggerEvent("hbw:GetHeadBlendData", PlayerPedId(), function(data)
-		headblendData = data
-		print(json.encode(headblendData))
-	end)
 end)
 ---------------------------------------------------------------------------
 -- MAIN THREAD
