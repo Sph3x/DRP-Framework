@@ -112,10 +112,13 @@ AddEventHandler("DRP_ID:SelectCharacter", function(character_id)
 				charid = character_id
 			}
 		}, function(characterModel)
-			print(json.encode(characterModel["data"][1].model))
-			table.insert(character, {id = src, charid = character_id, playerid = characterInfo.data[1].playerid, gender = characterInfo.data[1].gender, name = characterInfo.data[1].name, age = characterInfo.data[1].age})
 			local spawn = json.decode(characterInfo["data"][1].lastLocation)
-			TriggerClientEvent("DRP_ID:LoadSelectedCharacter", src, characterModel["data"][1].model, spawn)
+			table.insert(character, {id = src, charid = character_id, playerid = characterInfo.data[1].playerid, gender = characterInfo.data[1].gender, name = characterInfo.data[1].name, age = characterInfo.data[1].age})
+			if (json.encode(characterModel["data"])) == "[]" then
+				TriggerClientEvent("DRP_ID:LoadSelectedCharacter", src, "mp_m_freemode_01", spawn)
+			else
+				TriggerClientEvent("DRP_ID:LoadSelectedCharacter", src, characterModel["data"][1].model, spawn)
+			end
 		end)
 	end)
 end)
