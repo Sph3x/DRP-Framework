@@ -105,19 +105,18 @@ AddEventHandler("DRP_ID:SelectCharacter", function(character_id)
 			character_id = character_id
 		}
 	}, function(characterInfo)
-		Wait(500)
 		exports["externalsql"]:DBAsyncQuery({
-			string = "SELECT * FROM `character_clothing` WHERE `char_id` = :charid",
+			string = "SELECT * FROM `character_clothing` WHERE `char_id` = :character_id",
 			data = {
-				charid = character_id
+				character_id = character_id
 			}
 		}, function(characterModel)
 			local spawn = json.decode(characterInfo["data"][1].lastLocation)
 			table.insert(character, {id = src, charid = character_id, playerid = characterInfo.data[1].playerid, gender = characterInfo.data[1].gender, name = characterInfo.data[1].name, age = characterInfo.data[1].age})
-			if (json.encode(characterModel["data"])) == "[]" then
-				TriggerClientEvent("DRP_ID:LoadSelectedCharacter", src, "mp_m_freemode_01", spawn)
-			else
+			if json.encode(characterModel["data"]) == "[]" then
 				TriggerClientEvent("DRP_ID:LoadSelectedCharacter", src, characterModel["data"][1].model, spawn)
+			else
+				TriggerClientEvent("DRP_ID:LoadSelectedCharacter", src, "mp_m_freemode_01", spawn)
 			end
 		end)
 	end)

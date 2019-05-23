@@ -54,7 +54,6 @@ end)
 ---------------------------------------------------------------------------
 RegisterNetEvent("DRP_ID:LoadSelectedCharacter")
 AddEventHandler("DRP_ID:LoadSelectedCharacter", function(ped, spawn)
-	print(ped)
 	characterSpawnedIn = true
 	exports["spawnmanager"]:spawnPlayer({x = spawn[1], y = spawn[2], z = spawn[3], heading = 0.0, model = ped})
 	Citizen.Wait(4000)
@@ -65,11 +64,11 @@ AddEventHandler("DRP_ID:LoadSelectedCharacter", function(ped, spawn)
 	SetPedDefaultComponentVariation(ped)
 	---------------------------------------------------------------------------
 	TriggerEvent("DRP_ID:StopSkyCamera")
-	TriggerEvent("DRP_ID:StopCreatorCamera")
+	TriggerEvent("DRP_ID:StopCreatorCamera") -- If using this system
+	TriggerServerEvent("DRP_Clothing:FirstSpawn") -- If Clothing Is Installed
 	TriggerServerEvent("DRP_Death:GetDeathStatus")
 	TriggerServerEvent("DRP_Doors:StartSync") -- If Doors is Installed
-	TriggerServerEvent("DRP_Tattoos:GetTattoos")
-	TriggerServerEvent("DRP_Clothing:FirstSpawn")
+	TriggerServerEvent("DRP_Tattoos:GetTattoos") -- If Tattoos is Installed
 	---------------------------------------------------------------------------
 end)
 ---------------------------------------------------------------------------

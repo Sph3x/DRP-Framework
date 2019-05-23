@@ -260,7 +260,6 @@ function overlays(title)
 end
 
 function save()
-    player_data.model = GetEntityModel(GetPlayerPed(-1))
     for i = 0, 11 do
         player_data.cdrawables[i+1] = GetPedDrawableVariation(GetPlayerPed(-1), i)
         if i ~= 2 then
@@ -304,6 +303,7 @@ AddEventHandler("clothes:changemodel", function(skin)
             SetPedComponentVariation(GetPlayerPed(-1), 11, 6, 1, 0)
         end
         SetModelAsNoLongerNeeded(model)
+        TriggerServerEvent("DRP_Clothing:SaveModel", skin)
     else
     end
 end)
@@ -312,6 +312,29 @@ RegisterNetEvent("clothes:spawn")
 AddEventHandler("clothes:spawn", function(data)
     player_data = data
     TriggerEvent("clothes:setComponents")
+end)
+
+RegisterNetEvent("DRP_Clothing:ResetClothing")
+AddEventHandler("DRP_Clothing:ResetClothing", function(data)
+    player_data = data
+    local model = player_data.model
+    if IsModelInCdimage(model) and IsModelValid(model) then
+        RequestModel(model)
+        while not HasModelLoaded(model) do
+            Citizen.Wait(0)
+        end
+        SetPlayerModel(PlayerId(), model)
+        if skin ~= "mp_f_freemode_01" and skin ~= "mp_m_freemode_01" then 
+            SetPedRandomComponentVariation(GetPlayerPed(-1), true)
+        else
+            SetPedComponentVariation(GetPlayerPed(-1), 11, 0, 240, 0)
+            SetPedComponentVariation(GetPlayerPed(-1), 8, 0, 240, 0)
+            SetPedComponentVariation(GetPlayerPed(-1), 11, 6, 1, 0)
+        end
+        SetModelAsNoLongerNeeded(model)
+        Citizen.Wait(200)
+        TriggerEvent("clothes:setComponents")
+    end
 end)
 
 AddEventHandler("clothes:setComponents", function()
@@ -341,5 +364,4 @@ AddEventHandler("clothes:setComponents", function()
             SetPedPropIndex(GetPlayerPed(-1), i, player_data.pdrawables[i+1], player_data.ptextures[i+1], false)
         end
     end
-    TriggerServerEvent("clothes:loaded")
 end)
