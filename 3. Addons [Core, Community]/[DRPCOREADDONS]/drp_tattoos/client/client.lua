@@ -28,7 +28,7 @@ Citizen.CreateThread(function()
 								TriggerEvent("DRP_Tattoos:OpenMenu")
 							else
 								FreezeEntityPosition(GetPlayerPed(-1), false)
-								TriggerServerEvent("DRP_Tattoos:PutClothesBackOn")
+								TriggerServerEvent("DRP_Clothing:RestartClothing")
 							end
 						else
 							TriggerEvent("DRP_Core:Error", "Tattoos", "This model does not allow Tattoos", 2500, false, "leftCenter")
@@ -42,10 +42,10 @@ Citizen.CreateThread(function()
 				FreezeEntityPosition(GetPlayerPed(-1), false)
 				RenderScriptCams(false, false, 0, 1, 0)
 				DestroyCam(cam, false)
-				TriggerServerEvent("DRP_Tattoos:PutClothesBackOn")
+				TriggerServerEvent("DRP_Clothing:RestartClothing")
 				inMenu = false
 				for _,k in pairs(currentTattoos) do
-					ApplyPedOverlay(GetPlayerPed(-1), GetHashKey(k.category), GetHashKey(k.nameHash))
+					ApplyPedOverlay(GetPlayerPed(-1), GetHashKey(k.category), GetHashKey(k.texture))
 				end
 			end
 		elseif(DoesCamExist(cam)) then
@@ -59,16 +59,17 @@ end)
 ---------------------------------------------------------------------------
 RegisterNetEvent("DRP_Tattoos:OpenMenu")
 AddEventHandler("DRP_Tattoos:OpenMenu", function()
-    local menuPool = NativeUI.CreatePool()
-    local mainMenu = NativeUI.CreateMenu('DRP Tattoo Shop', 'Get a Tattoo')
-    mainMenu:Visible(not mainMenu:Visible())
+	local menuPool = NativeUI.CreatePool()
+	local mainMenu = NativeUI.CreateMenu('DRP Tattoo Shop', 'Get a Tattoo')
+	local onPlayerTattoosHash = {}
+	mainMenu:Visible(not mainMenu:Visible())
 
 	for id, v in pairs(tattoosList) do
-		if v.tattoosList ~= currentTattoos then
+		-- if currentTattoos[a].texture ~= v.nameHash then
 			v.item = UIMenuItem.New(v.nameHash, "Select This Tattoo")
 			v.item:SetLeftBadge(BadgeStyle.Star)
 			mainMenu:AddItem(v.item)
-		end
+		-- end
 	end
 
 	mainMenu.OnIndexChange = function(sender, index)
@@ -85,23 +86,24 @@ AddEventHandler("DRP_Tattoos:OpenMenu", function()
 				CreateThread(function()
 					TriggerServerEvent("DRP_Tattoos:SaveTattoos", currentTattoos, v.price, {category = v.category, texture = v.nameHash})
 					for _,k in pairs(currentTattoos) do
-						ApplyPedOverlay(GetPlayerPed(-1), GetHashKey(k.category), GetHashKey(k.nameHash))
+						ApplyPedOverlay(GetPlayerPed(-1), GetHashKey(k.category), GetHashKey(k.texture))
 					end
 				end)
 			end
 		end
 	end
+	
 
-    menuPool:Add(mainMenu)
+	menuPool:Add(mainMenu)
 
-    menuPool:RefreshIndex()
+	menuPool:RefreshIndex()
 
-    CreateThread(function()
-        while true do
-            Wait(0)
-            menuPool:ProcessMenus()
-        end
-    end)
+	CreateThread(function()
+		while true do
+			Wait(0)
+			menuPool:ProcessMenus()
+		end
+	end)
 end)
 
 RegisterNetEvent("DRP_Tattoos:CharacterTattoos")
@@ -138,7 +140,7 @@ function drawTattoo(tattoo)
 
 	ClearPedDecorations(GetPlayerPed(-1))
 	for _,k in pairs(currentTattoos) do
-		ApplyPedOverlay(GetPlayerPed(-1), GetHashKey(k.category), GetHashKey(k.nameHash))
+		ApplyPedOverlay(GetPlayerPed(-1), GetHashKey(k.category), GetHashKey(k.texture))
 	end
 
 	if(GetEntityModel(GetPlayerPed(-1)) == -1667301416) then  -- GIRL SKIN

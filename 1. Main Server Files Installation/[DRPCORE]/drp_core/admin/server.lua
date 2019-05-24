@@ -1,3 +1,6 @@
+---------------------------------------------------------------------------
+--- Functions
+---------------------------------------------------------------------------
 function DoesRankHavePerms(rank, perm)
     local playerPerms = DRPCoreConfig.StaffRanks.perms[rank]
     for a = 1, #playerPerms do

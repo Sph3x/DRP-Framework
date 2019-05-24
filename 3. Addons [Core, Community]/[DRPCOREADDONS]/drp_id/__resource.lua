@@ -32,6 +32,7 @@ client_script "client.lua"
 client_script "cameras/cameras.lua"
 client_script "modifier/character_modifier.lua"
 
+export "SpawnedInAndLoaded"
 
 server_export "GetCharacterData"
 server_export "GetCharacterName"

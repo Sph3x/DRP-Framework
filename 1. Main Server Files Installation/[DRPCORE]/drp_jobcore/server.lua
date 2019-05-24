@@ -61,6 +61,14 @@ AddEventHandler("DRP_Jobs:FinishWork", function()
     -- TRIGGER TO GET THE PREVIOUS CLOTHES BACK! (FUTURE UPDATES)
 end)
 ---------------------------------------------------------------------------
+-- Add Salary To Character
+---------------------------------------------------------------------------
+RegisterServerEvent("DRP_JobCore:Salary")
+AddEventHandler("DRP_JobCore:Salary", function()
+    local src = source
+    TriggerEvent("DRP_Bank:AddBankMoney", src, JobsCoreConfig.SalaryAmount)
+end)
+---------------------------------------------------------------------------
 -- Core Functions
 ---------------------------------------------------------------------------
 function GetPlayerJob(player)
@@ -91,3 +99,4 @@ function SetPlayerJob(player, job, label, otherData)
         end
     end
 end
+---------------------------------------------------------------------------

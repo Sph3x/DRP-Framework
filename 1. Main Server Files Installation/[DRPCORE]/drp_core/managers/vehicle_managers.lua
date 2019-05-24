@@ -1,6 +1,6 @@
--- ---------------------------------------------------------------------------
--- -- Vehicle Air Control
--- ---------------------------------------------------------------------------
+---------------------------------------------------------------------------
+-- Vehicle Air Control
+---------------------------------------------------------------------------
 local blacklistedModels = {
     "deluxo",
 	"ruiner2",
@@ -23,10 +23,10 @@ end)
 
 function IsThisModelBlacklisted(veh)
 	local model = GetEntityModel(veh)
-
 	for i = 1, #blacklistedModels do
 		if model == GetHashKey(blacklistedModels[i]) then
-			return true
+            return true
+            break
 		end
 	end
 	return false

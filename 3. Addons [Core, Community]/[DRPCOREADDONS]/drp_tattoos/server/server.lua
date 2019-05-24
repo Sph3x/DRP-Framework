@@ -45,8 +45,16 @@ AddEventHandler("DRP_Tattoos:SaveTattoos", function(tattoosList, price, value)
 					}
 				}, function(yeetTattooddddd)
 				end)
-			TriggerClientEvent("DRP_Tattoos:BoughtSuccess", src, value)
-			TriggerClientEvent("DRP_Core:Success", src, "Tattoos", "You just bought a Tattoo", 2500, false, "leftCenter")
+				exports["externalsql"]:DBAsyncQuery({
+					string = "SELECT * FROM `character_tattoos` WHERE `char_id` = :charid",
+					data = {
+						charid = character.charid
+					}
+				}, function(tattoosResults)
+				local allTattoos = json.decode(tattoosResults["data"][1].tattoos)
+				TriggerClientEvent("DRP_Tattoos:CharacterTattoos", src, allTattoos)
+				TriggerClientEvent("DRP_Core:Success", src, "Tattoos", "You just bought a Tattoo", 2500, false, "leftCenter")
+			end)
 		else
 			TriggerClientEvent("DRP_Core:Error", src, "Tattoos", "You don't have enough money!", 2500, false, "leftCenter")
 		end

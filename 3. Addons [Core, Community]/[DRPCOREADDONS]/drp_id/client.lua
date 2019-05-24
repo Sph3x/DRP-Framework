@@ -6,8 +6,7 @@ local firstSpawn = true
 RegisterNetEvent("DRP_ID:OpenMenu")
 AddEventHandler("DRP_ID:OpenMenu", function(characters)
 	SetNuiFocus(true, true)
-	TriggerEvent("DRP_ID:StartSkyCamera")
-	Citizen.Wait(2200)
+	Citizen.Wait(2500)
 	SendNUIMessage({
 		type = "open_character_menu",
 		characters = characters
@@ -106,3 +105,7 @@ Citizen.CreateThread(function()
 		end
     end
 end)
+
+function SpawnedInAndLoaded()
+	return characterSpawnedIn
+end

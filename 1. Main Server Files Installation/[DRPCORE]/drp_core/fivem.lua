@@ -4,7 +4,8 @@ local firstSpawn = true
 ---------------------------------------------------------------------------
 AddEventHandler('playerSpawned', function()
     if firstSpawn then
-        Citizen.Wait(250)
+        TriggerEvent("DRP_ID:StartSkyCamera")
+        Citizen.Wait(1500)
         TriggerServerEvent("DRP_ID:RequestOpenMenu")
         firstSpawn = false
     end
