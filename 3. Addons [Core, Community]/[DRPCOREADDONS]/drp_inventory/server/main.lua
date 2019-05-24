@@ -25,7 +25,7 @@ AddEventHandler("DRP_Inventory:GetInventory", function()
 end)
 
 RegisterServerEvent("DRP_Inventory:RespawnWipe")
-AddEventHandler("DRP_Inventory:RespawnWipe, function()
+AddEventHandler("DRP_Inventory:RespawnWipe", function()
 	local src = source
 	exports["externalsql"]:DBAsyncQuery({
 		string = "DELETE FROM `character_inventory` WHERE `charid` = :char_id",
