@@ -20,11 +20,9 @@ Download the framework folder from the GitHub, which you are most likely reading
 
 1. In your resource folder you have from making an FXServer please put the [DRPCORE] in the main resource folder.
 
-2. Next open [SYSTEM] and drag and drop the spawnmanger resource into it, it will come up with a pop up window, just replace and contine.
+2. Next remove FiveM from your server.cfg resource list, it will look like this "start FiveM", just remove it completely
 
-3. Next remove FiveM from your server.cfg resource list, it will look like this "start FiveM", just remove it completely
-
-4. Next in your main resource folder you will see FiveM-Map-Skater, open that folder then open the \_\_resource.lua file. You will see something like this: `resource_type 'map' { gameTypes = { fivem = true } }` please replace that with `resource_type 'map' { gameTypes = { drp_core = true } }`.
+3. Next in your main resource folder you will see FiveM-Map-Skater, open that folder then open the \_\_resource.lua file. You will see something like this: `resource_type 'map' { gameTypes = { fivem = true } }` please replace that with `resource_type 'map' { gameTypes = { drp_core = true } }`.
 
 ## Database Installation
 
