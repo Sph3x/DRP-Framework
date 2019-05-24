@@ -105,6 +105,8 @@ AddEventHandler("DRP_ID:SelectCharacter", function(character_id)
 			character_id = character_id
 		}
 	}, function(characterInfo)
+		TriggerEvent("DRP_Clothing:AddCharacterClothing", character_id)
+		Wait(500)
 		exports["externalsql"]:DBAsyncQuery({
 			string = "SELECT * FROM `character_clothing` WHERE `char_id` = :character_id",
 			data = {

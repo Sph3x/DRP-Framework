@@ -19,29 +19,30 @@ AddEventHandler("DRP_Clothing:FirstSpawn", function()
 			local overlays_drawables = json.decode(results["data"][1].overlays_drawables)
 			local overlays_opacity = json.decode(results["data"][1].overlays_opacity)
 			local overlays_colours = json.decode(results["data"][1].overlays_colours)
-
 			TriggerClientEvent("clothes:spawn", src, {model = model, cdrawables = clothing_drawables, cpalette = clothing_palette, ctextures = clothing_textures, pdrawables = props_drawables, ptextures = props_textures, odrawables = overlays_drawables, oopacity = overlays_opacity, ocolours = overlays_colours})
-		else
-			clothing = {drawables = {0,0,0,0,0,0,0,0,0,0,0,0}, textures = {2,0,1,1,0,0,0,0,0,0,0,0}, palette = {0,0,0,0,0,0,0,0,0,0,0,0}}
-			props = {drawables = {-1,-1,-1,-1,-1,-1,-1,-1}, textures = {-1,-1,-1,-1,-1,-1,-1,-1}}
-			overlays = {drawables = {-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1}, opacity = {1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0}, colours = {{colourType = 0, colour = 0},{colourType = 0, colour = 0},{colourType = 0, colour = 0},{colourType = 0, colour = 0},{colourType = 0, colour = 0},{colourType = 0, colour = 0},{colourType = 0, colour = 0},{colourType = 0, colour = 0},{colourType = 0, colour = 0},{colourType = 0, colour = 0},{colourType = 0, colour = 0},{colourType = 0, colour = 0},{colourType = 0, colour = 0}}}
-			exports["externalsql"]:DBAsyncQuery({
-				string = "INSERT INTO `character_clothing` SET `model` = :model, `clothing_drawables` = :clothing_drawables, `clothing_textures` = :clothing_textures, `clothing_palette` = :clothing_palette, `props_drawables` = :props_drawables, `props_textures` = :props_textures, `overlays_drawables` = :overlays_drawables, `overlays_opacity` = :overlays_opacity, `overlays_colours` = :overlays_colours, `char_id` = :charid",
-				data = {
-					model = "mp_m_freemode_01",
-					clothing_drawables = json.encode(clothing.drawables),
-					clothing_textures = json.encode(clothing.textures),
-					clothing_palette = json.encode(clothing.palette),
-					props_drawables = json.encode(props.drawables),
-					props_textures = json.encode(props.textures),
-					overlays_drawables = json.encode(overlays.drawables),
-					overlays_opacity = json.encode(overlays.opacity),
-					overlays_colours = json.encode(overlays.colours),
-					charid = character.charid
-				}
-			}, function(yeet)
-			end)
 		end
+	end)
+end)
+
+AddEventHandler("DRP_Clothing:AddCharacterClothing", function(charid)
+	clothing = {drawables = {0,0,0,0,0,0,0,0,0,0,0,0}, textures = {2,0,1,1,0,0,0,0,0,0,0,0}, palette = {0,0,0,0,0,0,0,0,0,0,0,0}}
+	props = {drawables = {-1,-1,-1,-1,-1,-1,-1,-1}, textures = {-1,-1,-1,-1,-1,-1,-1,-1}}
+	overlays = {drawables = {-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1}, opacity = {1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0}, colours = {{colourType = 0, colour = 0},{colourType = 0, colour = 0},{colourType = 0, colour = 0},{colourType = 0, colour = 0},{colourType = 0, colour = 0},{colourType = 0, colour = 0},{colourType = 0, colour = 0},{colourType = 0, colour = 0},{colourType = 0, colour = 0},{colourType = 0, colour = 0},{colourType = 0, colour = 0},{colourType = 0, colour = 0},{colourType = 0, colour = 0}}}
+	exports["externalsql"]:DBAsyncQuery({
+		string = "INSERT INTO `character_clothing` SET `model` = :model, `clothing_drawables` = :clothing_drawables, `clothing_textures` = :clothing_textures, `clothing_palette` = :clothing_palette, `props_drawables` = :props_drawables, `props_textures` = :props_textures, `overlays_drawables` = :overlays_drawables, `overlays_opacity` = :overlays_opacity, `overlays_colours` = :overlays_colours, `char_id` = :charid",
+		data = {
+			model = "mp_m_freemode_01",
+			clothing_drawables = json.encode(clothing.drawables),
+			clothing_textures = json.encode(clothing.textures),
+			clothing_palette = json.encode(clothing.palette),
+			props_drawables = json.encode(props.drawables),
+			props_textures = json.encode(props.textures),
+			overlays_drawables = json.encode(overlays.drawables),
+			overlays_opacity = json.encode(overlays.opacity),
+			overlays_colours = json.encode(overlays.colours),
+			charid = charid
+		}
+	}, function(yeet)
 	end)
 end)
 
