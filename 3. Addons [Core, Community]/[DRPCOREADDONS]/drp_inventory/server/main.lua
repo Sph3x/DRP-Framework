@@ -121,7 +121,6 @@ end)
 ---------------------------------------------------------------------------
 RegisterServerEvent("DRP_Inventory:UsedItem")
 AddEventHandler("DRP_Inventory:UsedItem", function(itemname)
-    print("mason is a nonce")
     local src = source
     local itemname = itemname
     local count = 1
