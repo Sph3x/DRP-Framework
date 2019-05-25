@@ -7,9 +7,9 @@ end)
 ---------------------------------------------------------------------------
 Citizen.CreateThread(function()
     while true do
-        if SpawnedInAndLoaded() then
+        if exports["drp_id"]:SpawnedInAndLoaded() then
             TriggerServerEvent("DRP_JobCore:Salary")
         end
-        Citizen.Wait(SalaryRecieveTimer)
+        Citizen.Wait(JobsCoreConfig.SalaryRecieveTimer)
     end
 end)

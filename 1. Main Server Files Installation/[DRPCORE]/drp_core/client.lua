@@ -186,7 +186,7 @@ function AddTextEntry(key, value)
 end
 
 local config = {
-    ["TITLE"] = "DRP Framwork",
+    ["TITLE"] = "DRP Framework",
     ["SUBTITLE"] = "Created by Darkzy",
     ["MAP"] = "Map",
     ["STATUS"] = "Status",
