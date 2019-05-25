@@ -73,10 +73,8 @@ RegisterNUICallback("drop", function(data)
     TriggerServerEvent("DRP_Inventory:RemoveItem", data.item, data.count)
 end)
 
--- RegisterNUICallback('use', function(data)
---     print(data.item)
---     TriggerServerEvent('esx:useItem', data.item)
---     SendNUIMessage({
---         action = "close"
---     })
--- end)
+RegisterNUICallback('use', function(data)
+    SetNuiFocus(false, false)
+    print(json.encode(data.item))
+    TriggerEvent("DRP_Inventory:CheckItemsUse", data.item)
+end)

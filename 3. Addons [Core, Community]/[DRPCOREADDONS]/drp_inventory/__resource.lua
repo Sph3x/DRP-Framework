@@ -5,6 +5,7 @@ ui_page 'assets/index.html'
 
 client_script 'client/main.lua'
 client_script 'client/managers.lua'
+client_script 'client/useitemfunctions.lua'
 client_script 'config.lua'
 
 server_scripts {

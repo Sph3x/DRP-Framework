@@ -117,6 +117,41 @@ AddEventHandler("DRP_Inventory:RemoveItem", function(itemname, count)
     end)
 end)
 ---------------------------------------------------------------------------
+-- USE Item
+---------------------------------------------------------------------------
+RegisterServerEvent("DRP_Inventory:UsedItem")
+AddEventHandler("DRP_Inventory:UsedItem", function(itemname)
+    print("mason is a nonce")
+    local src = source
+    local itemname = itemname
+    local count = 1
+    local character = exports["drp_id"]:GetCharacterData(src)
+    TriggerEvent("DRP_Inventory:CheckForItemOwnershipByName", src, itemname, function(Ownership)
+        local quantity = Ownership[1].quantity
+        local newquantity = quantity - count
+        if newquantity ~= 0 then
+            exports["externalsql"]:DBAsyncQuery({
+                string = "UPDATE character_inventory SET `quantity` = :newamount WHERE `charid` = :char_id and `name` = :itemname",
+                data = {
+                    newamount = newquantity,
+                    char_id = character.charid,
+                    itemname = itemname
+                }
+            }, function(yeet)
+            end)
+        else
+            exports["externalsql"]:DBAsyncQuery({
+                string = "DELETE FROM `character_inventory` WHERE `charid` = :char_id and `name` = :itemname",
+                data = {
+                    char_id = character.charid,
+                    itemname = itemname
+                }
+            }, function(yeeting)
+            end)
+        end
+    end)
+end)
+---------------------------------------------------------------------------
 -- Pickup Event
 ---------------------------------------------------------------------------
 RegisterServerEvent('DRP_Inventory:Pickup')
