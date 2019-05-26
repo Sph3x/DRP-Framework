@@ -1,4 +1,6 @@
 local lockpickingVehicle = false
+local success = false
+local stolenKeys = {}
 ---------------------------------------------------------------------------
 -- STOP PEOPLE FROM PULLING PEDS OUT OF VEHICLES AND STOP PEOPLE FROM SMASHING THE WINDOW IF THE CAR IS LOCKED
 ---------------------------------------------------------------------------
@@ -19,13 +21,14 @@ Citizen.CreateThread(function()
 		end
 	end
 end)
-
+---------------------------------------------------------------------------
 Citizen.CreateThread(function()
 	while true do
 		local ped = GetPlayerPed(PlayerId())
 		if DoesEntityExist(GetVehiclePedIsTryingToEnter(PlayerPedId(ped))) then
         	local veh = GetVehiclePedIsTryingToEnter(PlayerPedId(ped))
 			local lock = GetVehicleDoorLockStatus(veh)
+			print(lock)
 	        if lock == 4 then
 	        	ClearPedTasks(ped)
 	        end
@@ -33,27 +36,128 @@ Citizen.CreateThread(function()
 		Citizen.Wait(0)
 	end
 end)
-
+---------------------------------------------------------------------------
+-- CHECK IF PLAYER IS IN THE DRIVER SEAT
+---------------------------------------------------------------------------
+-- Citizen.CreateThread(function()
+-- 	while true do
+-- 		local ped = GetPlayerPed(PlayerId())
+-- 		local vehicle = GetVehiclePedIsIn(ped, false)
+-- 		local vehNet = NetworkGetNetworkIdFromEntity(vehicle)
+-- 		local plate = GetVehicleNumberPlateText(vehicle)
+-- 		if not IsEntityDead(vehicle) then
+-- 			if GetSeatPedIsSatIn(ped) == -1 then
+-- 				if hasKeys then
+-- 					print("has keys")
+-- 				else
+-- 					print("does not have keys")
+-- 				end
+-- 			end
+-- 		end
+-- 		Citizen.Wait(0)
+-- 	end
+-- end)
 
 Citizen.CreateThread(function()
-	while true do
-		local ped = GetPlayerPed(PlayerId())
-		local vehicle = GetVehiclePedIsIn(ped, false)
-		if not IsEntityDead(vehicle) then
-			if GetSeatPedIsSatIn(ped) == -1 then
-				
+    while true do
+        if IsControlJustPressed(1, 303) then -- THIS LOCKING SYSTEM IS FOR INTERIOR SO WORKS ALL THE TIME
+			local ped = GetPlayerPed(PlayerId())
+			local inVehicle = IsPedInAnyVehicle(ped, false)
+			if inVehicle == 1 then
+				local vehicle = GetVehiclePedIsIn(ped, false)
+				local isLocked = GetVehicleDoorLockStatus(vehicle)
+				print(isLocked)
+				if isLocked == 0 then
+					TriggerEvent("DRP_Core:Success", "Vehicle", "You have locked your vehicle", 2000, false, "leftCenter")
+					SetVehicleDoorsLocked(vehicle, 2)
+				elseif isLocked == 1 then
+					TriggerEvent("DRP_Core:Success", "Vehicle", "You have locked your vehicle", 2000, false, "leftCenter")
+					SetVehicleDoorsLocked(vehicle, 2)
+				elseif isLocked == 5 then
+					TriggerEvent("DRP_Core:Success", "Vehicle", "You have locked your vehicle", 2000, false, "leftCenter")
+					SetVehicleDoorsLocked(vehicle, 2)
+				else
+					TriggerEvent("DRP_Core:Success", "Vehicle", "You have unlocked your vehicle", 2000, false, "leftCenter")
+					SetVehicleDoorsLocked(vehicle, 0)
+				end
+			else
+				local vehicleFront = GetVehicleInFront()
+				if vehicleFront ~= 0 then
+				local vehNet = NetworkGetNetworkIdFromEntity(vehicleFront)
+				local plate = GetVehicleNumberPlateText(vehicleFront)
+					if vehNet ~= 0 then
+						TriggerServerEvent("DRP_Garages:CheckVehicleOwner", vehNet, plate)
+					end
+				end
 			end
-		end
-		Citizen.Wait(0)
-	end
+        end
+        Citizen.Wait(1)
+    end
 end)
 
--- TriggerServerEvent("DRP_Garages:CheckLockPicking", vehNet, plate)
+---------------------------------------------------------------------------
+-- EVENTS
+---------------------------------------------------------------------------
+RegisterNetEvent("DRP_Garages:ToggleExternalLock")
+AddEventHandler("DRP_Garages:ToggleExternalLock", function(vehNet, hasKeys)
+    if hasKeys then
+        local vehicle = NetworkGetEntityFromNetworkId(vehNet)
+        local isLocked = GetVehicleDoorLockStatus(vehicle)
+		print(isLocked)
+        if isLocked == 0 then
+            TriggerEvent("DRP_Core:Success", "Vehicle", "You have locked your vehicle", 2000, false, "leftCenter")
+            doorAnimation()
+            SetVehicleDoorsLocked(vehicle, 2)
+            StartVehicleHorn(vehicle, 100, 1, false)
+            SetVehicleLights(vehicle, 2)
+            Wait (200)
+            SetVehicleLights(vehicle, 0)
+            StartVehicleHorn(vehicle, 100, 1, false)
+            Wait (200)
+            SetVehicleLights(vehicle, 2)
+            Wait (400)
+			SetVehicleLights(vehicle, 0)
+		elseif isLocked == 1 then
+			TriggerEvent("DRP_Core:Success", "Vehicle", "You have locked your vehicle", 2000, false, "leftCenter")
+            doorAnimation()
+            SetVehicleDoorsLocked(vehicle, 2)
+            StartVehicleHorn(vehicle, 100, 1, false)
+            SetVehicleLights(vehicle, 2)
+            Wait (200)
+            SetVehicleLights(vehicle, 0)
+            StartVehicleHorn(vehicle, 100, 1, false)
+            Wait (200)
+            SetVehicleLights(vehicle, 2)
+            Wait (400)
+			SetVehicleLights(vehicle, 0)
+		elseif isLocked == 5 then
+			TriggerEvent("DRP_Core:Success", "Vehicle", "You have locked your vehicle", 2000, false, "leftCenter")
+            doorAnimation()
+            SetVehicleDoorsLocked(vehicle, 2)
+            StartVehicleHorn(vehicle, 100, 1, false)
+            SetVehicleLights(vehicle, 2)
+            Wait (200)
+            SetVehicleLights(vehicle, 0)
+            StartVehicleHorn(vehicle, 100, 1, false)
+            Wait (200)
+            SetVehicleLights(vehicle, 2)
+            Wait (400)
+			SetVehicleLights(vehicle, 0)
+        else
+            TriggerEvent("DRP_Core:Success", "Vehicle", "You have unlocked your vehicle", 2000, false, "leftCenter")
+            doorAnimation()
+            SetVehicleDoorsLocked(vehicle, 0)
+        end
+    else
+        TriggerEvent("DRP_Core:Error", "Vehicle", "You do not have the keys to that vehicle", 2000, false, "leftCenter")
+    end
+end)
+
 
 RegisterNetEvent("DRP_LockPicking:HasKeys")
-AddEventHandler("DRP_LockPicking:HasKeys", function(netid, hasKeys)
-	local vehicle = NetworkGetEntityFromNetworkId(netid)
-	local ped = GetPlayerPed(PlayerId())
+AddEventHandler("DRP_LockPicking:HasKeys", function(vehicleKeys)
+	stolenKeys = vehicleKeys
+	print(stolenKeys)
 end)
 
 AddEventHandler("DRP_Inventory:lockpicking", function()
@@ -69,11 +173,13 @@ AddEventHandler("DRP_Inventory:lockpicking", function()
 				TriggerServerEvent("DRP_Inventory:UsedItem", "lockpick")
 				lockpickingVehicle = true
 				TriggerEvent("playanimation")
-				lockpickVehicle()
-				if lockpickVehicle then
+				if lockpickVehicle() then
+					lockpickingVehicle = false
 					TriggerEvent("DRP_Core:Success", "Vehicle", "You have lockpicked this Vehicle", 2000, false, "leftCenter")
+					TriggerServerEvent("DRP_LockPicking:Keys", plate, vehNet)
 					SetVehicleDoorsLocked(vehicle, 0)
 				else
+					lockpickingVehicle = false
 					TriggerEvent("DRP_Core:Error", "Vehicle", "You have not lockpicked this Vehicle", 2000, false, "leftCenter")
 				end
 			end
@@ -102,17 +208,15 @@ AddEventHandler("playanimation", function()
 end)
 
 function lockpickVehicle()
-	local random = math.random(1,5)
-	print("result is: "..random)
 	Citizen.Wait(8000, 18000)
-	if random == 1 then
-		lockpickingVehicle = false
-		return true
-	end
-	lockpickingVehicle = false
-	return false
+	local random = math.random(1, 100)
+    local chance = 50
+    if(random < chance)then
+        return true
+    else
+        return false
+    end
 end
-
 
 function GetSeatPedIsSatIn(ped)
 	local vehicle = GetVehiclePedIsIn(ped, false)
