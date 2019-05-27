@@ -67,6 +67,7 @@ AddEventHandler("DRP_ID:LoadSelectedCharacter", function(ped, spawn)
 	TriggerServerEvent("DRP_Clothing:FirstSpawn") -- If Clothing Is Installed
 	TriggerServerEvent("DRP_Death:GetDeathStatus")
 	TriggerServerEvent("DRP_Garages:CheckLockPicking")
+	TriggerServerEvent("DRP_Housing:InitializePlayer")
 	TriggerServerEvent("DRP_Doors:StartSync") -- If Doors is Installed
 	TriggerServerEvent("DRP_Tattoos:GetTattoos") -- If Tattoos is Installed
 	---------------------------------------------------------------------------

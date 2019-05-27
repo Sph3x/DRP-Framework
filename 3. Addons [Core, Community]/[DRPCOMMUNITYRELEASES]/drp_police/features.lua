@@ -146,11 +146,11 @@ end)
 RegisterNUICallback("handcuff", function(data, cb)
     SetNuiFocus(false, false)
     local target, distance = GetClosestPlayer()
-    if distance ~= -1 and distance < 3 then
-        TriggerServerEvent("DRP_Police:CheckHandCuff", GetPlayerServerId(target))
-    else
-        TriggerEvent("DRP_Core:Info", "Cops", tostring("No Players Near You"), 7000, false, "leftCenter")
-    end
+        if distance ~= -1 and distance < 3 then
+            TriggerServerEvent("DRP_Police:CheckHandCuff", GetPlayerServerId(target))
+        else
+            TriggerEvent("DRP_Core:Info", "Cuff", tostring("No Persons Near You"), 7000, false, "leftCenter")
+        end
     cb("ok")
 end)
 ---------------------------------------------------------------------------
@@ -164,8 +164,8 @@ RegisterNUICallback("drag", function(data, cb)
         if distance ~= -1 and distance < 3 then
             TriggerServerEvent("DRP_Police:CheckLEOEscort", GetPlayerServerId(target))
         else
-            TriggerEvent("DRP_Core:Info", "Drag", tostring("No Players Near You"), 7000, false, "leftCenter")
-    end
+            TriggerEvent("DRP_Core:Info", "Drag", tostring("No Persons Near You"), 7000, false, "leftCenter")
+        end
     cb("ok")
 end)
 ---------------------------------------------------------------------------
@@ -191,7 +191,18 @@ RegisterNUICallback("fine", function(data, cb)
             end
         TriggerServerEvent("DRP_PoliceJob:FinePlayer", GetPlayerServerId(t), tonumber(amount))
     else 
-        TriggerEvent("DRP_Core:Info", "Cops", tostring("No Players Near You"), 7000, false, "leftCenter")
+        TriggerEvent("DRP_Core:Info", "Fine", tostring("No Persons Near You"), 7000, false, "leftCenter")
+    end
+    cb("ok")
+end)
+---------------------------------------------------------------------------
+RegisterNUICallback("search", function(data, cb)
+    SetNuiFocus(false, false)
+    local target, distance = GetClosestPlayer()
+    if distance ~= -1 and distance < 3 then
+        TriggerServerEvent("DRP_PoliceJob:CheckLEOSearch", GetPlayerServerId(target))
+    else
+        TriggerEvent("DRP_Core:Info", "Search", tostring("No Persons Near You"), 7000, false, "leftCenter")
     end
     cb("ok")
 end)
@@ -200,10 +211,10 @@ end)
 ---------------------------------------------------------------------------
 RegisterCommand("escort", function()
     local target, distance = GetClosestPlayer()
-        if distance ~= -1 and distance < 3 then
-            TriggerServerEvent("DRP_Police:CheckLEOEscort", GetPlayerServerId(target))
-        else
-            TriggerEvent("DRP_Core:Info", "Drag", tostring("No Players Near You"), 7000, false, "leftCenter")
+    if distance ~= -1 and distance < 3 then
+        TriggerServerEvent("DRP_Police:CheckLEOEscort", GetPlayerServerId(target))
+    else
+        TriggerEvent("DRP_Core:Info", "Drag", tostring("No Persons Near You"), 7000, false, "leftCenter")
     end
 end)
 ---------------------------------------------------------------------------
@@ -212,7 +223,7 @@ RegisterCommand("cuff", function()
     if distance ~= -1 and distance < 3 then
         TriggerServerEvent("DRP_Police:CheckHandCuff", GetPlayerServerId(target))
     else
-        TriggerEvent("DRP_Core:Info", "Cops", tostring("No Players Near You"), 7000, false, "leftCenter")
+        TriggerEvent("DRP_Core:Info", "Cuff", tostring("No Persons Near You"), 7000, false, "leftCenter")
     end
 end)
 ---------------------------------------------------------------------------
@@ -225,23 +236,14 @@ RegisterCommand("911", function(source, args, raw)
         if callTarget == "police" then
             TriggerServerEvent("DRP_Police:CallHandler", {x = coords.x, y = coords.y , z = coords.z}, callInformation)
         elseif callTarget == "sheriff" then
-
+            TriggerServerEvent("DRP_Police:CallHandler", {x = coords.x, y = coords.y , z = coords.z}, callInformation)
         elseif callTarget == "state" then
-
+            TriggerServerEvent("DRP_Police:CallHandler", {x = coords.x, y = coords.y , z = coords.z}, callInformation)
         elseif callTarget == "cops" then
-
+            TriggerServerEvent("DRP_Police:CallHandler", {x = coords.x, y = coords.y , z = coords.z}, callInformation)
         end
     end
 end)
-
--- RegisterNUICallback("search", function(data, cb)
-
---     local target, distance = GetClosestPlayer()
---     if distance ~= -1 and distance < 3 then
---         TriggerServerEvent("ISRP_Interactions:CheckLEOSearch", GetPlayerServerId(target))
---         cb("ok")
---     end
--- end)
 
 -- RegisterCommand("search", function()
 --     local target, distance = GetClosestPlayer()

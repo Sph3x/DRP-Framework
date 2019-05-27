@@ -34,6 +34,13 @@ const PoliceMenu = new Vue({
       });
     },
 
+    Search() {
+      this.showPoliceMenu = false;
+      axios.post("http://drp_police/search", {}).catch(error => {
+        console.log(error);
+      });
+    },
+
     ClosePoliceMenu() {
       this.showPoliceMenu = false;
       axios.post("http://drp_police/closeJobCenter", {}).catch(error => {

@@ -1,12 +1,10 @@
 local lockpickingVehicle = false
 local success = false
-local stolenKeys = {}
 ---------------------------------------------------------------------------
--- STOP PEOPLE FROM PULLING PEDS OUT OF VEHICLES AND STOP PEOPLE FROM SMASHING THE WINDOW IF THE CAR IS LOCKED
+-- STOP PEOPLE FROM PULLING PEDS OUT OF VEHICLES
 ---------------------------------------------------------------------------
 Citizen.CreateThread(function()
 	while true do
-		Citizen.Wait(0)
 		local ped = GetPlayerPed(-1)
 		if DoesEntityExist(GetVehiclePedIsTryingToEnter(PlayerPedId(ped))) then
 			local veh = GetVehiclePedIsTryingToEnter(PlayerPedId(ped))
@@ -19,8 +17,11 @@ Citizen.CreateThread(function()
 				SetPedCanBeDraggedOut(pedd, false)
 			end
 		end
+		Citizen.Wait(0)
 	end
 end)
+---------------------------------------------------------------------------
+-- STOPS PEOPLE FROM STEALING LEFT LOCKED LOCAL CARS
 ---------------------------------------------------------------------------
 Citizen.CreateThread(function()
 	while true do
@@ -28,7 +29,6 @@ Citizen.CreateThread(function()
 		if DoesEntityExist(GetVehiclePedIsTryingToEnter(PlayerPedId(ped))) then
         	local veh = GetVehiclePedIsTryingToEnter(PlayerPedId(ped))
 			local lock = GetVehicleDoorLockStatus(veh)
-			print(lock)
 	        if lock == 4 then
 	        	ClearPedTasks(ped)
 	        end
@@ -57,7 +57,9 @@ end)
 -- 		Citizen.Wait(0)
 -- 	end
 -- end)
-
+---------------------------------------------------------------------------
+-- LOCK AND UNLOCKING
+---------------------------------------------------------------------------
 Citizen.CreateThread(function()
     while true do
         if IsControlJustPressed(1, 303) then -- THIS LOCKING SYSTEM IS FOR INTERIOR SO WORKS ALL THE TIME
@@ -94,7 +96,6 @@ Citizen.CreateThread(function()
         Citizen.Wait(1)
     end
 end)
-
 ---------------------------------------------------------------------------
 -- EVENTS
 ---------------------------------------------------------------------------
@@ -152,14 +153,9 @@ AddEventHandler("DRP_Garages:ToggleExternalLock", function(vehNet, hasKeys)
         TriggerEvent("DRP_Core:Error", "Vehicle", "You do not have the keys to that vehicle", 2000, false, "leftCenter")
     end
 end)
-
-
-RegisterNetEvent("DRP_LockPicking:HasKeys")
-AddEventHandler("DRP_LockPicking:HasKeys", function(vehicleKeys)
-	stolenKeys = vehicleKeys
-	print(stolenKeys)
-end)
-
+---------------------------------------------------------------------------
+-- USE COMMAND
+---------------------------------------------------------------------------
 AddEventHandler("DRP_Inventory:lockpicking", function()
 	local ped = GetPlayerPed(PlayerId())
     local vehicle = GetVehicleInFront()
@@ -176,7 +172,7 @@ AddEventHandler("DRP_Inventory:lockpicking", function()
 				if lockpickVehicle() then
 					lockpickingVehicle = false
 					TriggerEvent("DRP_Core:Success", "Vehicle", "You have lockpicked this Vehicle", 2000, false, "leftCenter")
-					TriggerServerEvent("DRP_LockPicking:Keys", plate, vehNet)
+					TriggerServerEvent("DRP_Garages:GiveKeys", vehNet, plate)
 					SetVehicleDoorsLocked(vehicle, 0)
 				else
 					lockpickingVehicle = false
@@ -188,7 +184,7 @@ AddEventHandler("DRP_Inventory:lockpicking", function()
 		end
     end
 end)
-
+---------------------------------------------------------------------------
 RegisterNetEvent("playanimation")
 AddEventHandler("playanimation", function()
 	local ped = GetPlayerPed(PlayerId())
@@ -206,18 +202,33 @@ AddEventHandler("playanimation", function()
 	end
 	ClearPedTasks(ped)
 end)
-
+---------------------------------------------------------------------------
 function lockpickVehicle()
-	Citizen.Wait(8000, 18000)
+	Citizen.Wait(12000, 19000)
 	local random = math.random(1, 100)
-    local chance = 50
-    if(random < chance)then
+    local chance = 25
+    if (random < chance) then
         return true
     else
         return false
     end
 end
-
+---------------------------------------------------------------------------
+function doorAnimation()
+    ClearPedSecondaryTask(GetPlayerPed(PlayerId()))
+    loadAnimDict( "anim@heists@keycard@" ) 
+    TaskPlayAnim( GetPlayerPed(PlayerId()), "anim@heists@keycard@", "exit", 8.0, 1.0, -1, 16, 0, 0, 0, 0 )
+    Citizen.Wait(850)
+    ClearPedTasks(GetPlayerPed(PlayerId()))
+end
+---------------------------------------------------------------------------
+function loadAnimDict( dict )
+    while ( not HasAnimDictLoaded( dict ) ) do
+        RequestAnimDict( dict )
+        Citizen.Wait( 5 )
+    end
+end
+---------------------------------------------------------------------------
 function GetSeatPedIsSatIn(ped)
 	local vehicle = GetVehiclePedIsIn(ped, false)
     local seatCount = GetVehicleModelNumberOfSeats(GetHashKey(vehicle))
@@ -228,7 +239,7 @@ function GetSeatPedIsSatIn(ped)
         end
     end
 end
-
+---------------------------------------------------------------------------
 function GetVehicleInFront()
 	local plyCoords = GetEntityCoords(GetPlayerPed(PlayerId()), false)
 	local plyOffset = GetOffsetFromEntityInWorldCoords(GetPlayerPed(PlayerId()), 0.0, 5.0, 0.0)
@@ -236,3 +247,4 @@ function GetVehicleInFront()
 	local _, _, _, _, vehicle = GetShapeTestResult(rayHandle)
 	return vehicle
 end
+---------------------------------------------------------------------------

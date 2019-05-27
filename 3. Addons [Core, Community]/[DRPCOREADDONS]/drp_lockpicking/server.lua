@@ -1,6 +1,6 @@
 local vehicleKeys = {}
 ---------------------------------------------------------------------------
--- Check 
+-- VEHICLE CHECKER IF PLAYER HAS KEYS TO VEHICLES OR NOT ANY KEYS AT ALL
 ---------------------------------------------------------------------------
 RegisterServerEvent("DRP_LockPicking:CheckLockPicking")
 AddEventHandler("DRP_LockPicking:CheckLockPicking", function()
@@ -13,18 +13,7 @@ AddEventHandler("DRP_LockPicking:CheckLockPicking", function()
 	end
 end)
 ---------------------------------------------------------------------------
--- 
----------------------------------------------------------------------------
-RegisterServerEvent("DRP_LockPicking:Keys")
-AddEventHandler("DRP_LockPicking:Keys", function(plate, netid)
-    local src = source
-    local plate = string.lower(plate)
-    table.insert(vehicleKeys, {owner = src, networkid = netid, vehiclePlate = plate})
-    print(json.encode(vehicleKeys))
-    TriggerClientEvent("DRP_LockPicking:HasKeys", src, vehicleKeys)
-end)
----------------------------------------------------------------------------
--- 
+-- GIVE KEYS TO VEHICLE
 ---------------------------------------------------------------------------
 RegisterServerEvent("DRP_Garages:GiveKeys")
 AddEventHandler("DRP_Garages:GiveKeys", function(id, plate)

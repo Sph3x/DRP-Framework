@@ -2,6 +2,7 @@ local allDoors = {}
 local myJobRank = nil
 local myJobName = nil
 local doorAccess = false
+local sleeper = 0
 ---------------------------------------------------------------------------
 -- Door Events
 ---------------------------------------------------------------------------
@@ -29,7 +30,9 @@ end)
 -- Threads
 ---------------------------------------------------------------------------
 Citizen.CreateThread(function()
+    Citizen.Wait(100)
     while true do
+        local sleeper = 1000
         local ped = GetPlayerPed(PlayerId())
         local pedPos = GetEntityCoords(ped, false)
             for a = 1, #allDoors do
@@ -42,23 +45,29 @@ Citizen.CreateThread(function()
                         exports['drp_core']:DrawText3Ds(allDoors[a].x, allDoors[a].y, allDoors[a].z + 0.3, tostring("~b~[E] - ~g~[UNLOCKED]"))
                     end
                     local door = GetClosestObjectOfType(allDoors[a].x, allDoors[a].y, allDoors[a].z, 5.0, GetHashKey(allDoors[a].model), false, false, false)
-                    if allDoors[a].isLocked then
-                        FreezeEntityPosition(door, true)
-                    else
-                        FreezeEntityPosition(door, false)
-                    end 
-                    if IsControlJustPressed(1, 86) and distance <= 2.0 then
-                        if CheckIfJobDoor(allDoors[a].doorRank) then
-                            allDoors[a].isLocked = not lockedDoor
-                            TriggerServerEvent("DRP_Doors:UpdateDoorStatus", allDoors)
-                            doorAccess = false
+                    if DoesEntityExist(door) then
+                        sleeper = 5
+                        if allDoors[a].isLocked then
+                            FreezeEntityPosition(door, true)
                         else
-                            TriggerEvent("DRP_Core:Error", "Doors", "You are not the required rank to open this!", 2500, false, "leftCenter")
+                            FreezeEntityPosition(door, false)
                         end
+                        if IsControlJustPressed(1, 86) and distance <= 2.0 then
+                            if CheckIfJobDoor(allDoors[a].doorRank) then
+                                allDoors[a].isLocked = not lockedDoor
+                                TriggerServerEvent("DRP_Doors:UpdateDoorStatus", allDoors)
+                                doorAccess = false
+                            else
+                                TriggerEvent("DRP_Core:Error", "Doors", "You are not the required rank to open this!", 2500, false, "leftCenter")
+                            end
+                        end
+                        break
+                    else
+                        sleeper = 1000
                     end
                 end
             end 
-        Citizen.Wait(1)
+        Citizen.Wait(sleeper)
     end
 end)
 ---------------------------------------------------------------------------

@@ -54,6 +54,7 @@ Citizen.CreateThread(function()
         if distance <= 5.0 then
             DrawText3Ds(cocainePickingLocation[1].x, cocainePickingLocation[1].y, cocainePickingLocation[1].z + 0.3, tostring("~r~[E]~w~ - Purchase Raw Cocaine $"..DRPDrugsConfig.DrugPrices.rawcocaine..""))
             if IsControlJustPressed(1, 86) then
+                Wait(750)
                 TriggerServerEvent("DRP_Drugs:CheckPurchaseRawCocaine")
             end
         end
@@ -62,6 +63,7 @@ Citizen.CreateThread(function()
             if distance <= 3.0 then
                 DrawText3Ds(DRPDrugsConfig.CocaineLocations[a].x, DRPDrugsConfig.CocaineLocations[a].y, DRPDrugsConfig.CocaineLocations[a].z + 0.3, tostring("~r~[E]~w~ - Process your Raw Cocaine"))
                 if IsControlJustPressed(1, 86) then
+                    Wait(750)
                     TriggerServerEvent("DRP_Drugs:ProcessItem", "rawcocaine", "cocaine")
                 end
             end
@@ -70,6 +72,7 @@ Citizen.CreateThread(function()
         if cuttingDistance <= 3.0 then
             DrawText3Ds(cocainePackingAndCuttingLocations[1].x, cocainePackingAndCuttingLocations[1].y, cocainePackingAndCuttingLocations[1].z + 0.3, tostring("~r~[E]~w~ - Cut and Package your Cocaine"))
             if IsControlJustPressed(1, 86) then
+                Wait(750)
                 TriggerServerEvent("DRP_Drugs:CutAndPackageCocaine")
             end
         end
@@ -103,7 +106,7 @@ Citizen.CreateThread(function()
             if closeToDealer <= 3.0 then
                 DrawText3Ds(dealerCoords.x, dealerCoords.y, dealerCoords.z + 0.3, tostring("~r~[E]~w~ - To Sell Your Cocaine Bricks"))
                 if IsControlJustPressed(1, 86) then
-                    Wait(500)
+                    Wait(750)
                     TriggerServerEvent("DRP_Drugs:SellCocaineBrick")
                 end
             end
@@ -149,7 +152,7 @@ end)
 RegisterNetEvent("DRP_Drugs:StartCollectingRawCocaine")
 AddEventHandler("DRP_Drugs:StartCollectingRawCocaine", function()
     Citizen.Wait(1000)
-    TriggerServerEvent("DRP_Inventory:AddItem", "rawcocaine")
+    TriggerServerEvent("DRP_Inventory:AddItem", "rawcocaine", 1)
 end)
 
 function DrawText3Ds(x,y,z, text)
