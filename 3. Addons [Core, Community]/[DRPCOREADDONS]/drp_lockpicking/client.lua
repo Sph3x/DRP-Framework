@@ -206,7 +206,7 @@ end)
 function lockpickVehicle()
 	Citizen.Wait(12000, 19000)
 	local random = math.random(1, 100)
-    local chance = 25
+    local chance = 35
     if (random < chance) then
         return true
     else
