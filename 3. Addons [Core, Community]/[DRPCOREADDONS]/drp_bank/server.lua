@@ -7,7 +7,6 @@ AddEventHandler("DRP_Bank:RequestATMInfo", function()
         end)
     end)
 end)
-
 ---------------------------------------------------------------------------
 -- Withdrawing Money
 ---------------------------------------------------------------------------
@@ -46,7 +45,6 @@ AddEventHandler("DRP_Bank:WithdrawMoney", function(amount)
         end)
     end)
 end)
-
 ---------------------------------------------------------------------------
 -- Depositing Money
 ---------------------------------------------------------------------------
@@ -128,30 +126,28 @@ function cleanMoney(source)
         end)
     end)
 end
-
 ---------------------------------------------------------------------------
 -- Adding BANK Money
 ---------------------------------------------------------------------------
-AddEventHandler("DRP_Bank:AddBankMoney", function(amount)
+AddEventHandler("DRP_Bank:AddBankMoney", function(source, amount)
     local src = source
     if type(amount) == "number" then
-        TriggerEvent("DRP_ID:GetCharacterData", src, function(CharacterData)
-            TriggerEvent("DRP_Bank:GetCharacterMoney", CharacterData.charid, function(characterMoney)
-                local newBankBalance = characterMoney.data[1].bank + tonumber(amount)
-                exports["externalsql"]:DBAsyncQuery({
-                    string = "UPDATE `characters` SET `bank` = :bank WHERE `id` = :charid",
-                    data = {
-                        bank = newBankBalance,
-                        charid = CharacterData.charid
-                    }
-                }, function(results)
-                    TriggerClientEvent("DRP_Bank:ActionCallback", src, true, "Success", newBankBalance)
-                end)
+        local character = exports["drp_id"]:GetCharacterData(src)
+        TriggerEvent("DRP_Bank:GetCharacterMoney", character.charid, function(characterMoney)
+            local newBankBalance = characterMoney.data[1].bank + tonumber(amount)
+            exports["externalsql"]:DBAsyncQuery({
+                string = "UPDATE `characters` SET `bank` = :bank WHERE `id` = :charid",
+                data = {
+                    bank = newBankBalance,
+                    charid = character.charid
+                }
+            }, function(results)
+                TriggerClientEvent("DRP_Bank:ActionCallback", src, true, "Success", newBankBalance)
+                TriggerClientEvent("DRP_Core:Info", src, "Bank", "An amount of $"..amount.." has been added to your Bank Account", 2500, false, "leftCenter")
             end)
         end)
     end
 end)
-
 ---------------------------------------------------------------------------
 -- Removing BANK money
 ---------------------------------------------------------------------------
@@ -168,11 +164,11 @@ AddEventHandler("DRP_Bank:RemoveBankMoney", function(source, amount)
                 }
             }, function(results)
                 TriggerClientEvent("DRP_Bank:ActionCallback", src, true, "Success", newBankBalance)
+                TriggerClientEvent("DRP_Core:Info", src, "Bank", "An amount of $"..amount.." has been removed to your Bank Account", 2500, false, "leftCenter")
             end)
         end)
     end)
 end)
-
 ---------------------------------------------------------------------------
 -- Adding CASH Money
 ---------------------------------------------------------------------------
@@ -195,7 +191,6 @@ AddEventHandler("DRP_Bank:AddCashMoney", function(source, amount)
         end)
     end
 end)
-
 ---------------------------------------------------------------------------
 -- Removing CASH Money
 ---------------------------------------------------------------------------
@@ -218,31 +213,8 @@ AddEventHandler("DRP_Bank:RemoveCashMoney", function(source, amount)
     end)
 end)
 ---------------------------------------------------------------------------
--- Add PayCheck Money
+-- Adding Dirty Money
 ---------------------------------------------------------------------------
-AddEventHandler("DRP_Bank:AddPayCheckMoney", function(source, amount)
-    local src = source
-    TriggerEvent("DRP_ID:GetCharacterData", src, function(characterData)
-        -- Check to see if they have even selected a character and have loaded into the server.
-        if characterData.charid == nil then 
-            return
-        else
-        -- Check if the data has been loaded and if it has then do the below and add the paycheck money they require
-            TriggerEvent("DRP_Bank:GetCharacterMoney", characterData.charid, function(characterMoney)
-                local newPayCheckBalance = characterMoney.data[1].paycheck + tonumber(amount)
-                exports["externalsql"]:DBAsyncQuery({
-                    string = "UPDATE `characters` SET `paycheck` = :paycheck WHERE `id` = :charid",
-                    data = {
-                        paycheck = newPayCheckBalance,
-                        charid = characterData.charid
-                    }
-                }, function(results)
-                end)
-            end)
-        end
-    end)
-end)
-
 AddEventHandler("DRP_Bank:AddDirtyMoney", function(source, amount)
     local src = source
     if type(amount) == "number" then
@@ -262,7 +234,9 @@ AddEventHandler("DRP_Bank:AddDirtyMoney", function(source, amount)
         end)
     end
 end)
-
+---------------------------------------------------------------------------
+-- Removing Dirty Money
+---------------------------------------------------------------------------
 AddEventHandler("DRP_Bank:RemoveDirtyMoney", function(source, amount)
     local src = source
     TriggerEvent("DRP_ID:GetCharacterData", src, function(characterData)
@@ -295,7 +269,6 @@ AddEventHandler("DRP_Bank:GetCharacterMoney", function(charid, callback)
 		callback(results)
 	end)
 end)
-
 ---------------------------------------------------------------------------
 -- All Commands For Banking
 ---------------------------------------------------------------------------
@@ -307,7 +280,7 @@ RegisterCommand('cash', function(source, args, user)
         end)
     end)
 end, false)
-
+---------------------------------------------------------------------------
 RegisterCommand('dirty', function(source, args, user)
     local src = source
     TriggerEvent("DRP_ID:GetCharacterData", src, function(CharacterData)
@@ -316,7 +289,7 @@ RegisterCommand('dirty', function(source, args, user)
         end)
     end)
 end, false)
-
+---------------------------------------------------------------------------
 RegisterCommand('bank', function(source, args, user)
     local src = source
     TriggerEvent("DRP_ID:GetCharacterData", src, function(CharacterData)

@@ -31,11 +31,22 @@ AddEventHandler('DRP_Inventory:CreatePickup', function(id, label, player)
 	end)
 end)
 
+
 RegisterNetEvent('DRP_Inventory:removePickup')
 AddEventHandler('DRP_Inventory:removePickup', function(id)
 	SetEntityAsMissionEntity(Pickups[id].obj, false, true)
 	DeleteObject(Pickups[id].obj)
 	Pickups[id] = nil
+end)
+
+RegisterNetEvent("DRP_Inventory:CheckItemsUse")
+AddEventHandler("DRP_Inventory:CheckItemsUse", function(itemname)
+	local requiredAction = DRPInventory.UseableFunctions[itemname]
+	if requiredAction then
+		TriggerEvent("DRP_Inventory:"..requiredAction)
+	else
+		print("no action found")
+	end
 end)
 
 function CreateLocalPickupObject(model, coords, cb)
@@ -50,9 +61,9 @@ local model = GetHashKey(model)
 
 		local obj = CreateObject(model, coords.x, coords.y, coords.z, false, false, true)
 
-			if cb ~= nil then
-				cb(obj)
-			end
+		if cb ~= nil then
+			cb(obj)
+		end
     end)
 end
 
@@ -106,6 +117,14 @@ function GetClosestPlayer()
 			end
 		end
 	return closestPlayer, closestDistance
+end
+
+function GetVehicleInFront()
+	local plyCoords = GetEntityCoords(GetPlayerPed(PlayerId()), false)
+	local plyOffset = GetOffsetFromEntityInWorldCoords(GetPlayerPed(PlayerId()), 0.0, 5.0, 0.0)
+	local rayHandle = StartShapeTestCapsule(plyCoords.x, plyCoords.y, plyCoords.z, plyOffset.x, plyOffset.y, plyOffset.z, 1.0, 10, GetPlayerPed(PlayerId()), 7)
+	local _, _, _, _, vehicle = GetShapeTestResult(rayHandle)
+	return vehicle
 end
 
 function GetPlayers()

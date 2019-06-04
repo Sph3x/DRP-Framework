@@ -70,9 +70,9 @@ AddEventHandler("DRP_ID:CreateCharacter", function(newCharacterData)
 				exports["externalsql"]:DBAsyncQuery({
 					string = [[
 						INSERT INTO characters
-						(`name`, `age`, `gender`, `cash`, `bank`, `licenses`, `playerid`)
+						(`name`, `age`, `gender`, `cash`, `bank`, `dirtyCash`, `licenses`, `playerid`)
 						VALUES
-						(:name, :age, :gender, :cash, :bank, :licenses, :playerid)
+						(:name, :age, :gender, :cash, :bank, :dirtycash, :licenses, :playerid)
 					]],
 					data = {
 						name = newCharacterData.name,
@@ -80,6 +80,7 @@ AddEventHandler("DRP_ID:CreateCharacter", function(newCharacterData)
 						gender = newCharacterData.gender,
 						cash = DRPCharacters.StarterCash,
 						bank = DRPCharacters.StarterBank,
+						dirtycash = 0,				
 						licenses = json.encode({}),
 						playerid = playerData.playerid
 					}
@@ -106,7 +107,7 @@ AddEventHandler("DRP_ID:SelectCharacter", function(character_id)
 		}
 	}, function(characterInfo)
 		TriggerEvent("DRP_Clothing:AddCharacterClothing", character_id)
-		Wait(500)
+		Wait(1000)
 		exports["externalsql"]:DBAsyncQuery({
 			string = "SELECT * FROM `character_clothing` WHERE `char_id` = :character_id",
 			data = {
@@ -115,7 +116,8 @@ AddEventHandler("DRP_ID:SelectCharacter", function(character_id)
 		}, function(characterModel)
 			local spawn = json.decode(characterInfo["data"][1].lastLocation)
 			table.insert(character, {id = src, charid = character_id, playerid = characterInfo.data[1].playerid, gender = characterInfo.data[1].gender, name = characterInfo.data[1].name, age = characterInfo.data[1].age})
-			if json.encode(characterModel["data"]) == "[]" then
+
+			if json.encode(characterModel["data"]) ~= "[]" then
 				TriggerClientEvent("DRP_ID:LoadSelectedCharacter", src, characterModel["data"][1].model, spawn)
 			else
 				TriggerClientEvent("DRP_ID:LoadSelectedCharacter", src, "mp_m_freemode_01", spawn)

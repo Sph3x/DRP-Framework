@@ -25,24 +25,33 @@ AddEventHandler("DRP_Clothing:FirstSpawn", function()
 end)
 
 AddEventHandler("DRP_Clothing:AddCharacterClothing", function(charid)
-	clothing = {drawables = {0,0,0,0,0,0,0,0,0,0,0,0}, textures = {2,0,1,1,0,0,0,0,0,0,0,0}, palette = {0,0,0,0,0,0,0,0,0,0,0,0}}
-	props = {drawables = {-1,-1,-1,-1,-1,-1,-1,-1}, textures = {-1,-1,-1,-1,-1,-1,-1,-1}}
-	overlays = {drawables = {-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1}, opacity = {1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0}, colours = {{colourType = 0, colour = 0},{colourType = 0, colour = 0},{colourType = 0, colour = 0},{colourType = 0, colour = 0},{colourType = 0, colour = 0},{colourType = 0, colour = 0},{colourType = 0, colour = 0},{colourType = 0, colour = 0},{colourType = 0, colour = 0},{colourType = 0, colour = 0},{colourType = 0, colour = 0},{colourType = 0, colour = 0},{colourType = 0, colour = 0}}}
 	exports["externalsql"]:DBAsyncQuery({
-		string = "INSERT INTO `character_clothing` SET `model` = :model, `clothing_drawables` = :clothing_drawables, `clothing_textures` = :clothing_textures, `clothing_palette` = :clothing_palette, `props_drawables` = :props_drawables, `props_textures` = :props_textures, `overlays_drawables` = :overlays_drawables, `overlays_opacity` = :overlays_opacity, `overlays_colours` = :overlays_colours, `char_id` = :charid",
+		string = "SELECT * FROM `character_clothing` WHERE `char_id` = :charid",
 		data = {
-			model = "mp_m_freemode_01",
-			clothing_drawables = json.encode(clothing.drawables),
-			clothing_textures = json.encode(clothing.textures),
-			clothing_palette = json.encode(clothing.palette),
-			props_drawables = json.encode(props.drawables),
-			props_textures = json.encode(props.textures),
-			overlays_drawables = json.encode(overlays.drawables),
-			overlays_opacity = json.encode(overlays.opacity),
-			overlays_colours = json.encode(overlays.colours),
 			charid = charid
 		}
-	}, function(yeet)
+	}, function(results)
+		if json.encode(results["data"]) == "[]" then
+			clothing = {drawables = {0,0,0,0,0,0,0,0,0,0,0,0}, textures = {2,0,1,1,0,0,0,0,0,0,0,0}, palette = {0,0,0,0,0,0,0,0,0,0,0,0}}
+			props = {drawables = {-1,-1,-1,-1,-1,-1,-1,-1}, textures = {-1,-1,-1,-1,-1,-1,-1,-1}}
+			overlays = {drawables = {-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1}, opacity = {1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0}, colours = {{colourType = 0, colour = 0},{colourType = 0, colour = 0},{colourType = 0, colour = 0},{colourType = 0, colour = 0},{colourType = 0, colour = 0},{colourType = 0, colour = 0},{colourType = 0, colour = 0},{colourType = 0, colour = 0},{colourType = 0, colour = 0},{colourType = 0, colour = 0},{colourType = 0, colour = 0},{colourType = 0, colour = 0},{colourType = 0, colour = 0}}}
+			exports["externalsql"]:DBAsyncQuery({
+				string = "INSERT INTO `character_clothing` SET `model` = :model, `clothing_drawables` = :clothing_drawables, `clothing_textures` = :clothing_textures, `clothing_palette` = :clothing_palette, `props_drawables` = :props_drawables, `props_textures` = :props_textures, `overlays_drawables` = :overlays_drawables, `overlays_opacity` = :overlays_opacity, `overlays_colours` = :overlays_colours, `char_id` = :charid",
+				data = {
+					model = "mp_m_freemode_01",
+					clothing_drawables = json.encode(clothing.drawables),
+					clothing_textures = json.encode(clothing.textures),
+					clothing_palette = json.encode(clothing.palette),
+					props_drawables = json.encode(props.drawables),
+					props_textures = json.encode(props.textures),
+					overlays_drawables = json.encode(overlays.drawables),
+					overlays_opacity = json.encode(overlays.opacity),
+					overlays_colours = json.encode(overlays.colours),
+					charid = charid
+				}
+			}, function(yeet)
+			end)
+		end
 	end)
 end)
 

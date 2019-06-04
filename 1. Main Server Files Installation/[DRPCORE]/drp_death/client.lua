@@ -97,7 +97,7 @@ AddEventHandler("DRP_Death:IsDeadStatus", function(data)
         print("This Person Is Dead")
         SetEntityHealth(ped, 0) -- This will set them to die
     else
-        print("This person is not dead inside xd memes kappa dank")
+        print("This person is not dead...")
     end
 end)
 ---------------------------------------------------------------------------

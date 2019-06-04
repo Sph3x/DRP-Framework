@@ -107,7 +107,7 @@ AddEventHandler("DRP_Drugs:GiveWeed", function()
 
 	table.remove(plants, nearbyId)
 	spawnedPlants = spawnedPlants - 1
-	TriggerServerEvent("DRP_Inventory:AddItem", "weed")
+	TriggerServerEvent("DRP_Inventory:AddItem", "weed", 1)
 
 	pickingUpWeed = false
 end)
@@ -165,7 +165,7 @@ function ValidateWeedCoord(plantCoord)
 
         for a = 1, #plants do
             local distance = Vdist(plantCoord.x, plantCoord.y, plantCoord.z, GetEntityCoords(plants[a]))
-			if distance <= 5.0 then
+			if distance < 5.0 then
 				validate = false
 				break
 			end
@@ -173,7 +173,7 @@ function ValidateWeedCoord(plantCoord)
 
         for a = 1, #DRPDrugsConfig.WeedLocations do
         local distance = Vdist(DRPDrugsConfig.WeedLocations[a].x, DRPDrugsConfig.WeedLocations[a].y, DRPDrugsConfig.WeedLocations[a].z, plantCoord.x, plantCoord.y, plantCoord.z)
-            if distance <= 30.0 then
+            if distance > 50.0 then
 				validate = false
 				break
             end
@@ -188,8 +188,8 @@ function GetCoordZ(x, y)
 	local groundCheckHeights = { 40.0, 41.0, 42.0, 43.0, 44.0, 45.0, 46.0, 47.0, 48.0, 49.0, 50.0 }
 
 	for i, height in ipairs(groundCheckHeights) do
-        local foundGround, z = GetGroundZFor_3dCoord(x, y, height)
-        
+		local foundGround, z = GetGroundZFor_3dCoord(x, y, height)
+
 		if foundGround then
 			return z
 		end
