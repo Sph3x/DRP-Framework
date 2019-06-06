@@ -80,7 +80,7 @@ AddEventHandler("DRP_ID:CreateCharacter", function(newCharacterData)
 						gender = newCharacterData.gender,
 						cash = DRPCharacters.StarterCash,
 						bank = DRPCharacters.StarterBank,
-						dirtycash = 0,				
+						dirtycash = DRPCharacters.StartDirtyCash,				
 						licenses = json.encode({}),
 						playerid = playerData.playerid
 					}
