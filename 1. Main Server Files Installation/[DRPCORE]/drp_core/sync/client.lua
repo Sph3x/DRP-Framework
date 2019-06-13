@@ -33,7 +33,7 @@ end)
 local setHours = 0
 local setMinutes = 0
 
-Citizen.CreateThread(function()
+AddEventHandler("playerSpawned", function(spawm)
     TriggerServerEvent("DRP_TimeSync:ConnectionSetTime")
 end)
 
