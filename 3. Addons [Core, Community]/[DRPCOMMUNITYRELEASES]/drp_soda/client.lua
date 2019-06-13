@@ -7,8 +7,8 @@ Citizen.CreateThread(function()
         local sleeper = 1000
         local ped = GetPlayerPed(PlayerId())
         local playerCoords = GetEntityCoords(ped, false)
-        for a = 1, #DRPSearching.Objects do
-            local sodaMachine = GetClosestObjectOfType(playerCoords, 1.0, GetHashKey(DRPSearching.Objects[a]), false, false, false)
+        for a = 1, #DRPSoda.Machines do
+            local sodaMachine = GetClosestObjectOfType(playerCoords, 1.0, GetHashKey(DRPSoda.Machines[a]), false, false, false)
             local object = nil
             if DoesEntityExist(sodaMachine) then
                 sleeper = 5
