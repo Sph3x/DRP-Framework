@@ -21,6 +21,9 @@ SET time_zone = "+00:00";
 --
 -- Database: `drp`
 --
+-- Dumping database structure for drp
+CREATE DATABASE IF NOT EXISTS `drp` /*!40100 DEFAULT CHARACTER SET utf8 COLLATE utf8_bin */;
+USE `drp`;
 
 -- --------------------------------------------------------
 

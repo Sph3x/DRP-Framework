@@ -98,7 +98,7 @@ end)
 Citizen.CreateThread(function()
 	while true do
 		Citizen.Wait(20000)
-		if characterSpawnedIn then
+		if SpawnedInAndLoaded() then
 			local ped = GetPlayerPed(PlayerId())
 			local coords = GetEntityCoords(ped)
 			TriggerServerEvent("DRP_ID:SaveCharacterLocation", coords.x, coords.y, coords.z)

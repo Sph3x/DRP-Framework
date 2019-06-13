@@ -558,21 +558,6 @@ function CloseCreator( veh, price)
 			end
 			SetVehicleOnGroundProperly(personalvehicle)
 			
-			-- DisplayOnscreenKeyboard(1, "FMMC_MPM_NA", "", "Plate", "", "", "", 8)
-			-- while (UpdateOnscreenKeyboard() == 0) do
-			-- 	DisableAllControlActions(0);
-			-- 	Wait(0);
-			-- end
-			-- if (GetOnscreenKeyboardResult()) then
-			-- 	result = tostring(GetOnscreenKeyboardResult())
-			-- 	--Chat(result)
-			-- 	--plate 
-			-- end
-			
-			-- -- local plate = GetVehicleNumberPlateText(personalvehicle)
-			-- local plate=result
-			-- SetVehicleNumberPlateText(personalvehicle, plate)
-			
 			SetVehicleHasBeenOwnedByPlayer(personalvehicle,true)
 			SetEntityAsMissionEntity(personalvehicle, true, true)
 			local id = NetworkGetNetworkIdFromEntity(personalvehicle)
@@ -590,11 +575,12 @@ function CloseCreator( veh, price)
 
 			-- Set perlescent
 			SetVehicleExtraColours(personalvehicle, currentVhl.extra, currentVhl.wheelcolor)
-			TaskWarpPedIntoVehicle(GetPlayerPed(-1),personalvehicle,-1)
+			TaskWarpPedIntoVehicle(GetPlayerPed(-1), personalvehicle,-1)
 			SetEntityVisible(ped,true)
 			Citizen.Wait(200)
 			local plate = GetVehicleNumberPlateText(personalvehicle)
 			TriggerServerEvent('DRP_Garages:PurchaseVehicle', price, theRealModelName, plate, currentVhl)
+			TriggerServerEvent("DRP_Garages:GiveKeys", id, plate)
 			DoScreenFadeIn(2000)
 		end
 		vehshop.opened = false

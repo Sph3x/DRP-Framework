@@ -129,7 +129,7 @@ function AddItem(source, itemname, amount)
                                     charid = character.charid
                                 }
                             }, function(createdPlayer)
-                                TriggerClientEvent("DRP_Core:Info", src, "Inventory", "Added 1x "..itemname, 2500, false, "leftCenter")
+                                TriggerClientEvent("DRP_Core:Info", src, "Inventory", "Added "..amount.."x "..itemname, 2500, false, "leftCenter")
                             end)
                         end)
                         else
@@ -142,7 +142,7 @@ function AddItem(source, itemname, amount)
                                     itemname = itemname
                                 }
                             }, function(updatedQuantity)
-                            TriggerClientEvent("DRP_Core:Info", src, "Inventory", "Added 1x "..itemname, 2500, false, "leftCenter")
+                            TriggerClientEvent("DRP_Core:Info", src, "Inventory", "Added "..amount.."x "..itemname, 2500, false, "leftCenter")
                         end)
                     end
                 end)

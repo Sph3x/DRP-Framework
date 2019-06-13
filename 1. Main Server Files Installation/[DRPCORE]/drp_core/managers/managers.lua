@@ -2,10 +2,8 @@
 --- Crouch
 ---------------------------------------------------------------------------
 local crouched = false
-
 Citizen.CreateThread( function()
     local dict = "missminuteman_1ig_2"
-    
 	RequestAnimDict(dict)
 	while not HasAnimDictLoaded(dict) do
 		Citizen.Wait(100)
