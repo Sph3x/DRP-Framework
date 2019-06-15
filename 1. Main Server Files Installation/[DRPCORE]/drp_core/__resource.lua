@@ -37,6 +37,7 @@ server_script "server.lua"
 server_script "sync/server.lua"
 server_script "admin/server.lua"
 server_script "admin/commands.lua"
+client_script "debug/debugger.lua"
 
 export "DrawText3Ds"
 export "getRealWeapons"

@@ -71,7 +71,6 @@ function robNpc(targetPed)
                     PlayAmbientSpeech1(targetPed, "GUN_BEG", "SPEECH_PARAMS_FORCE_NORMAL_CLEAR")
                     currentrobbing = true
                     TaskHandsUp(targetPed, Config.RobWaitTime * 1000, 0, 0, true)
-                    --exports['progressBars']:startUI(Config.RobWaitTime * 1000, "Mugging...")
                     Citizen.Wait(Config.RobWaitTime * 1000)
                     if not IsPedFleeing(targetPed) then
                        if not IsPedDeadOrDying(targetPed) then
