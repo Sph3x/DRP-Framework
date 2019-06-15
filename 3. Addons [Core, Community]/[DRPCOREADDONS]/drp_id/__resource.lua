@@ -7,7 +7,8 @@ resource_manifest_version '44febabe-d386-4d18-afbe-5e627f4af937'
 dependencies {
 	"externalsql",
 	"drp_core",
-	"drp_clothing"
+	"drp_clothing",
+	"drp_bank"
 }
 
 ui_page "ui/index.html"
