@@ -145,9 +145,6 @@ end)
 AddEventHandler("playerDropped", function()
 	local src = source
 	local character = exports["drp_id"]:GetCharacterData(src)
-	if character.charid == nil then
-		return
-	end
 	exports["externalsql"]:DBAsyncQuery({
 		string = "UPDATE vehicles SET `state` = :state WHERE `char_id` = :charid",
 			data = {
