@@ -20,7 +20,7 @@ Citizen.CreateThread(function()
             SendNotification("Refused Call")
             callActive = false
         end
-        if haveTarget then 
+        if haveTarget then
             DrawMarker(1, target.pos.x, target.pos.y, target.pos.z, 0, 0, 0, 0, 0, 0, 2.001, 2.0001, 0.5001, 0, 155, 255, 200, 0, 0, 0, 0)
             local playerPos = GetEntityCoords(GetPlayerPed(-1), true)
             if Vdist(target.pos.x, target.pos.y, target.pos.z, playerPos.x, playerPos.y, playerPos.z) < 2.0 then
@@ -90,24 +90,22 @@ Citizen.CreateThread(function()
 	Citizen.Wait(10)
 
     if handCuffed then
-        if IsPedDeadOrDying(playerPed, true) == false then
-            RequestAnimDict('mp_arresting')
-            DisableControlAction(1, 323, true)
-            while not HasAnimDictLoaded('mp_arresting') do
-                Citizen.Wait(0)
-            end
+        RequestAnimDict('mp_arresting')
+        DisableControlAction(1, 323, true)
+        while not HasAnimDictLoaded('mp_arresting') do
+            Citizen.Wait(0)
+        end
 
-            local myPed = PlayerPedId(-1)
-            local animation = 'idle'
-            local flags = 16
-            handsup = false
-            
-                while(IsPedBeingStunned(myPed, 0)) do
-                    ClearPedTasksImmediately(myPed)
-                end
-                TaskPlayAnim(myPed, 'mp_arresting', animation, 8.0, -8, -1, flags, 0, 0, 0, 0)
+        local myPed = PlayerPedId(-1)
+        local animation = 'idle'
+        local flags = 16
+        handsup = false
+        
+            while(IsPedBeingStunned(myPed, 0)) do
+                ClearPedTasksImmediately(myPed)
             end
-		end
+            TaskPlayAnim(myPed, 'mp_arresting', animation, 8.0, -8, -1, flags, 0, 0, 0, 0)
+        end
 
 		if drag then
 			local ped = GetPlayerPed(GetPlayerFromServerId(officerDrag))
@@ -252,26 +250,26 @@ end)
 --     end
 -- end)
 
--- RegisterNUICallback("putinvehicle", function(data, cb)
---     local t, distance = GetClosestPlayer()
--- 	if(distance ~= -1 and distance < 3) then
--- 		local v = GetVehiclePedIsIn(GetPlayerPed(-1), true)
--- 		TriggerServerEvent("ISRP_Cops:RequestPutInVehicle", GetPlayerServerId(t), v)
--- 	else
---         TriggerEvent("ISRP_Notification:Info", "Cops", tostring("No Players Near You"), 7000, false, "leftCenter")
---     end
---     cb("ok")
--- end)
+RegisterNUICallback("putinvehicle", function(data, cb)
+    local t, distance = GetClosestPlayer()
+	if(distance ~= -1 and distance < 3) then
+		local v = GetVehiclePedIsIn(GetPlayerPed(-1), true)
+		TriggerServerEvent("DRP_Police:RequestPutInVehicle", GetPlayerServerId(t), v)
+	else
+        TriggerEvent("DRP_Core:Info", "Cops", tostring("No Players Near You"), 7000, false, "leftCenter")
+    end
+    cb("ok")
+end)
 
--- RegisterCommand("putinveh", function()
---     local t, distance = GetClosestPlayer()
--- 	if(distance ~= -1 and distance < 3) then
--- 		local v = GetVehiclePedIsIn(GetPlayerPed(-1), true)
--- 		TriggerServerEvent("ISRP_Cops:RequestPutInVehicle", GetPlayerServerId(t), v)
--- 	else
---         TriggerEvent("ISRP_Notification:Info", "Cops", tostring("No Players Near You"), 7000, false, "leftCenter")
---     end
--- end)
+RegisterCommand("putinveh", function()
+    local t, distance = GetClosestPlayer()
+	if(distance ~= -1 and distance < 3) then
+		local v = GetVehiclePedIsIn(GetPlayerPed(-1), true)
+		TriggerServerEvent("DRP_Police:RequestPutInVehicle", GetPlayerServerId(t), v)
+	else
+        TriggerEvent("DRP_Core:Info", "Cops", tostring("No Players Near You"), 7000, false, "leftCenter")
+    end
+end)
 
 -- RegisterNUICallback("unseatfromvehicle", function(data, cb)
 --     local t, distance = GetClosestPlayer()
@@ -313,7 +311,6 @@ function GetClosestPlayer()
 			end
 		end
 	end
-	
 	return closestPlayer, closestDistance
 end
 ---------------------------------------------------------------------------

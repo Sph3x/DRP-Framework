@@ -23,7 +23,7 @@ AddEventHandler("DRP_Garages:GiveKeys", function(id, plate)
     print(json.encode(vehicleKeys))
 end)
 ---------------------------------------------------------------------------
--- C
+-- Check Vehicle Owner
 ---------------------------------------------------------------------------
 RegisterServerEvent("DRP_Garages:CheckVehicleOwner")
 AddEventHandler("DRP_Garages:CheckVehicleOwner", function(netid, plate)
@@ -40,4 +40,35 @@ AddEventHandler("DRP_Garages:CheckVehicleOwner", function(netid, plate)
         end
     end
     TriggerClientEvent("DRP_Garages:ToggleExternalLock", src, netid, false)
+end)
+---------------------------------------------------------------------------
+-- Random Reward
+---------------------------------------------------------------------------
+RegisterServerEvent("DRP_Rob:RandomReward")
+AddEventHandler("DRP_Rob:RandomReward", function()
+    local src = source
+    math.randomseed(os.time())
+    local itemRewards = math.random(1,3)
+    local random1 = math.random(1, #DRPRob.Rewards)
+    local random2 = math.random(1, #DRPRob.Rewards)
+    local random3 = math.random(1, #DRPRob.Rewards)
+    local reward1 = DRPRob.Rewards[random1]
+    local reward2 = DRPRob.Rewards[random2]
+    local reward3 = DRPRob.Rewards[random3]
+    if itemRewards == 1 then
+        print(reward1)
+        exports["drp_inventory"]:AddItem(src, reward1, 1)
+    elseif itemRewards == 2 then
+        print(reward2)
+        exports["drp_inventory"]:AddItem(src, reward1, 1)
+        Wait(100)
+        exports["drp_inventory"]:AddItem(src, reward2, 1)
+    elseif itemRewards == 3 then
+        print(reward3)
+        exports["drp_inventory"]:AddItem(src, reward1, 1)
+        Wait(100)
+        exports["drp_inventory"]:AddItem(src, reward2, 1)
+        Wait(100)
+        exports["drp_inventory"]:AddItem(src, reward3, 1)
+    end
 end)
