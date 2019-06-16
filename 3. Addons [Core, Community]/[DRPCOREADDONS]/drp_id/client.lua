@@ -63,14 +63,24 @@ AddEventHandler("DRP_ID:LoadSelectedCharacter", function(ped, spawn)
 	SetPedDefaultComponentVariation(ped)
 	---------------------------------------------------------------------------
 	TriggerEvent("DRP_ID:StopSkyCamera")
-	TriggerEvent("DRP_ID:StopCreatorCamera") -- If using this system
+	TriggerEvent("DRP_ID:StopCreatorCamera") -- If you are using this system
 	TriggerServerEvent("DRP_Clothing:FirstSpawn") -- If Clothing Is Installed
-	TriggerServerEvent("DRP_Death:GetDeathStatus")
+	TriggerServerEvent("DRP_Death:GetDeathStatus") -- Checks if they died before, so no leaving and joining back dead
 	TriggerServerEvent("DRP_Garages:CheckLockPicking")
 	TriggerServerEvent("DRP_Housing:InitializePlayer")
 	TriggerServerEvent("DRP_Doors:StartSync") -- If Doors is Installed
 	TriggerServerEvent("DRP_Tattoos:GetTattoos") -- If Tattoos is Installed
 	---------------------------------------------------------------------------
+end)
+---------------------------------------------------------------------------
+-- Spawn Selection
+---------------------------------------------------------------------------
+RegisterNetEvent("DRP_ID:SpawnSelection")
+AddEventHandler("DRP_ID:SpawnSelection", function(ped, spawn)
+	SendNUIMessage({
+		type = "open_spawnselection_menu",
+		lastKnownLocation = spawn
+	})
 end)
 ---------------------------------------------------------------------------
 -- MAIN THREAD

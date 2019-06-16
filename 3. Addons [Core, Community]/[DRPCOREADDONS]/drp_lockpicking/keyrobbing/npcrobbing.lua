@@ -43,7 +43,7 @@ function robNpc(targetPed)
     Citizen.CreateThread(function()
     local roblocalcoords = GetEntityCoords(targetPed)
     if not currentrobbing then 
-        exports['drp_core']:DrawText3Ds(roblocalcoords.x, roblocalcoords.y, roblocalcoords.z, "[~g~E~s~] to Mug")
+        exports['drp_core']:DrawText3Ds(roblocalcoords.x, roblocalcoords.y, roblocalcoords.z, "[~r~E~s~] Rob")
     elseif lasttargetPed == targetPed then
         exports['drp_core']:DrawText3Ds(roblocalcoords.x, roblocalcoords.y, roblocalcoords.z, "Already Mugged..")
     else

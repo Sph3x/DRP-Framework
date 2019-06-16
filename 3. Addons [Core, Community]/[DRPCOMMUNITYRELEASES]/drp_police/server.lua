@@ -190,7 +190,7 @@ AddEventHandler("DRP_PoliceJob:CheckLEOSearch", function(targetPlayer)
     local src = source
     local targetDataId = exports["drp_id"]:GetCharacterData(targetPlayer)
     exports["externalsql"]:DBAsyncQuery({
-        string = "SELECT * FROM `character_inventory` JOIN `inventory_items` ON `character_inventory`.`itemid` = `inventory_items`.`id` WHERE `char_id` = :targetid",
+        string = "SELECT * FROM `character_inventory` WHERE `char_id` = :targetid",
         data = {
             targetid = targetDataId.charid
         }
@@ -213,10 +213,10 @@ end)
 RegisterServerEvent("DRP_PoliceJob:FinePlayer")
 AddEventHandler("DRP_PoliceJob:FinePlayer", function(t, amount)
     local src = source
-    TriggerEvent("DRP_Bank:RemoveBankMoney", t, amount)
-    TriggerClientEvent("DRP_Core:Info", t, "Government", tostring("You were fined: "..amount), 2500, false, "leftCenter")
-    TriggerClientEvent("chatMessage", t, "Government", tostring("You were just fined: "..amount))
     TriggerClientEvent("DPR_Core:Info", src, "Government", tostring("You just fined this Person for: "..amount), 2500, false, "leftCenter")
+    TriggerEvent("DRP_Bank:RemoveBankMoney", t, amount)
+    TriggerClientEvent("DRP_Core:Info", t, "Government", tostring("You were fined: "..amount), 2500, true, "leftCenter")
+    TriggerClientEvent("chatMessage", t, "Government", tostring("You were just fined: "..amount))
 end)
 ---------------------------------------------------------------------------
 -- Cops On Duty Counter and Source Id's
