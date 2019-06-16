@@ -20,7 +20,7 @@ AddEventHandler("DRP_Inventory:GetInventory", function()
     }, function(inventoryResults)
     ------------------------------------------------------------------------------------
         TriggerClientEvent("DRP_Inventory:OpenInventory", src, inventoryResults["data"], bankInfo[1].cash, bankInfo[1].bank, bankInfo[1].dirtyCash, jobInfo.jobLabel)
-      end)
+        end)
     end)
 end)
 

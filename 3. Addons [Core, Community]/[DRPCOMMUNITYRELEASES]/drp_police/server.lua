@@ -13,7 +13,7 @@ AddEventHandler("DRP_PoliceJobs:SignOnDuty", function()
     local currentPlayerJob = exports["drp_jobcore"]:GetPlayerJob(src)
     ---------------------------------------------------------------------------
         if currentPlayerJob.job == job then
-            TriggerClientEvent("DRP_Core:Error", src, "Job Manager", tostring("You are already on duty"), 2500, false, "leftCenter")
+            TriggerClientEvent("DRP_Core:Error", src, "Job Manager", tostring("You are already on duty"), 2500, true, "leftCenter")
         else
         if exports["drp_jobcore"]:DoesJobExist(job) then
             if jobRequirement ~= false then
@@ -37,7 +37,7 @@ AddEventHandler("DRP_PoliceJobs:SignOnDuty", function()
                         elseif jobResults.data[1].department == "state" then
                             policeJobTitle = "State Trooper"
                         end
-                        TriggerClientEvent("DRP_Core:Info", src, "Government", tostring("Welcome "..policeJobTitle.." "..characterInfo.name..""), 2500, false, "leftCenter")
+                        TriggerClientEvent("DRP_Core:Info", src, "Government", tostring("Welcome "..policeJobTitle.." "..characterInfo.name..""), 2500, true, "leftCenter")
                         PoliceAbilities(src, jobLabel)
                         TriggerEvent("DRP_Doors:UpdatePlayerJob", src)
                         TriggerEvent("DRP_Police:CopsOnDutyData", src) -- Triggers the cop bonus counter to go up
@@ -63,10 +63,10 @@ AddEventHandler("DRP_PoliceJobs:SignOffDuty", function()
     local jobLabel = "Unemployed"
     ---------------------------------------------------------------------------
     if currentPlayerJob.jobLabel == jobLabel then
-        TriggerClientEvent("DRP_Core:Error", src, "Job Manager", "You are already Unemployed", 5500, false, "leftCenter")
+        TriggerClientEvent("DRP_Core:Error", src, "Job Manager", "You are already Unemployed", 5500, true, "leftCenter")
     else
         exports["drp_jobcore"]:SetPlayerJob(src, job, jobLabel)
-        TriggerClientEvent("DRP_Core:Info", src, "Job Manager", tostring("You are now a "..exports["drp_jobcore"]:GetPlayerJob(src).jobLabel), 2500, false, "leftCenter")
+        TriggerClientEvent("DRP_Core:Info", src, "Job Manager", tostring("You are now a "..exports["drp_jobcore"]:GetPlayerJob(src).jobLabel), 2500, true, "leftCenter")
         PoliceAbilities(src, jobLabel)
         TriggerEvent("DRP_Doors:UpdatePlayerJob", src)
         TriggerEvent("clothes:resetclothing", src)

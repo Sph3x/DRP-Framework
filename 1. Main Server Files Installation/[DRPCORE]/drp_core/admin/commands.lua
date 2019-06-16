@@ -46,6 +46,18 @@ RegisterCommand("weather", function(source, args, raw)
     end
 end, false)
 ---------------------------------------------------------------------------
+--- Heal Yourself USAGE: /heal
+---------------------------------------------------------------------------
+RegisterCommand("heal", function(source, args, raw)
+    local src = source
+    local player = GetPlayerData(src)
+    if player ~= nil then 
+        if DoesRankHavePerms(player.rank, "heal") then
+            TriggerClientEvent("DRP_Core:HealCharacter", src)
+        end
+    end
+end, false)
+---------------------------------------------------------------------------
 --- Set Yourself Or Others In Police Force USAGE: /adminaddcop id
 ---------------------------------------------------------------------------
 RegisterCommand("adminaddcop", function(source, args, raw)
@@ -90,18 +102,6 @@ RegisterCommand("adminaddcop", function(source, args, raw)
                     TriggerClientEvent("DRP_Core:Warning", src, "Government", "This Person does not exist in this County", 5500, false, "leftCenter")
                 end
             end)
-        end
-    end
-end, false)
----------------------------------------------------------------------------
---- Heal Yourself USAGE: /heal
----------------------------------------------------------------------------
-RegisterCommand("heal", function(source, args, raw)
-    local src = source
-    local player = GetPlayerData(src)
-    if player ~= nil then 
-        if DoesRankHavePerms(player.rank, "heal") then
-            TriggerClientEvent("DRP_Core:HealCharacter", src)
         end
     end
 end, false)
