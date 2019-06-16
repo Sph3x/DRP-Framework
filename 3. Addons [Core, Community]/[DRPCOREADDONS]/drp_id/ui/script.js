@@ -22,7 +22,8 @@ const DRP_Characters = new Vue({
     selectedAge: "",
     selectedDeleteCharacter: "",
 
-    savedSpawnLocation: [],
+    spawn: "",
+    ped: "",
 
     nameRules: [
       v => !!v || "Name required",
@@ -49,9 +50,10 @@ const DRP_Characters = new Vue({
       this.characters = characters;
     },
 
-    OpenSpawnSelectionMenu() {
+    OpenSpawnSelectionMenu(ped, spawn) {
       this.showCharacterSpawnMenu = true;
-      console.log("opened this epic menu");
+      this.ped = ped;
+      this.spawn = spawn;
     },
 
     CloseCharactersMenu() {
@@ -67,6 +69,30 @@ const DRP_Characters = new Vue({
     CloseSpawnMenu() {
       axios
         .post(`http://${this.ResourceName}/CloseMenu`, {})
+        .then(response => {
+          this.showCharacterSpawnMenu = false;
+        })
+        .catch(error => {});
+    },
+
+    ApartmentSpawn() {
+      axios
+        .post(`http://${this.ResourceName}/ApartmentSpawn`, {
+          ped: this.ped,
+          spawn: [1000.0, 1000.0, 1000.0]
+        })
+        .then(response => {
+          this.showCharacterSpawnMenu = false;
+        })
+        .catch(error => {});
+    },
+
+    TrainStationSpawn() {
+      axios
+        .post(`http://${this.ResourceName}/spawnInLocation`, {
+          ped: this.ped,
+          spawn: [-211.3702, -1021.899, 30.14071]
+        })
         .then(response => {
           this.showCharacterSpawnMenu = false;
         })
@@ -182,7 +208,7 @@ document.onreadystatechange = () => {
       } else if (event.data.type == "update_character_menu") {
         DRP_Characters.UpdateCharacters(event.data.characters);
       } else if (event.data.type == "open_spawnselection_menu") {
-        DRP_Characters.OpenSpawnSelectionMenu(event.data.lastKnownLocation);
+        DRP_Characters.OpenSpawnSelectionMenu(event.data.ped, event.data.spawn);
       }
     });
   }

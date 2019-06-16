@@ -48,11 +48,25 @@ RegisterNUICallback("DisconnectMe", function(callback)
 	TriggerServerEvent("DRP_ID:Disconnect")
 	callback("ok")
 end)
+
+RegisterNUICallback("ApartmentSpawn", function(data, callback)
+	characterSpawnedIn = true
+	SetNuiFocus(false, false)
+	TriggerEvent("DRP_ID:LoadSelectedCharacter", data.ped, data.spawn, true)
+	callback("ok")
+end)
+
+RegisterNUICallback("spawnInLocation", function(data, callback)
+	characterSpawnedIn = true
+	SetNuiFocus(false, false)
+	TriggerEvent("DRP_ID:LoadSelectedCharacter", data.ped, data.spawn, false)
+	callback("ok")
+end)
 ---------------------------------------------------------------------------
 -- LOAD CHARACTER FROM SELECTER
 ---------------------------------------------------------------------------
 RegisterNetEvent("DRP_ID:LoadSelectedCharacter")
-AddEventHandler("DRP_ID:LoadSelectedCharacter", function(ped, spawn)
+AddEventHandler("DRP_ID:LoadSelectedCharacter", function(ped, spawn, spawnInHotel)
 	characterSpawnedIn = true
 	exports["spawnmanager"]:spawnPlayer({x = spawn[1], y = spawn[2], z = spawn[3], heading = 0.0, model = ped})
 	Citizen.Wait(4000)
@@ -67,7 +81,7 @@ AddEventHandler("DRP_ID:LoadSelectedCharacter", function(ped, spawn)
 	TriggerServerEvent("DRP_Clothing:FirstSpawn") -- If Clothing Is Installed
 	TriggerServerEvent("DRP_Death:GetDeathStatus") -- Checks if they died before, so no leaving and joining back dead
 	TriggerServerEvent("DRP_Garages:CheckLockPicking")
-	TriggerServerEvent("DRP_Housing:InitializePlayer")
+	TriggerServerEvent("DRP_Housing:InitializePlayer", spawnInHotel)
 	TriggerServerEvent("DRP_Doors:StartSync") -- If Doors is Installed
 	TriggerServerEvent("DRP_Tattoos:GetTattoos") -- If Tattoos is Installed
 	---------------------------------------------------------------------------
@@ -77,9 +91,11 @@ end)
 ---------------------------------------------------------------------------
 RegisterNetEvent("DRP_ID:SpawnSelection")
 AddEventHandler("DRP_ID:SpawnSelection", function(ped, spawn)
+	SetNuiFocus(true, true)
 	SendNUIMessage({
 		type = "open_spawnselection_menu",
-		lastKnownLocation = spawn
+		ped = ped, 
+		spawn = spawn
 	})
 end)
 ---------------------------------------------------------------------------

@@ -34,14 +34,18 @@ local motelRoomLocations = {
 }
 
 RegisterServerEvent("DRP_Housing:InitializePlayer")
-AddEventHandler("DRP_Housing:InitializePlayer", function()
+AddEventHandler("DRP_Housing:InitializePlayer", function(bool)
     local src = source
     local character = exports["drp_id"]:GetCharacterData(src)
     local vacantHouseIndex = FindVacantHouse()
     if vacantHouseIndex ~= nil then
         motelRoomLocations[vacantHouseIndex].ownerid = character.charid
         TriggerClientEvent("DRP_Housing:UpdateClientHousing", -1, motelRoomLocations)
-        TriggerClientEvent("DRP_Housing:SpawnPlayerInsideMotelRoom", src, character.charid)
+        if bool then
+            TriggerClientEvent("DRP_Housing:SpawnPlayerInsideMotelRoom", src, character.charid)
+        else
+            print("dont want you to spawn in here thanks!")
+        end
     end
 end)
 
