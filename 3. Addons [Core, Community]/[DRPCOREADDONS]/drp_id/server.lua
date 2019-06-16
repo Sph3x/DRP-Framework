@@ -184,6 +184,15 @@ function GetCharacterName(id)
 	return false
 end
 ---------------------------------------------------------------------------
+function GetCharacterDataFromCharId(charids)
+	for a = 1, #character do
+		if character[a].charid == charids then
+			return(character[a])
+		end
+	end
+	return false
+end
+---------------------------------------------------------------------------
 AddEventHandler("DRP_ID:GetCharacterData", function(id, callback)
 		for a = 1, #character do
 			if character[a].id == id then

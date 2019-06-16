@@ -37,7 +37,7 @@ Citizen.CreateThread(function()
                     if motelRoomLocations[a].ownerid == characterId then
                     local distance = Vdist(coords.x, coords.y, coords.z, motelRoomLocations[a].x, motelRoomLocations[a].y, motelRoomLocations[a].z)
                         if distance <= 5.0 then
-                            DrawText3Ds(motelRoomLocations[a].x, motelRoomLocations[a].y, motelRoomLocations[a].z, tostring("~b~[E]~w~ To Exit"))
+                            exports["drp_core"]:DrawText3Ds(motelRoomLocations[a].x, motelRoomLocations[a].y, motelRoomLocations[a].z, tostring("~b~[E]~w~ To Exit"))
                             if IsControlJustPressed(1, 86) then
                                 DoScreenFadeOut(1)
                                 SetEntityCoords(ped, motelRoomLocations[a].enterCoords[1], motelRoomLocations[a].enterCoords[2], motelRoomLocations[a].enterCoords[3])
@@ -49,7 +49,7 @@ Citizen.CreateThread(function()
                         if distance2 <= 20.0 then
                             DrawMarker(20, motelRoomLocations[a].enterCoords[1], motelRoomLocations[a].enterCoords[2], motelRoomLocations[a].enterCoords[3], 0, 0, 0, 0, 0, 0, 0.5, 0.5, 0.5, 0, 155, 255, 200, 0, 0, 0, 0)
                             if distance2 <= 5.0 then
-                                DrawText3Ds(motelRoomLocations[a].enterCoords[1], motelRoomLocations[a].enterCoords[2], motelRoomLocations[a].enterCoords[3], tostring("~b~[E]~w~ To Enter Apartment"))
+                                exports["drp_core"]:DrawText3Ds(motelRoomLocations[a].enterCoords[1], motelRoomLocations[a].enterCoords[2], motelRoomLocations[a].enterCoords[3], tostring("~b~[E]~w~ To Enter Apartment"))
                                 if IsControlJustPressed(1, 86) then
                                     DoScreenFadeOut(1)
                                     SetEntityCoords(ped, motelRoomLocations[a].x, motelRoomLocations[a].y, motelRoomLocations[a].z)
@@ -67,19 +67,3 @@ Citizen.CreateThread(function()
         Citizen.Wait(0)
     end
 end)
-
-function DrawText3Ds(x,y,z, text)
-    local onScreen,_x,_y=World3dToScreen2d(x,y,z)
-    local px,py,pz=table.unpack(GetGameplayCamCoords())
-    
-    SetTextScale(0.35, 0.35)
-    SetTextFont(4)
-    SetTextProportional(1)
-    SetTextColour(255, 255, 255, 215)
-    SetTextEntry("STRING")
-    SetTextCentre(1)
-    AddTextComponentString(text)
-    DrawText(_x,_y)
-    local factor = (string.len(text)) / 370
-    DrawRect(_x,_y+0.0125, 0.015+ factor, 0.03, 41, 11, 41, 68)
-end

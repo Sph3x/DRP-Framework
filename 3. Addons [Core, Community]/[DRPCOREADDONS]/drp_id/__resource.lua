@@ -37,3 +37,4 @@ export "SpawnedInAndLoaded"
 
 server_export "GetCharacterData"
 server_export "GetCharacterName"
+server_export "GetCharacterDataFromCharId"
