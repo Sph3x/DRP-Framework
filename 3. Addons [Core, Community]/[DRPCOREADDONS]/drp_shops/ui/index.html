@@ -1,0 +1,60 @@
+<html>
+  <header>
+    <title>Shop UI</title>
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Material+Icons"
+    />
+    <link rel="stylesheet" href="libraries/vuetify.css" />
+    <link rel="stylesheet" href="style.css" />
+  </header>
+  <body>
+    <v-app id="ISRP_Shop_UI">
+      <v-content>
+        <div id="ISRP_Shop_Base" v-show="showShopMenu">
+          <div id="ISRP_Shop_Header">
+            <v-btn
+              color="red"
+              slot="activator"
+              absolute
+              right
+              top
+              fab
+              dark
+              small
+              @click="CloseShop()"
+              ><v-icon>clear</v-icon></v-btn
+            >
+            Shop
+          </div>
+          <div id="ISRP_Shop_Body">
+            <v-container grid-list-xs>
+              <v-btn
+                color="blue darken-3"
+                block
+                dark
+                @click="PurchaseRepairKit()"
+                >Repair Kit $100</v-btn
+              >
+              <v-btn color="blue darken-3" block dark @click="PurchaseBandage()"
+                >Bandage $35</v-btn
+              >
+              <v-btn
+                color="blue darken-3"
+                block
+                dark
+                @click="PurchaseLockPick()"
+                >Lockpick $200</v-btn
+              >
+            </v-container>
+          </div>
+        </div>
+      </v-content>
+    </v-app>
+
+    <script src="libraries/axios.min.js"></script>
+    <script src="libraries/vue.min.js"></script>
+    <script src="libraries/vuetify.js"></script>
+    <script src="script.js"></script>
+  </body>
+</html>
