@@ -8,7 +8,7 @@ Backend Built Using Xander1998's DatabaseAPI Resource
 
 Please join my Discord server for live updates when I make changes and join the FiveM Dev Labs :D
 
-https://discord.gg/qBsNpeG
+https://discord.gg/hc78sSK
 
 # Installation Guide
 
