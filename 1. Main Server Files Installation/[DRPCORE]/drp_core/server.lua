@@ -138,7 +138,7 @@ RegisterCommand('rolldice', function(source, args, user)
     local src = source
     local character = exports["drp_id"]:GetCharacterData(src)
     num = math.random(1,6)
-    TriggerClientEvent("sendProximityMessageRoll", -1, src, character.name..num, table.concat(args, " "))
+    TriggerClientEvent("sendProximityMessageRoll", -1, src, character.name, num)
 end, false)
 
 RegisterCommand("showid", function(source, args, raw)
