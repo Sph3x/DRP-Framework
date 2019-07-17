@@ -1,5 +1,6 @@
 vehicles = {}
 vehicleKeys = {}
+thisVehicleInfo = {}
 
 RegisterServerEvent("DRP_Garages:RequestOpenMenu")
 AddEventHandler("DRP_Garages:RequestOpenMenu", function()
@@ -10,7 +11,13 @@ AddEventHandler("DRP_Garages:RequestOpenMenu", function()
 			data = {charid = CharacterData.charid}
 		}, function(vehicleData)
 			local characterVehicles = vehicleData["data"]
-			TriggerClientEvent("DRP_Garages:OpenGarageMenu", src, characterVehicles)
+			print(json.encode(characterVehicles))
+			for a = 1, #characterVehicles do
+				local mods = json.decode(characterVehicles[a]["vehicleMods"])
+				local plate = mods.plate
+				table.insert(vehicles, { ["id"] = characterVehicles[a]["id"], ["modelLabel"] = characterVehicles[a]["modelLabel"], ["state"] = characterVehicles[a]["state"], ["vehicleMods"] = mods, ["plate"] = plate})
+			end
+			TriggerClientEvent("DRP_Garages:OpenGarageMenu", src, vehicles)
 		end)
 	end)
 end)
@@ -22,7 +29,13 @@ AddEventHandler("DRP_Garages:GetSelectedVehicleData", function(vehicle_id)
 			string = "SELECT * FROM `vehicles` WHERE `id` = :vehicleid",
 			data = {vehicleid = vehicle_id}
 		}, function(selectedVehicleData)
-		TriggerClientEvent("DRP_Garages:CreatePersonalVehicle", src, selectedVehicleData)
+		local allVehicleData = selectedVehicleData["data"]
+		for a = 1, #allVehicleData, 1 do
+			local mods = json.decode(allVehicleData[a]["vehicleMods"])
+			local plate = mods.plate
+			table.insert(thisVehicleInfo, { ["modelLabel"] = allVehicleData[a]["modelLabel"], ["state"] = allVehicleData[a]["state"], ["vehicleMods"] = mods, ["plate"] = plate})
+		end
+		TriggerClientEvent("DRP_Garages:CreatePersonalVehicle", src, thisVehicleInfo)
 	end)
 end)
 
@@ -31,19 +44,24 @@ AddEventHandler("DRP_Garages:RequestStoreVehicle", function(plate)
  local src = source
  TriggerEvent("DRP_ID:GetCharacterData", src, function(CharacterData)
 	exports["externalsql"]:DBAsyncQuery({
-		string = "SELECT plate FROM `vehicles` WHERE `char_id` = :charid AND `plate` = :plate",
+		string = "SELECT * FROM `vehicles` WHERE `char_id` = :charid",
 		data = {
-			plate = plate, 
 			charid = CharacterData.charid
 		}
 	}, function(selectedVehiclePlate)
-			Wait(1000)
-			local vehicleOwnership = #selectedVehiclePlate["data"]
-			if vehicleOwnership >= 1 then
-				TriggerEvent("DRP_Garages:StateChangeIn", plate)
-				TriggerClientEvent("DRP_Garages:StoreVehicle", src)
+		if #selectedVehiclePlate["data"] >= 1 then
+			local allVehicleData = selectedVehiclePlate["data"]
+				for a = 1, #allVehicleData, 1 do
+					local allVehicleMods = json.decode(allVehicleData[a]["vehicleMods"])
+					if plate == allVehicleMods.plate then
+						table.remove(allVehicleInfo, a)
+						TriggerClientEvent("DRP_Garages:StoreVehicle", src)
+					else
+						TriggerClientEvent("DRP_Garages:StoreVehicleFalse", src)
+					end
+				end
 			else
-				TriggerClientEvent("DRP_Garages:StoreVehicleFalse", src)
+				print("Dont have any vehicles mate.")
 			end
 		end)
 	end)
@@ -107,19 +125,18 @@ AddEventHandler("DRP_Garages:UpdateVehicle", function(enginedamage, damage, plat
 
 		}
 	}, function(results)
-		print(json.encode(results))
 	end)
 end)
 
 
 RegisterServerEvent("DRP_Garages:StateChangeIn")
-AddEventHandler("DRP_Garages:StateChangeIn", function(vehPlate)
+AddEventHandler("DRP_Garages:StateChangeIn", function(id)
 	local src = source
 	TriggerEvent("DRP_ID:GetCharacterData", src, function(CharacterData)
 		exports["externalsql"]:DBAsyncQuery({
-            string = "UPDATE vehicles SET `state` = :state WHERE `plate` = :plate",
+            string = "UPDATE vehicles SET `state` = :state WHERE `id` = :id",
             data = {
-                plate = vehPlate,
+                id = id,
                 state = "IN"
             }
         }, function(results)
@@ -128,13 +145,13 @@ AddEventHandler("DRP_Garages:StateChangeIn", function(vehPlate)
 end)
 
 RegisterServerEvent("DRP_Garages:StateChangeOut")
-AddEventHandler("DRP_Garages:StateChangeOut", function(vehPlate)
+AddEventHandler("DRP_Garages:StateChangeOut", function(id)
 	local src = source
 	TriggerEvent("DRP_ID:GetCharacterData", src, function(CharacterData)
 		exports["externalsql"]:DBAsyncQuery({
-            string = "UPDATE vehicles SET `state` = :state WHERE `plate` = :plate",
+            string = "UPDATE vehicles SET `state` = :state WHERE `id` = :id",
             data = {
-                plate = vehPlate,
+                id = id,
                 state = "OUT"
             }
         }, function(results)
@@ -152,6 +169,10 @@ AddEventHandler("playerDropped", function()
 				state = "IN"
 			}
 		}, function(results)
+		for a = 1, #vehicles do
+			table.remove(vehicles, a)
+			break
+		end
 		print("Player left, now changing vehicles to go back into your Garage!")
 	end)
 end)

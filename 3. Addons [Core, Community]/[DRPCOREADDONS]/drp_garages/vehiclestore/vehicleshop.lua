@@ -542,6 +542,7 @@ function CloseCreator( veh, price)
 			for i = 0,24 do
 				mods[i] = GetVehicleMod(veh,i)
 			end
+			
 			Citizen.InvokeNative(0xEA386986E786A54F, Citizen.PointerValueIntInitialized(veh))
 			local pos = currentlocation.pos.outside
 

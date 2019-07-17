@@ -43,6 +43,8 @@ end)
 -- Get Inventory Function
 ---------------------------------------------------------------------------
 function inventoryLoader(inventory)
+    local ped = GetPlayerPed(PlayerId())
+
     local item = {
         ["name"] = "test", ["quantity"] = 2
     }
@@ -52,6 +54,16 @@ function inventoryLoader(inventory)
             table.insert(item, {inventory[a].name, inventory[a].quantity})
         end
     end
+
+    local weaponsList = DRPInventory.Weapons
+    for i = 1, #weaponsList, 1 do
+        local weaponHash = GetHashKey(weaponsList[i].name)
+        if HasPedGotWeapon(ped, weaponHash, false) and weaponsList[i].name ~= 'WEAPON_UNARMED' then
+            local ammo = GetAmmoInPedWeapon(ped, weaponHash)
+            table.insert(item, {weaponsList[i].name, ammo})
+        end
+    end
+
     SendNUIMessage({
         items = item
     })

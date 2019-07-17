@@ -40,10 +40,6 @@ $("document").ready(function() {
       test1 = [];
     }
     test();
-    console.log(event.data.cash);
-    console.log(event.data.dirty);
-    console.log(event.data.bank);
-    console.log(event.data.label);
     document.getElementById("cash").innerHTML = event.data.cash;
     document.getElementById("blackmoney").innerHTML = event.data.dirty;
     document.getElementById("bank").innerHTML = event.data.bank;

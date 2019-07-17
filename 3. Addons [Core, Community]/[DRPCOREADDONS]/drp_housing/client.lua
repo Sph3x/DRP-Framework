@@ -1,16 +1,17 @@
--- SetEntityCoords(GetPlayerPed(PlayerId()), 152.2605, -1004.471, -98.99999)
 local motelRoomLocations = {}
 local insideMotel = false
 local characterId = nil
-local ped = GetPlayerPed(PlayerId())
-SetEntityCoords(ped, 120.19280000, -1009.42200000, -136.84560000)
-
+-- local ped = GetPlayerPed(PlayerId())
+-- SetEntityCoords(ped, 120.19280000, -1009.42200000, -136.84560000)
+---------------------------------------------------------------------------
+-- Motel Rooms Events
+---------------------------------------------------------------------------
 RegisterNetEvent("DRP_Housing:UpdateClientHousing")
 AddEventHandler("DRP_Housing:UpdateClientHousing", function(motelData)
     motelRoomLocations = motelData
     print(json.encode(motelRoomLocations))
 end)
-
+---------------------------------------------------------------------------
 RegisterNetEvent("DRP_Housing:SpawnPlayerInsideMotelRoom")
 AddEventHandler("DRP_Housing:SpawnPlayerInsideMotelRoom", function(charid)
     if charid ~= false or charid ~= nil then
@@ -27,7 +28,9 @@ AddEventHandler("DRP_Housing:SpawnPlayerInsideMotelRoom", function(charid)
         print("something is broke contact the devs")
     end
 end)
-
+---------------------------------------------------------------------------
+-- Motel Rooms Thread
+---------------------------------------------------------------------------
 Citizen.CreateThread(function()
     while true do
         local ped = GetPlayerPed(PlayerId())
@@ -61,13 +64,12 @@ Citizen.CreateThread(function()
                     end
                 end
             end
-        -- if insideMotel then
-        --     DisplayRadar(false)
-        -- end
         Citizen.Wait(0)
     end
 end)
-
+---------------------------------------------------------------------------
+-- Functions
+---------------------------------------------------------------------------
 function DrawText3Ds(x,y,z, text)
     local onScreen,_x,_y=World3dToScreen2d(x,y,z)
     local px,py,pz=table.unpack(GetGameplayCamCoords())
