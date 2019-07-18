@@ -242,7 +242,7 @@ function overlays(title)
             end
         end)
         Menu.addOption("clothing_overlays", function()
-            if(Menu.ScrollBarInt("Opacity", opacityScroller, 10, function(cb)  opacityScroller = cb end)) then
+            if(Menu.ScrollBarInt("Opacity", opacityScroller, 11, function(cb)  opacityScroller = cb end)) then
                 SetPedHeadOverlay(GetPlayerPed(-1), componentScroller, subComponentScroller, tonumber(opacityScroller/10))
                 player_data.oopacity[componentScroller+1] = tonumber(opacityScroller/10)
             end
