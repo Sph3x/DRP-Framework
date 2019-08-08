@@ -18,7 +18,7 @@ DRPCoreConfig.StaffRanks.perms = {
     ["Moderator"] = {"heal"},
     ["Administrator"] = {"time", "weather", "adminaddcop", "heal"},
     ["Developer"] = {"time", "weather", "adminaddcop", "heal"},
-    ["Founder"] = {"time", "weather", "adminaddcop", "heal"}
+    ["Founder"] = {"time", "weather", "adminaddcop", "heal", "addgroup"}
 }
 -- Edit these to your needs
 DRPCoreConfig.Locations = {
