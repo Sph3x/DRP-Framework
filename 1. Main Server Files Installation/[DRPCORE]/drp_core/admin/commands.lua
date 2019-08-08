@@ -105,3 +105,32 @@ RegisterCommand("adminaddcop", function(source, args, raw)
         end
     end
 end, false)
+
+RegisterCommand("addgroup", function(source, args, raw)
+    local src = source
+    local player = GetPlayerData(src)
+    local adminid = args[1]
+    local groups = args[2]
+    if player ~= false then
+        if adminid ~= nil then
+            print(adminid)
+            if groups ~= nil then
+                print(groups)
+                if DoesRankHavePerms(player.rank, "addgroup") then
+                    exports["externalsql"]:DBAsyncQuery({
+                        string = "UPDATE `users` SET `rank` = :group WHERE `id` = :sid",
+                        data = {
+                            sid = adminid,
+                            group = groups
+                        }
+                    }, function(esteadmin)
+                        TriggerClientEvent("DRP_Core:Info", src, "Admin System", tostring("I-ai dat gradul de : '"..groups.."' lui : "..adminid), 2500, false, "leftCenter")
+                        TriggerClientEvent("DRP_Core:Info", src, "Admin System", tostring("Ai primit gradul de : '"..groups.."' de la : "..src), 2500, false, "leftCenter")
+                    end)
+                else
+                    TriggerClientEvent("DRP_Core:Info", src, "Admin System", tostring("Nu ai permisiunea de a da grade"), 2500, false, "leftCenter")
+                end
+            end
+        end
+    end
+end, false)
